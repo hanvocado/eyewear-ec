@@ -1,11 +1,14 @@
 package com.eyewear.services.impl;
 
 import com.eyewear.dto.request.UserCreationRequest;
+import com.eyewear.dto.request.UserUpdateRequest;
 import com.eyewear.entities.User;
 import com.eyewear.services.UserService;
 import com.eyewear.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,4 +27,31 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User getUser(String id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
+    }
+
+    @Override
+    public User updateUser(String id, UserUpdateRequest request) {
+        User user = getUser(id);
+
+        user.setPassword(request.getPassword());
+        user.setPhone(request.getPhone());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setAddress(request.getAddress());
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
+    }
 }
