@@ -25,6 +25,7 @@
   <!-- Theme styles START -->
   <link href="/global/css/components.css" rel="stylesheet">
   <link href="/frontend/layout/css/style.css" rel="stylesheet">
+  <link href="/frontend/pages/css/style-shop.css" rel="stylesheet" type="text/css">
   <link href="/frontend/pages/css/style-revolution-slider.css" rel="stylesheet"><!-- metronic revo slider styles -->
   <link href="/frontend/layout/css/style-responsive.css" rel="stylesheet">
   <link href="/frontend/layout/css/themes/red.css" rel="stylesheet" id="style-color">
@@ -41,6 +42,6 @@
 	<div>
 		<%@include file="/common/footer.jsp"%>
 	</div>
-
+	<script src="/frontend/pages/scripts/checkout.js" type="text/javascript"></script>
 </body>
 </html>

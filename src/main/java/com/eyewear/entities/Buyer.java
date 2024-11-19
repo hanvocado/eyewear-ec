@@ -8,10 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "product")
-public class Product {
+@Table(name = "buyer")
+public class Buyer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // Tự động tăng
-	@Column(name = "productId")
-	private int productId;
+	@Column(name = "buyerId")
+	private int buyerId;
 }
