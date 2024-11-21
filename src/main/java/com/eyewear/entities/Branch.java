@@ -21,7 +21,7 @@ public class Branch {
 	private String name;	
 	
 	@OneToOne
-    @JoinColumn(name = "product_id", nullable = true)
+    @JoinColumn(name = "address_id", nullable = true)
 	private Address address;
 	
 	@OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)

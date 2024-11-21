@@ -8,8 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,9 +27,13 @@ public class GoodsTransferNote {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long importBranchId;
+	@ManyToOne
+    @JoinColumn(name = "import_branch_id", nullable = false)
+	private Branch importBranch;
 	
-	private Long exportBranchId;
+	@ManyToOne
+    @JoinColumn(name = "export_branch_id", nullable = false)
+	private Branch exportBranch;
 	
 	private LocalDateTime createdAt; 
 	
@@ -46,8 +53,30 @@ public class GoodsTransferNote {
 	}
 	
 	public void request(Long productId, Long branchId, int quantity) {
-		this.exportBranchId = branchId;
+		Branch exportBranch = new Branch();
+		exportBranch.setId(branchId);
+		this.exportBranch = exportBranch;
 		TransferProduct newRequest = new TransferProduct(productId, this.id, quantity);
 		this.products.add(newRequest);
+	}
+
+	public GoodsTransferNote(Long importBranchId) {
+		Branch importBranch = new Branch();
+		importBranch.setId(importBranchId);
+		this.importBranch = importBranch;
+	}
+	
+	@Transient
+	public int getTotalQuantity() {
+		int total = 0;
+		for (TransferProduct transferProduct : products) {
+			total += transferProduct.getQuantity();
+		}
+		return total;
+	}
+	
+	@Transient
+	public int getNumberOfProducts() {
+		return products.size();
 	}
 }
