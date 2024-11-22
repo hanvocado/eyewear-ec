@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="/common/taglibs.jsp"%>
     
 <!DOCTYPE html>
 <html>
@@ -27,6 +28,7 @@
 <link href="/admin/layout3/css/layout.css" rel="stylesheet" type="text/css">
 <link href="/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
 <link href="/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
+<link href="/admin/style.css" rel="stylesheet" type="text/css">
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico">
 </head>
