@@ -3,22 +3,23 @@ package com.eyewear.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import com.eyewear.entities.ProductReview;
 
 
 public interface ProductReviewService {
 	void delete(ProductReview entity);
+	
+	ProductReview addReview(int productId,int rating,String content);
 
-	void deleteById(Long id);
+	boolean editReview(int reviewId);
+	//void deleteById(Long id);
 
-	long count();
+	//long count();
 
-	<S extends ProductReview> Optional<S> findOne(Example<S> example);
+	//<S extends ProductReview> Optional<S> findOne(Example<S> example);
 
 	Optional<ProductReview> findById(Long id);
 
@@ -30,7 +31,7 @@ public interface ProductReviewService {
 
 	List<ProductReview> findAll();
 
-	//<S extends ProductReview> S save(S entity);
+	<S extends ProductReview> S save(S entity);
 
 	//Page<ProductReview> findByCategoryNameContaining(String name, Pageable pageable);
 
