@@ -1,6 +1,7 @@
 package com.eyewear.entities;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
@@ -36,6 +37,7 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BranchProduct> branches;
 
+
 	public Long getId() {
 		return id;
 	}
@@ -45,4 +47,14 @@ public class Product {
 	}
 	
 	
+
+	
+	@Transient
+	public List<BranchProduct> getAvailBranches() {
+		return branches.stream()
+                .filter(branchProduct -> branchProduct.getQuantity() > 0)
+                .collect(Collectors.toList());
+	}
+	
 }
+

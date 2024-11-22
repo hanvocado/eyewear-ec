@@ -378,6 +378,9 @@
 					<li class="active">
 						<a href="index.html">Dashboard</a>
 					</li>
+					<li class="">
+						<a href="<c:url value="/manager/transfer/in"/>">Transfer</a>
+					</li>
 					<li class="menu-dropdown mega-menu-dropdown ">
 						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
 						Features <i class="fa fa-angle-down"></i>
