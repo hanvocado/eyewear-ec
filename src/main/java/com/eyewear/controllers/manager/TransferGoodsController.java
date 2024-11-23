@@ -74,24 +74,34 @@ public class TransferGoodsController {
 
 	@PostMapping("/request")
 	public String request(@RequestParam Long productId, @RequestParam Long branchId, @RequestParam int quantity,
-			Boolean moreProduct, Model model, HttpSession session) {
+			Boolean moreProduct, Model model, HttpSession session, RedirectAttributes attributes) {
 		Long importBranchId = (long) 3;
 		GoodsTransferNote newNote = transferService.createNote(importBranchId, productId, branchId, quantity);
+		if (newNote == null) {
+			attributes.addFlashAttribute("message", "Thất bại. Vui lòng đọc kỹ hướng dẫn và thử lại.");
+			attributes.addFlashAttribute("messageType", "danger");
+			return "redirect:/manager/transfer/new";
+		}
+		
 		if (moreProduct != null && moreProduct) {
 			List<BranchProduct> productsAtExportBranch = transferService.findProductsByBranchId(branchId);
 			productsAtExportBranch.removeIf(p -> p.getProduct().getId() == productId || p.getQuantity() <= 0);
 			model.addAttribute("products", productsAtExportBranch);
 			model.addAttribute("step", 3);
 			model.addAttribute("transferNote", newNote);
+			
 			session.setAttribute("productsAtExportBranch", productsAtExportBranch);
 			return "manager/new-transfer-note";
-		} else
-			return "redirect:/manager/transfer/in";
+		}
+		
+		attributes.addFlashAttribute("message", "Tạo phiếu yêu cầu chuyển kho thành công!");
+		attributes.addFlashAttribute("messageType", "success");
+		return "redirect:/manager/transfer/in";
 	}
 
 	@PostMapping("/add-transfer-product")
 	public String addTransferProduct(@RequestParam Long transferNoteId, @RequestParam int quantity,
-			@RequestParam Long productId, Boolean moreProduct, Model model, HttpSession session) {
+			@RequestParam Long productId, Boolean moreProduct, Model model, HttpSession session, RedirectAttributes attributes) {
 		GoodsTransferNote existingNote = transferService.addTransferProduct(productId, quantity, transferNoteId);
 		
 		if (existingNote != null && moreProduct != null && moreProduct) {
@@ -99,11 +109,14 @@ public class TransferGoodsController {
 			productsAtExportBranch.removeIf(p -> p.getProduct().getId() == productId);
 			model.addAttribute("products", productsAtExportBranch);
 			model.addAttribute("step", 3);
-			model.addAttribute("transferNote", existingNote);
+			model.addAttribute("transferNote", existingNote);			
 			session.setAttribute("productsAtExportBranch", productsAtExportBranch);
+			
 			return "manager/new-transfer-note";
 		}
 		
+		attributes.addFlashAttribute("message", "Tạo phiếu yêu cầu chuyển kho thành công!");
+		attributes.addFlashAttribute("messageType", "success");		
 		return "redirect:/manager/transfer/in";
 	}
 	
@@ -164,6 +177,13 @@ public class TransferGoodsController {
 			attributes.addFlashAttribute("messageType", "danger");
 		}
 		return "redirect:/manager/transfer/out";
+	}
+	
+	@RequestMapping("/details/{id}")
+	public String details(@PathVariable("id") Long noteId, Model model) {
+		GoodsTransferNote note = transferService.findNoteById(noteId);
+		model.addAttribute("transferNote", note);
+		return "manager/transfer-note-details";
 	}
 	
 }

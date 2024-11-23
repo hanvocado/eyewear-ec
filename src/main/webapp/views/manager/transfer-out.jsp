@@ -51,7 +51,10 @@
 														<td>${note.numberOfProducts}</td>
 														<td>${note.totalQuantity}</td>
 														<td><a class="btn btn-warning"
-															href="<c:url value='/manager/transfer/confirmShipping/${note.id }' />">Xác nhận</a></td>
+															href="<c:url value='/manager/transfer/confirmShipping/${note.id }' />">Xác nhận</a>
+															<a class="btn default"
+															href="<c:url value='/manager/transfer/details/${note.id }' />">Xem chi tiết</a>
+														</td>
 													</tr>
 
 												</c:forEach>
@@ -68,6 +71,7 @@
 													<th>Chi nhánh yêu cầu</th>
 													<th>Số sản phẩm yêu cầu</th>
 													<th>Tổng số lượng sản phẩm nhập</th>
+													<th></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -76,6 +80,8 @@
 														<td>${note.exportBranch.name}</td>
 														<td>${note.numberOfProducts}</td>
 														<td>${note.totalQuantity}</td>
+														<td><a class="btn default"
+															href="<c:url value='/manager/transfer/details/${note.id }' />">Xem chi tiết</a></td>
 													</tr>
 
 												</c:forEach>
@@ -91,6 +97,7 @@
 													<th>Chi nhánh yêu cầu</th>
 													<th>Số sản phẩm yêu cầu</th>
 													<th>Tổng số lượng sản phẩm nhập</th>
+													<th></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -99,6 +106,8 @@
 														<td>${note.exportBranch.name}</td>
 														<td>${note.numberOfProducts}</td>
 														<td>${note.totalQuantity}</td>
+														<td><a class="btn default"
+															href="<c:url value='/manager/transfer/details/${note.id }' />">Xem chi tiết</a></td>
 													</tr>
 
 												</c:forEach>

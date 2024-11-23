@@ -23,4 +23,6 @@ public interface TransferProductService {
 	List<GoodsTransferNote> findNotesByExportBranchId(Long id);
 
 	boolean confirmShipping(Long noteId);
+	
+	GoodsTransferNote findNoteById(Long id);
 }

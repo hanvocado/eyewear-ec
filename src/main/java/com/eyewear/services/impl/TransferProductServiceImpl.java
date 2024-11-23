@@ -103,6 +103,11 @@ public class TransferProductServiceImpl implements TransferProductService {
 		}
 		return false;
 	}
+
+	@Override
+	public GoodsTransferNote findNoteById(Long id) {
+		return noteRepo.findById(id).orElse(null);
+	}
 	
 	
 	

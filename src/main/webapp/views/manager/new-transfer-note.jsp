@@ -6,11 +6,32 @@
 <title>Tạo yêu cầu chuyển kho</title>
 
 <body>
+	<c:if test="${not empty message }">
+		<div class="alert alert-${messageType } alert-dismissable"
+			id="alertBox">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true"></button>
+			${message }
+		</div>
+	</c:if>
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<div class="container">
+			<!-- BEGIN PAGE TITLE -->
+			<div class="page-title">
+				<h1>
+					Tạo yêu cầu chuyển kho
+				</h1>
+			</div>
+			<!-- END PAGE TITLE -->
+		</div>
+	</div>
+	<!-- END PAGE HEAD -->
+	
 	<div class="page-content">
 		<div class="container">
-
-			<div class="portlet-body px-5 py-3">
-				<h3>Tạo yêu cầu chuyển kho</h3>
+			<div class="portlet light">
+			<div class="portlet-body">
 				<c:choose>
 					<c:when test="${step == 1 }">
 						<c:set var="tab1Status" value="active" />
@@ -22,7 +43,7 @@
 						<c:set var="tab3Status" value="active" />
 					</c:otherwise>
 				</c:choose>
-				<div class="tabbable-line">
+				<div class="portlet-tabs">
 					<ul class="nav nav-tabs ">
 						<li class="${tab1Status }"><a href="javascript:;"
 							<c:if test="${not empty tab1Status}">data-toggle="tab"</c:if>>
@@ -70,8 +91,9 @@
 											<ul id="product-list" style="display: none;"
 												class="list-unstyled">
 												<c:forEach var="product" items="${products }">
-													<li class="product-item nav-item">
-													<a class="product-name" href="<c:url value="/manager/transfer/new?productId=${product.id }"/>">${product.name }</a>
+													<li class="product-item nav-item"><a
+														class="product-name"
+														href="<c:url value="/manager/transfer/new?productId=${product.id }"/>">${product.name }</a>
 													</li>
 												</c:forEach>
 											</ul>
@@ -93,9 +115,10 @@
 											<p>Lưu ý:</p>
 											<p>Số lượng bạn nhập phải nhỏ hơn số sản phẩm đang có tại
 												chi nhánh bạn chọn.</p>
-											<p>Sau khi xác nhận, phiếu yêu cầu sẽ được tạo. Bạn vẫn có thể yêu cầu chuyển thêm
-												sản phẩm khác nhưng phải cùng một chi nhánh, nếu khác chi
-												nhánh, vui lòng tạo phiếu yêu cầu khác.</p>
+											<p>Sau khi xác nhận, phiếu yêu cầu sẽ được tạo. Bạn vẫn
+												có thể yêu cầu chuyển thêm sản phẩm khác nhưng phải cùng một
+												chi nhánh, nếu khác chi nhánh, vui lòng tạo phiếu yêu cầu
+												khác.</p>
 										</div>
 										<div class="col-md-6 col-sm-12">
 											<form class="form-horizontal" id="searchProductForm"
@@ -143,8 +166,10 @@
 												<div class="form-actions">
 													<div class="row">
 														<div class="col-md-offset-3 col-md-9">
-															<button type="submit" class="btn btn-primary">Xác nhận</button>
-															<a type="button" class="btn default" href="<c:url value="/manager/transfer/in" />">Thoát</a>
+															<button type="submit" class="btn btn-primary">Xác
+																nhận</button>
+															<a type="button" class="btn default"
+																href="<c:url value="/manager/transfer/in" />">Thoát</a>
 														</div>
 													</div>
 												</div>
@@ -167,9 +192,10 @@
 												<p>Lưu ý:</p>
 												<p>Số lượng bạn nhập phải nhỏ hơn số sản phẩm đang có
 													tại chi nhánh bạn chọn.</p>
-												<p>Sau khi xác nhận, phiếu yêu cầu sẽ được cập nhật. Bạn vẫn có thể yêu cầu chuyển thêm
-													sản phẩm khác nhưng phải cùng một chi nhánh, nếu khác chi
-													nhánh, vui lòng tạo thêm phiếu yêu cầu khác.</p>
+												<p>Sau khi xác nhận, phiếu yêu cầu sẽ được cập nhật. Bạn
+													vẫn có thể yêu cầu chuyển thêm sản phẩm khác nhưng phải
+													cùng một chi nhánh, nếu khác chi nhánh, vui lòng tạo thêm
+													phiếu yêu cầu khác.</p>
 											</div>
 											<div>
 												<form class="form-horizontal" method="post"
@@ -200,18 +226,21 @@
 														<label class="col-md-3 control-label"></label>
 														<div class="col-md-9">
 															<div class="checkbox-list">
-																<label> <input type="checkbox" name="moreProduct"
-																	value="true"> Bạn cần chuyển thêm sản phẩm khác?
+																<label> <input type="checkbox"
+																	name="moreProduct" value="true"> Bạn cần chuyển
+																	thêm sản phẩm khác?
 																</label>
 															</div>
 														</div>
 													</div>
-	
+
 													<div class="form-actions">
 														<div class="row">
 															<div class="col-md-offset-3 col-md-9">
-																<button type="submit" class="btn btn-primary">Xác nhận</button>
-																<a type="button" class="btn default" href="<c:url value="/manager/transfer/in" />">Thoát</a>
+																<button type="submit" class="btn btn-primary">Xác
+																	nhận</button>
+																<a type="button" class="btn default"
+																	href="<c:url value="/manager/transfer/in" />">Thoát</a>
 															</div>
 														</div>
 													</div>
@@ -264,9 +293,11 @@
 					</div>
 				</div>
 			</div>
+			</div>
 		</div>
+	</div>
 
-		<script>
+	<script>
     document.addEventListener('DOMContentLoaded', () => {
         const productList = document.getElementById('product-list');
         const searchInput = document.getElementById('searchProduct');
