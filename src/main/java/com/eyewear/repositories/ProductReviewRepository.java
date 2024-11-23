@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.eyewear.entities.ProductReview;
 
 @Repository
-public interface ProductReviewRepository extends JpaRepository<ProductReview, Long> {
+public interface ProductReviewRepository extends JpaRepository<ProductReview, Integer> {
 
 }
