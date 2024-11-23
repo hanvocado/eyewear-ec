@@ -6,7 +6,8 @@ import com.eyewear.entities.GoodsTransferNote;
 
 
 public interface TransferProductService {
-	void save(GoodsTransferNote note);
-	
+
 	List<GoodsTransferNote> findNotesByImportBranchId(Long id);
+	
+	GoodsTransferNote createNote(Long importBranchId, Long productId, Long exportBranchId, int quantity);
 }
