@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.eyewear.entities.GoodsTransferNote;
 
+
 public interface TransferProductService {
 	void save(GoodsTransferNote note);
 	
