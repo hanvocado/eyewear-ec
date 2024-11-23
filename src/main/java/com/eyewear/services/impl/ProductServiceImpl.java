@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.eyewear.entities.Product;
@@ -36,11 +37,15 @@ public class ProductServiceImpl implements ProductService {
 	public Page<Product> searchProduct(String name, Pageable pageable){
 		return productRepo.findByNameContainingIgnoreCase(name, pageable);
 	}
-	
 
 	@Override
 	public long count() {
 		return productRepo.count();
+	}
+	
+	@Override
+	public List<Product> findAll(Sort sort) {
+		return productRepo.findAll(sort);
 	}
 
 	@Override
@@ -48,4 +53,20 @@ public class ProductServiceImpl implements ProductService {
 		return productRepo.findAll(pageable);
 	}
 	//
+
+
+	@Override
+	public Page<Product> findByCategoryNameInAndPriceBetween(List<Long> categoryId, Double minPrice,
+			Double maxPrice, Pageable pageable) {
+		return productRepo.findByCategoryNameInAndPriceBetween(categoryId, minPrice, maxPrice, pageable);
+	}
+
+	@Override
+	public Page<Product> findByCategoryId(List<Long> categoryId, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return productRepo.findByCategoryIdIn(categoryId, pageable);
+	}
+
+
+	
 }

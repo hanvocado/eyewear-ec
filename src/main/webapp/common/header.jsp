@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!-- BEGIN STYLE CUSTOMIZER -->
     <div class="color-panel hidden-sm">
       <div class="color-mode-icons icon-color"></div>
@@ -207,16 +208,17 @@
               <span class="sep"></span>
               <i class="fa fa-search search-btn"></i>
               <div class="search-box">
-                <form action="/common/products/search" method = "get">
-                  <div class="input-group">
-                    <input type="text" placeholder="Search" class="form-control">
-                    <span class="input-group-btn">
-                      <button class="btn btn-primary" type="submit">Search</button>
-                    </span>
-                  </div>
-                </form>
-              </div> 
-            </li>
+						<form action="/common/products/search" method="get">
+							<div class="input-group">
+								<input type="text" name="name" id="name"
+									placeholder="Nhập tên sản phẩm" class="form-control"> <span
+									class="input-group-btn">
+									<button class="btn btn-primary" type="submit">Search</button>
+								</span>
+							</div>
+						</form>
+					</div>
+				</li>
             <!-- END TOP SEARCH -->
           </ul>
         </div>
