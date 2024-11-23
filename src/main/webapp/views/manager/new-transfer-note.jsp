@@ -70,9 +70,8 @@
 											<ul id="product-list" style="display: none;"
 												class="list-unstyled">
 												<c:forEach var="product" items="${products }">
-													<li class="product-item nav-item"><a
-														class="product-name"
-														href="<c:url value="/manager/transfer/new?productId=${product.id }"/>">${product.name }</a>
+													<li class="product-item nav-item">
+													<a class="product-name" href="<c:url value="/manager/transfer/new?productId=${product.id }"/>">${product.name }</a>
 													</li>
 												</c:forEach>
 											</ul>
