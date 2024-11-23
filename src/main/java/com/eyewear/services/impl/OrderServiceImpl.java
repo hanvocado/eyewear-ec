@@ -26,4 +26,10 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrderDetailByIdAndBuyerId(orderId, buyerId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
     }
+
+    @Override
+	public <S extends Order> S placeOrder(S entity) {
+		// TODO Auto-generated method stub
+		return orderRepository.save(entity);
+	}
 }

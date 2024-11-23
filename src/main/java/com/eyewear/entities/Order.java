@@ -19,19 +19,19 @@ public class Order {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "buyer_id")  // Đổi thành buyer_id
-    private Buyer buyer;  // Đổi thành buyer
+    @JoinColumn(name = "buyerId", nullable = false)
+    private Buyer buyer;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> items;
 
-    @Column(name = "created_at")
+    @Column(name = "order_at", nullable = false)
     private LocalDateTime orderAt;
 
-    @Column(name = "total_price")
-    private Double totalPrice;
+    @Column(name = "total_price", nullable = false)
+    private float totalPrice;
 
-    @Column(name = "payment_method")
+    @Column(name = "payment_method", nullable = false)
     private String paymentMethod;
 
     @Column(name = "status")  
