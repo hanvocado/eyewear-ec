@@ -48,6 +48,18 @@ public class Product {
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BranchProduct> branches;
+
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
+
 	
 	@Transient
 	public List<BranchProduct> getAvailBranches() {
@@ -57,3 +69,4 @@ public class Product {
 	}
 	
 }
+

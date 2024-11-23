@@ -1,7 +1,10 @@
 package com.eyewear.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.eyewear.utils.TransferNoteStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -39,7 +42,7 @@ public class GoodsTransferNote {
 	
 	private LocalDateTime receivedAt;
 	
-	private String status;
+	private TransferNoteStatus status;
 	
 	@OneToMany(mappedBy = "note", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<TransferProduct> products;
@@ -56,8 +59,12 @@ public class GoodsTransferNote {
 		Branch exportBranch = new Branch();
 		exportBranch.setId(branchId);
 		this.exportBranch = exportBranch;
-		TransferProduct newRequest = new TransferProduct(productId, this.id, quantity);
-		this.products.add(newRequest);
+		TransferProduct transferProduct = new TransferProduct(productId, this.id, quantity);
+		transferProduct.setNote(this);
+		this.products = new ArrayList<TransferProduct>();
+		this.products.add(transferProduct);
+		this.createdAt = LocalDateTime.now();
+		this.status = TransferNoteStatus.PENDING;
 	}
 
 	public GoodsTransferNote(Long importBranchId) {
