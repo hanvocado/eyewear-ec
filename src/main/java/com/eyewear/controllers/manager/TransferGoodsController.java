@@ -58,11 +58,28 @@ public class TransferGoodsController {
 	public String request(@RequestParam Long productId, @RequestParam Long branchId, @RequestParam int quantity, Boolean moreProduct, Model model) {
 		Long importBranchId = (long) 3;
 		GoodsTransferNote newNote = transferService.createNote(importBranchId, productId, branchId, quantity);
-		model.addAttribute("transferNote", newNote);
+		model.addAttribute("transferNoteId", newNote.getId());
 		if (moreProduct != null && moreProduct) {
+			List<BranchProduct> productsAtExportBranch = transferService.findProductsByBranchId(branchId);
+			model.addAttribute("products", productsAtExportBranch);
 			model.addAttribute("step", 3);
 			return "manager/new-transfer-note";
 		} else
 			return "redirect:/manager/transfer/in";
+	}
+	
+	@PostMapping("/add-transfer-product")
+	public String addTransferProduct(@RequestParam Long transferNoteId, @RequestParam int quantity, @RequestParam Long productId, Boolean moreProduct, Model model) {
+		GoodsTransferNote existingNote = transferService.addTransferProduct(productId, quantity, transferNoteId);
+		if (existingNote != null && moreProduct != null && moreProduct) {
+			/*
+			 * List<BranchProduct> productsAtExportBranch =
+			 * transferService.findProductsByBranchId(branchId);
+			 * model.addAttribute("products", productsAtExportBranch);
+			 */
+			model.addAttribute("step", 3);
+			return "manager/new-transfer-note";
+		}
+		return null;
 	}
 }

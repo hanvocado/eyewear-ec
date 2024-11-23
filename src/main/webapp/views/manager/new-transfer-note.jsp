@@ -56,9 +56,11 @@
 						<li class="${tab2Status }"><a href="javascript:;"
 							<c:if test="${not empty tab2Status}">data-toggle="tab"</c:if>>
 								Chọn chi nhánh </a></li>
-						<li class="${tab3Status }"><a href="javascript:;"
-							<c:if test="${not empty tab3Status}">data-toggle="tab"</c:if>>
-								Xác nhận </a></li>
+								
+						<c:if test="${not empty tab3Status}">
+							<li class="${tab3Status }"><a href="javascript:;" data-toggle="tab">
+									Thêm sản phẩm khác </a></li>						
+						</c:if>
 					</ul>
 
 					<div class="tab-content">
@@ -147,18 +149,40 @@
 							</div>
 						</c:if>
 						<c:if test="${not empty tab3Status }">
-							<div class="tab-pane" id="tab_15_3">
-								<p>Howdy, I'm in Section 3.</p>
-								<p>Duis autem vel eum iriure dolor in hendrerit in
-									vulputate. Ut wisi enim ad minim veniam, quis nostrud exerci
-									tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
-									commodo consequat. Duis autem vel eum iriure dolor in hendrerit
-									in vulputate velit esse molestie consequat</p>
-								<p>
-									<a class="btn yellow"
-										href="ui_tabs_accordions_navs.html#tab_15_3" target="_blank">
-										Activate this tab via URL </a>
-								</p>
+							<div class="tab-pane active" id="tab_15_3">
+								<div class="container">
+									<div class="row mb-5">
+										<div class="container">
+											<p>
+												Vui lòng <strong>chọn một sản phẩm và nhập số lượng cần chuyển về.</strong>.
+											</p>
+											<p>Lưu ý:</p>
+											<p>Số lượng bạn nhập phải nhỏ hơn số sản phẩm đang
+												có tại chi nhánh bạn chọn.</p>
+											<p>Sau khi xác nhận bạn vẫn có thể yêu cầu chuyển thêm sản phẩm khác nhưng phải cùng một chi nhánh, nếu khác chi nhánh, vui lòng tạo phiếu yêu cầu khác.</p>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<form class="search-form search-form-expanded"
+												id="searchProductForm" method="post"
+												action="<c:url value="/manager/transfer/add-transfer-product" />">
+					 							<input type="hidden" name="transferNoteId" value="${transferNoteId }" />
+												<input
+													type="number" name="quantity" value=1 class="form-control" />
+													
+												<select name="productId" class="form-control">
+													<c:forEach var="branchProduct" items="${products }">
+														<option value="${branchProduct.product.id }">${branchProduct.product.name }
+															(${branchProduct.quantity })</option>
+													</c:forEach>
+												</select> 
+												<label>
+												<input type="checkbox" name="moreProduct" value="true"> Bạn cần chuyển thêm sản phẩm khác? </label>
+												<input type="submit" value="Xác nhận"
+													class="btn btn-primary">
+											</form>
+										</div>
+									</div>
+								</div>
 							</div>
 						</c:if>
 					</div>

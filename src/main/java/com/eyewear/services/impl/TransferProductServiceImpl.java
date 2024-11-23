@@ -1,12 +1,14 @@
 package com.eyewear.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eyewear.entities.BranchProduct;
 import com.eyewear.entities.GoodsTransferNote;
+import com.eyewear.entities.TransferProduct;
 import com.eyewear.repositories.BranchProductRepository;
 import com.eyewear.repositories.GoodsTransferNoteRepository;
 import com.eyewear.services.TransferProductService;
@@ -33,6 +35,23 @@ public class TransferProductServiceImpl implements TransferProductService {
 			newNote.request(productId, exportBranchId, quantity);
 			noteRepo.save(newNote);
 			return newNote;
+		}
+		return null;
+	}
+
+	@Override
+	public List<BranchProduct> findProductsByBranchId(Long branchId) {
+		return branchProductRepo.findByBranchId(branchId);
+	}
+
+	@Override
+	public GoodsTransferNote addTransferProduct(Long productId, int quantity, Long noteId) {
+		GoodsTransferNote existingNote = noteRepo.findById(noteId).orElse(null);
+		if (existingNote != null) {
+			TransferProduct productToAdd = new TransferProduct(productId, noteId, quantity);
+			existingNote.addTransferProduct(productToAdd);
+			noteRepo.save(existingNote);
+			return existingNote;
 		}
 		return null;
 	}
