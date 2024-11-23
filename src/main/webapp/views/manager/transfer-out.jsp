@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
 
-<title>Nhập chuyển kho</title>
+<title>Xuất chuyển kho</title>
 
 <body>
 	<c:if test="${not empty message }">
@@ -21,15 +21,7 @@
 					<div class="portlet light">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-home text-dark"></i>Danh sách phiếu nhập chuyển kho
-							</div>
-							<div class="tools">
-								<div class="btn-group">
-									<a id="sample_editable_1_new"
-										href="<c:url value="/manager/transfer/new"/>"
-										class="btn btn-primary"> Tạo yêu cầu mới <i class="fa fa-plus"></i>
-									</a>
-								</div>
+								<i class="fa fa-home text-dark"></i>Danh sách phiếu yêu cầu chuyển kho
 							</div>
 						</div>
 						<div class="portlet-body">
@@ -46,7 +38,7 @@
 											<thead>
 
 												<tr>
-													<th>Chi nhánh xuất</th>
+													<th>Chi nhánh yêu cầu</th>
 													<th>Số sản phẩm yêu cầu</th>
 													<th>Tổng số lượng sản phẩm nhập</th>
 													<th>Hành động</th>
@@ -55,11 +47,11 @@
 											<tbody>
 												<c:forEach var="note" items="${pendingNotes }">
 													<tr class="odd gradeX">
-														<td>${note.importBranch.name}</td>
+														<td>${note.exportBranch.name}</td>
 														<td>${note.numberOfProducts}</td>
 														<td>${note.totalQuantity}</td>
-														<td><a class="btn btn-danger"
-															href="<c:url value='/manager/transfer/cancell/${note.id }' />">Hủy</a></td>
+														<td><a class="btn btn-warning"
+															href="<c:url value='/manager/transfer/confirmShipping/${note.id }' />">Xác nhận</a></td>
 													</tr>
 
 												</c:forEach>
@@ -73,20 +65,17 @@
 											<thead>
 
 												<tr>
-													<th>Chi nhánh xuất</th>
+													<th>Chi nhánh yêu cầu</th>
 													<th>Số sản phẩm yêu cầu</th>
 													<th>Tổng số lượng sản phẩm nhập</th>
-													<th>Hành động</th>
 												</tr>
 											</thead>
 											<tbody>
 												<c:forEach var="note" items="${shippingNotes }">
 													<tr class="odd gradeX">
-														<td>${note.importBranch.name}</td>
+														<td>${note.exportBranch.name}</td>
 														<td>${note.numberOfProducts}</td>
 														<td>${note.totalQuantity}</td>
-														<td><a class="btn btn-success"
-															href="<c:url value='/manager/transfer/received/${note.id }' />">Đã nhận</a></td>
 													</tr>
 
 												</c:forEach>
@@ -99,7 +88,7 @@
 											<thead>
 
 												<tr>
-													<th>Chi nhánh xuất</th>
+													<th>Chi nhánh yêu cầu</th>
 													<th>Số sản phẩm yêu cầu</th>
 													<th>Tổng số lượng sản phẩm nhập</th>
 												</tr>
@@ -107,7 +96,7 @@
 											<tbody>
 												<c:forEach var="note" items="${completedNotes }">
 													<tr class="odd gradeX">
-														<td>${note.importBranch.name}</td>
+														<td>${note.exportBranch.name}</td>
 														<td>${note.numberOfProducts}</td>
 														<td>${note.totalQuantity}</td>
 													</tr>

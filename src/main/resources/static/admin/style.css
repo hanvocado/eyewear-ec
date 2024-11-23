@@ -39,3 +39,10 @@ li a {
     text-decoration: none !important; 
     color: inherit; 
 }
+
+#alertBox {
+    position: fixed; /* Ensures the alert stays visible on scroll */
+    top: 20px;       /* Distance from the top of the viewport */
+    right: 20px;     /* Distance from the right of the viewport */
+    z-index: 1000;   /* Ensures the alert is above other elements */
+}

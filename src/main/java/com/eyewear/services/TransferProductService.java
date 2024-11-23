@@ -15,4 +15,12 @@ public interface TransferProductService {
 	List<BranchProduct> findProductsByBranchId(Long branchId);
 	
 	GoodsTransferNote addTransferProduct(Long productId, int quantity, Long noteId);
+
+	boolean completeTransfer(Long noteId);
+
+	boolean cancellTransfer(Long noteId);
+
+	List<GoodsTransferNote> findNotesByExportBranchId(Long id);
+
+	boolean confirmShipping(Long noteId);
 }
