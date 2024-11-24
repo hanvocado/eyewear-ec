@@ -14,7 +14,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private OrderRepository orderRepository;  // bỏ final đi
+    private OrderRepository orderRepository;
 
     @Override
     public List<Order> getOrdersByBuyer(Long buyerId) {
@@ -28,8 +28,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-	public <S extends Order> S placeOrder(S entity) {
-		// TODO Auto-generated method stub
-		return orderRepository.save(entity);
-	}
+    public <S extends Order> S placeOrder(S entity) {
+        return orderRepository.save(entity);
+    }
+
+    // Thêm 3 method mới
+    @Override
+    public List<Order> getAllOrdersSortByDate() {
+        return orderRepository.findAllByOrderByOrderAtDesc();
+    }
+
+    @Override
+    public void updateOrderStatus(Long orderId, String newStatus) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+        order.setStatus(newStatus);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void bulkUpdateOrderStatus(List<Long> orderIds, String newStatus) {
+        List<Order> orders = orderRepository.findAllById(orderIds);
+        orders.forEach(order -> order.setStatus(newStatus));
+        orderRepository.saveAll(orders);
+    }
 }
