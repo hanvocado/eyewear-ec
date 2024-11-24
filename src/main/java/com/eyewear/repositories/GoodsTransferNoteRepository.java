@@ -11,4 +11,6 @@ import com.eyewear.entities.GoodsTransferNote;
 public interface GoodsTransferNoteRepository  extends JpaRepository<GoodsTransferNote, Long>{
 
 	List<GoodsTransferNote> findByImportBranchId(Long id);
+	
+	List<GoodsTransferNote> findByExportBranchId(Long id);
 }

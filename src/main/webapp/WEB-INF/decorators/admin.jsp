@@ -35,9 +35,12 @@
 <body>
     <%@include file="/common/admin/header.jsp"%>
     
-	<sitemesh:write property="body" />
-
+	<div class="page-container">
+		<sitemesh:write property="body" />
+	</div>
+	
 	<%@include file="/common/admin/footer.jsp"%>
+	
 	<!-- BEGIN JAVASCRIPTS (Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
 <!--[if lt IE 9]>

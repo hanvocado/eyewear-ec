@@ -2225,7 +2225,7 @@ Form Layouts
 }
 .checkbox > label,
 .form-horizontal .checkbox > label {
-  padding-left: 0;
+  padding-left: 10;
 }
 
 .checkbox-list > label {
