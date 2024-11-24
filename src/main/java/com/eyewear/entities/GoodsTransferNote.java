@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.eyewear.utils.TransferNoteStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +42,7 @@ public class GoodsTransferNote {
 	
 	private LocalDateTime receivedAt;
 	
-	private String status;
+	private TransferNoteStatus status;
 	
 	@OneToMany(mappedBy = "note", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<TransferProduct> products;
@@ -62,7 +64,7 @@ public class GoodsTransferNote {
 		this.products = new ArrayList<TransferProduct>();
 		this.products.add(transferProduct);
 		this.createdAt = LocalDateTime.now();
-		this.status = "PENDING";
+		this.status = TransferNoteStatus.PENDING;
 	}
 
 	public GoodsTransferNote(Long importBranchId) {
