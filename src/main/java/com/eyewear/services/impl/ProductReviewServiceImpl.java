@@ -69,5 +69,12 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 		// TODO Auto-generated method stub
 		return reviewRepo.save(entity);
 	}
+
+
+
+	@Override
+	public Optional<ProductReview> getReviewByBuyerAndProduct(Long buyerId, Long productId) {
+		return reviewRepo.findByBuyerIdAndProductId(buyerId, productId);
+	}
 	
 }

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.eyewear.entities.Order;
+import com.eyewear.entities.OrderDetail;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -24,4 +25,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         @Param("orderId") Long orderId, 
         @Param("buyerId") Long buyerId
     );
+    
+	
 }

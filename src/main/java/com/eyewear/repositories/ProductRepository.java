@@ -10,4 +10,6 @@ import com.eyewear.entities.Product;
 @Repository 
 public interface ProductRepository extends JpaRepository<Product, Long>{
 	List<Product> findByNameContainingIgnoringCase(String name);
+	List<Product> findAllByIdIn(List<Long> ids);
+	
 }

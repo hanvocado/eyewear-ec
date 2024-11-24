@@ -29,4 +29,9 @@ public class ProductServiceImpl implements ProductService {
 		return productRepo.findById(id).orElse(null);
 	}
 
+	@Override
+	public List<Product> getProductsById(List<Long> listId) {
+		return productRepo.findAllByIdIn(listId);
+	}
+
 }
