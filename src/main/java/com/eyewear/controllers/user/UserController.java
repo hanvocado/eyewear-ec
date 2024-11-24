@@ -1,10 +1,11 @@
 package com.eyewear.controllers.user;
 
+import com.eyewear.dto.request.ApiResponse;
 import com.eyewear.dto.request.UserCreationRequest;
 import com.eyewear.dto.request.UserUpdateRequest;
 import com.eyewear.entities.User;
-import com.eyewear.repositories.UserRepository;
 import com.eyewear.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody UserCreationRequest request){
-        return userService.createRequest(request);
+    ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request){
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+
+        apiResponse.setResult(userService.createRequest(request));
+
+        return apiResponse;
     }
 
     @GetMapping
@@ -29,6 +34,11 @@ public class UserController {
     @GetMapping("/{userId}")
     User getUser(@PathVariable("userId") String userId) {
         return userService.getUser(userId);
+    }
+
+    @GetMapping("/email/{userEmail}")
+    User getUserByEmail(@PathVariable("userEmail") String userEmail) {
+        return userService.getUserByEmail(userEmail);
     }
 
     @PutMapping("/{userId}")

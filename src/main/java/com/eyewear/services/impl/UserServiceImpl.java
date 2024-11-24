@@ -3,6 +3,8 @@ package com.eyewear.services.impl;
 import com.eyewear.dto.request.UserCreationRequest;
 import com.eyewear.dto.request.UserUpdateRequest;
 import com.eyewear.entities.User;
+import com.eyewear.exceptions.AppException;
+import com.eyewear.exceptions.ErrorCode;
 import com.eyewear.services.UserService;
 import com.eyewear.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,11 @@ public class UserServiceImpl implements UserService {
 
     public User createRequest(UserCreationRequest request) {
         User user = new User();
+
+        if(userRepository.existsByEmail(request.getEmail())) {
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
+        }
+
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setPhone(request.getPhone());
@@ -34,7 +41,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng!"));
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng!"));
     }
 
     @Override
