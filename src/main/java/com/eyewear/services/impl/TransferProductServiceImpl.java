@@ -1,5 +1,6 @@
 package com.eyewear.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import com.eyewear.entities.TransferProduct;
 import com.eyewear.repositories.BranchProductRepository;
 import com.eyewear.repositories.GoodsTransferNoteRepository;
 import com.eyewear.services.TransferProductService;
+import com.eyewear.utils.TransferNoteStatus;
 
 import jakarta.persistence.EntityManager;
 
@@ -63,5 +65,50 @@ public class TransferProductServiceImpl implements TransferProductService {
 		}
 		return null;
 	}
+
+	@Override
+	public boolean completeTransfer(Long noteId) {
+		GoodsTransferNote existingNote = noteRepo.findById(noteId).orElse(null);
+		if (existingNote != null) {
+			existingNote.setStatus(TransferNoteStatus.COMPLETED);
+			existingNote.setReceivedAt(LocalDateTime.now());
+			noteRepo.save(existingNote);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean cancellTransfer(Long noteId) {
+		GoodsTransferNote existingNote = noteRepo.findById(noteId).orElse(null);
+		if (existingNote != null && existingNote.getStatus() == TransferNoteStatus.PENDING) {
+			noteRepo.delete(existingNote);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<GoodsTransferNote> findNotesByExportBranchId(Long id) {
+		return noteRepo.findByExportBranchId(id);
+	}
+
+	@Override
+	public boolean confirmShipping(Long noteId) {
+		GoodsTransferNote existingNote = noteRepo.findById(noteId).orElse(null);
+		if (existingNote != null && existingNote.getStatus() == TransferNoteStatus.PENDING) {
+			existingNote.setStatus(TransferNoteStatus.CONFIRMED);
+			noteRepo.save(existingNote);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public GoodsTransferNote findNoteById(Long id) {
+		return noteRepo.findById(id).orElse(null);
+	}
+	
+	
 	
 }
