@@ -12,6 +12,8 @@ import com.eyewear.entities.Product;
 import com.eyewear.repositories.ProductRepository;
 import com.eyewear.services.ProductService;
 
+import jakarta.validation.Valid;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 	@Autowired
@@ -73,5 +75,25 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getProductsById(List<Long> listId) {
 		return productRepo.findAllByIdIn(listId);
 	}
+	@Override
+	public void deleteById(Long productId) {
+		productRepo.deleteById(productId);
+	}
+
+	@Override
+	public void save(@Valid Product product) {
+		productRepo.save(product);
+	}
+
+	@Override
+	public void update(@Valid Product product) {
+		productRepo.updateProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getBrand());
+	}
+
+	@Override
+	public Page<Product> findByNameContaining(String name, Pageable pageable) {
+		return productRepo.findByNameContaining(name, pageable);
+	}
+
 
 }
