@@ -12,5 +12,6 @@ public interface OrderService {
     void updateOrderStatus(Long orderId, String newStatus);
     void bulkUpdateOrderStatus(List<Long> orderIds, String newStatus);
     
-    <S extends Order> S placeOrder(S entity);
+    String cancelOrder(Long orderId);
+    void placeOrder(Order order);
 }

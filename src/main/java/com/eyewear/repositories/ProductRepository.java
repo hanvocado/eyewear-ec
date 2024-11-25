@@ -25,4 +25,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	
 	Page<Product> findByCategoryNameInAndPriceBetween(List<Long> categoryId, Double minPrice, Double maxPrice, Pageable pageable);
 	
+	List<Product> findAllByIdIn(List<Long> ids);
+	
 }

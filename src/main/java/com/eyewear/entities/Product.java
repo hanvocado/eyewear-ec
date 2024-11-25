@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "product_id")
 	private Long id;
 	
 	@Column(length=100, nullable = false)
@@ -35,7 +36,7 @@ public class Product {
 	private String description;
 	
 	private String brand;
-	
+		
 	private String image; // đường dẫn đến Cloudinary
 	
 	//không cần lưu trữ vào cơ sở dữ liệu
@@ -48,18 +49,6 @@ public class Product {
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BranchProduct> branches;
-
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	
-
 	
 	@Transient
 	public List<BranchProduct> getAvailBranches() {
