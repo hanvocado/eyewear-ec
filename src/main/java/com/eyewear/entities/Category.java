@@ -1,40 +1,30 @@
 package com.eyewear.entities;
 
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
 import lombok.NoArgsConstructor;
 
-
-@Entity
-@Table(name = "order_details")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetail {
+@Entity
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
-    
-    private Double price;
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 }
