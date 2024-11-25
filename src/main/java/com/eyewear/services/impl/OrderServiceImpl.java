@@ -17,7 +17,7 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private OrderRepository orderRepository;  // bỏ final đi
+    private OrderRepository orderRepository;
 
     @Autowired
     OrderDetailRepository orderDetailRepository;
@@ -56,6 +56,24 @@ public class OrderServiceImpl implements OrderService {
 			return "Huỷ đơn thành công";
 		}
 		return "loi";
+	}
+
+	@Override
+	public List<Order> getAllOrdersSortByDate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateOrderStatus(Long orderId, String newStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void bulkUpdateOrderStatus(List<Long> orderIds, String newStatus) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
