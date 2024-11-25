@@ -18,7 +18,7 @@
                 <c:forEach var="order" items="${orders}">
                     <tr>
                         <td>${order.orderId}</td>
-                       
+                        <td><fmt:formatDate value="${order.orderAt}" pattern="dd/MM/yyyy HH:mm"/></td>
                         <td><fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="₫"/></td>
                         <td>${order.status}</td>
                         <td>
