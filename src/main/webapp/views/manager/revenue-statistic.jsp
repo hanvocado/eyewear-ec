@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/common/taglibs.jsp"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <div class="container-fluid">
 	<h2>Thống kê doanh thu</h2>
@@ -76,24 +78,60 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-let revenueChart;
+//Thêm biến để lưu context path
+const contextPath = window.location.pathname.split('/manager')[0];
 
 $(document).ready(function() {
     $('#viewReportBtn').click(function() {
         loadRevenueData();
     });
+    
+    // Thêm validation cho form
+    $('#revenueFilterForm').on('submit', function(e) {
+        e.preventDefault();
+        const startDate = $('input[name="startDate"]').val();
+        const endDate = $('input[name="endDate"]').val();
+        
+        if (!startDate || !endDate) {
+            alert('Vui lòng chọn ngày bắt đầu và ngày kết thúc');
+            return false;
+        }
+        
+        if (new Date(startDate) > new Date(endDate)) {
+            alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc');
+            return false;
+        }
+        
+        return true;
+    });
 });
 
 function loadRevenueData() {
-    const formData = new FormData(document.getElementById('revenueFilterForm'));
+    const form = document.getElementById('revenueFilterForm');
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    const formData = new FormData(form);
     const params = new URLSearchParams(formData);
     
-    $.get('/manager/revenue/data?' + params.toString())
+    // Thêm loading indicator
+    $('#revenueChart').addClass('loading');
+    
+    $.get(contextPath + '/manager/revenue/data?' + params.toString())
         .done(function(data) {
-            updateChart(data);
+            if (data && data.chartData && data.chartData.length > 0) {
+                updateChart(data);
+            } else {
+                alert('Không có dữ liệu thống kê cho khoảng thời gian này');
+            }
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
             alert('Lỗi khi tải dữ liệu: ' + errorThrown);
+        })
+        .always(function() {
+            $('#revenueChart').removeClass('loading');
         });
 }
 
@@ -117,7 +155,27 @@ function updateChart(data) {
             responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return new Intl.NumberFormat('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND'
+                            }).format(value);
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return new Intl.NumberFormat('vi-VN', {
+                                style: 'currency', 
+                                currency: 'VND'
+                            }).format(context.raw);
+                        }
+                    }
                 }
             }
         }
@@ -125,23 +183,45 @@ function updateChart(data) {
 }
 
 function exportReport(fileType) {
-    const formData = new FormData(document.getElementById('revenueFilterForm'));
+    const form = document.getElementById('revenueFilterForm');
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    const formData = new FormData(form);
     formData.append('fileType', fileType);
     
-    fetch('/manager/revenue/export', {
+    // Thêm loading indicator
+    const exportBtn = document.querySelector('.dropdown-toggle');
+    const originalText = exportBtn.textContent;
+    exportBtn.textContent = 'Đang xuất...';
+    exportBtn.disabled = true;
+    
+    fetch(contextPath + '/manager/revenue/export', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.blob())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.blob();
+    })
     .then(blob => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `revenue-report.${fileType}`;
+        a.download = `revenue-report-${new Date().toISOString().slice(0,10)}.${fileType}`;
         a.click();
+        window.URL.revokeObjectURL(url);
     })
     .catch(error => {
         alert('Lỗi khi xuất báo cáo: ' + error);
+    })
+    .finally(() => {
+        exportBtn.textContent = originalText;
+        exportBtn.disabled = false;
     });
 }
 </script>

@@ -47,9 +47,8 @@
 							<td><input type="checkbox" name="orderIds[]"
 								value="${order.orderId}" class="orderCheckbox"></td>
 							<td>${order.orderId}</td>
-							<td><fmt:formatDate value="${order.orderAt}"
-									pattern="dd/MM/yyyy HH:mm" /></td>
-							<td>${order.buyer.name}</td>
+							<td>${order.orderAt}</td>
+							<td>${order.buyer.username}</td>
 							<td><fmt:formatNumber value="${order.totalPrice}"
 									type="currency" /></td>
 							<td>${order.status}</td>
