@@ -403,6 +403,38 @@
 							</li>
 						</ul>
 					</li>
+					
+					<li class="menu-dropdown mega-menu-dropdown">
+						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+						Quản lý lịch hẹn <i class="fa fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu" style="min-width: 190px">
+							<li>
+								<div class="mega-menu-content">
+									<div class="row">
+										<ul class="mega-menu-submenu">
+											<li>
+													<a href="<c:url value="/manager/schedule/calendar"/>" class="iconify">
+													<i class="icon-home"></i>
+													Lịch trình </a>
+												</li>
+												<li>
+													<a href="<c:url value="/manager/schedule/progress"/>" class="iconify">
+													<i class="icon-paper-plane"></i>
+													Lịch hẹn đang chờ </a>
+												</li>
+												<li>
+													<a href="<c:url value="/manager/transfer/out"/>" class="iconify">
+													<i class="icon-paper-plane"></i>
+													Danh sách lịch hẹn </a>
+												</li>
+										</ul>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</li>
+					
 					<li class="menu-dropdown mega-menu-dropdown ">
 						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
 						Features <i class="fa fa-angle-down"></i>
