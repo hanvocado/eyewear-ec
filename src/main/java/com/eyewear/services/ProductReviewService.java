@@ -36,4 +36,7 @@ public interface ProductReviewService {
 	//Page<ProductReview> findByCategoryNameContaining(String name, Pageable pageable);
 
 	//List<ProductReview> findByCategoryNameContaining(String name);
+	
+	public Optional<ProductReview> getReviewByBuyerAndProduct(Long buyerId, Long productId);
+    
 }
