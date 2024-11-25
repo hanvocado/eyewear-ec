@@ -403,8 +403,30 @@
 							</li>
 						</ul>
 					</li>
-					<li class="">
-						<a href="<c:url value="/manager/warehouse/searchpaginated"/>">WareHouse</a>
+					<li class="menu-dropdown mega-menu-dropdown">
+						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+						Kho <i class="fa fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu" style="min-width: 190px">
+							<li>
+								<div class="mega-menu-content">
+									<div class="row">
+										<ul class="mega-menu-submenu">
+											<li>
+													<a href="<c:url value="/manager/warehouse/searchpaginated"/>" class="iconify">
+													<i class="icon-handbag"></i>
+													Sản Phẩm </a>
+												</li>
+												<li>
+													<a href="<c:url value="/manager/warehouse/categorysearchpaginated"/>" class="iconify">
+													<i class="icon-basket"></i>
+													Danh mục </a>
+												</li>
+										</ul>
+									</div>
+								</div>
+							</li>
+						</ul>
 					</li>
 					<li class="menu-dropdown mega-menu-dropdown ">
 						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">

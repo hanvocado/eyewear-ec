@@ -113,7 +113,7 @@ public class WareHouseController {
 			@RequestParam("size") Optional<Integer> size) {
 
 		int count = (int) productService.count();
-		System.out.println("???????"+count);
+
 
 		int currentPage = page.orElse(1);
 
@@ -136,7 +136,6 @@ public class WareHouseController {
 		}
 
 		int totalPages = resultPage.getTotalPages();
-		System.out.println("???????"+totalPages);
 
 		if (totalPages > 0) {
 
@@ -169,4 +168,16 @@ public class WareHouseController {
 		return "manager/warehouse/list";
 
 	}
+    @GetMapping("/view/{id}")
+    public String viewProduct(@PathVariable("id") Long id, Model model) {
+        Product product = productService.findById(id);
+
+        if (product != null) {
+            model.addAttribute("product", product);
+            return "manager/warehouse/view"; // Trả về trang JSP
+        } else {
+            model.addAttribute("error", "Product not found");
+            return "error";
+        }
+    }
 }

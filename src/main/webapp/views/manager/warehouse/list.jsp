@@ -146,7 +146,6 @@
     </div>
 </div>
 
-<!-- Pagination Section -->
 <c:if test="${list.totalPages > 0}">
     <div class="row mt-4">
         <div class="col-md-12">
@@ -166,3 +165,23 @@
         </div>
     </div>
 </c:if>
+
+<style>
+    /* Sắp xếp các số trang theo chiều ngang */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+        padding-left: 0;
+    }
+
+    .pagination .page-item {
+        margin-right: 5px; /* Thêm khoảng cách giữa các nút */
+    }
+
+    .pagination .page-link {
+        padding: 5px 10px; /* Giảm kích thước của các nút */
+        font-size: 14px; /* Giảm kích thước chữ */
+    }
+</style>
+
