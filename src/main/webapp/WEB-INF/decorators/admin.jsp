@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="/common/taglibs.jsp"%>
     
 <!DOCTYPE html>
 <html>
@@ -27,15 +28,19 @@
 <link href="/admin/layout3/css/layout.css" rel="stylesheet" type="text/css">
 <link href="/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
 <link href="/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
+<link href="/admin/style.css" rel="stylesheet" type="text/css">
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body>
     <%@include file="/common/admin/header.jsp"%>
     
-	<sitemesh:write property="body" />
-
+	<div class="page-container">
+		<sitemesh:write property="body" />
+	</div>
+	
 	<%@include file="/common/admin/footer.jsp"%>
+	
 	<!-- BEGIN JAVASCRIPTS (Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
 <!--[if lt IE 9]>
