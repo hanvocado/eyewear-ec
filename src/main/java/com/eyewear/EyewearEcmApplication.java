@@ -9,5 +9,4 @@ public class EyewearEcmApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EyewearEcmApplication.class, args);
 	}
-
 }
