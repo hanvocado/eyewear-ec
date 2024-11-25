@@ -8,6 +8,8 @@ import com.eyewear.exceptions.ErrorCode;
 import com.eyewear.services.UserService;
 import com.eyewear.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +27,10 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
         user.setPhone(request.getPhone());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());

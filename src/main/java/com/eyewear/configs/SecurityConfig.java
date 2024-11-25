@@ -19,8 +19,8 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENPOINT = {
-            "/users", "/auth/token", "auth/introspect"
+    private final String[] PUBLIC_ENPOINTS = {
+            "/users", "/auth/login", "/auth/introspect"
     };
 
     protected  static final String SIGNED_KEY =
@@ -29,8 +29,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENPOINT).permitAll()
-                        .requestMatchers(HttpMethod.POST, PUBLIC_ENPOINT).permitAll()
+                request.requestMatchers(HttpMethod.POST, PUBLIC_ENPOINTS).permitAll()
                         .anyRequest().authenticated()
         );
 
