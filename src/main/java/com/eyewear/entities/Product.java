@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)  // Sử dụng Single Table Inheritance
+@DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.STRING)  // Cột phân biệt loại sản phẩm
 @Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Product {
 	@Id
@@ -33,6 +35,16 @@ public class Product {
 	private String description;
 	
 	private String brand;
+	
+	private String image; // đường dẫn đến Cloudinary
+	
+	//không cần lưu trữ vào cơ sở dữ liệu
+	@Transient
+    private String imageUrl; // URL to be generated
+
+	@ManyToOne
+	@JoinColumn(name = "category_id")  //khóa ngoại "category_id"
+    private Category category;
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BranchProduct> branches;

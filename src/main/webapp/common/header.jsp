@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!-- BEGIN STYLE CUSTOMIZER -->
     <div class="color-panel hidden-sm">
       <div class="color-mode-icons icon-color"></div>
@@ -130,7 +131,9 @@
                 <li><a href="page-prices.html">Prices</a></li>
                 <li><a href="page-faq.html">FAQ</a></li>
                 <li><a href="page-gallery.html">Gallery</a></li>
-                <li><a href="page-search-result.html">Search Result</a></li>
+                <!-- Vào products thì hiện trang sản phẩm có phân trang -->
+                <li><a href="/common/products">Products</a></li>
+                <!-- // -->
                 <li><a href="page-404.html">404</a></li>
                 <li><a href="page-500.html">500</a></li>
                 <li><a href="page-login.html">Login Page</a></li>
@@ -205,16 +208,17 @@
               <span class="sep"></span>
               <i class="fa fa-search search-btn"></i>
               <div class="search-box">
-                <form action="#">
-                  <div class="input-group">
-                    <input type="text" placeholder="Search" class="form-control">
-                    <span class="input-group-btn">
-                      <button class="btn btn-primary" type="submit">Search</button>
-                    </span>
-                  </div>
-                </form>
-              </div> 
-            </li>
+						<form action="/common/products/search" method="get">
+							<div class="input-group">
+								<input type="text" name="name" id="name"
+									placeholder="Nhập tên sản phẩm" class="form-control"> <span
+									class="input-group-btn">
+									<button class="btn btn-primary" type="submit">Search</button>
+								</span>
+							</div>
+						</form>
+					</div>
+				</li>
             <!-- END TOP SEARCH -->
           </ul>
         </div>
