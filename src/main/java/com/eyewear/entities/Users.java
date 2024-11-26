@@ -1,4 +1,4 @@
-package com.eyewear.model;
+package com.eyewear.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +16,4 @@ public class Users {
     private String email;
     private String password;
 
-    // other fields and getters/setters
 }

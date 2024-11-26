@@ -1,5 +1,6 @@
 package com.eyewear.model;
 
+import com.eyewear.entities.Users;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

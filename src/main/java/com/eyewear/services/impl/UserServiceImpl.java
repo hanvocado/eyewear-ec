@@ -1,13 +1,12 @@
 package com.eyewear.services.impl;
 
 import com.eyewear.model.ResetPasswordToken;
-import com.eyewear.model.Users;
+import com.eyewear.entities.Users;
 import com.eyewear.repositories.PasswordResetTokenRepository;
 import com.eyewear.repositories.UserRepository;
 import com.eyewear.services.UserService;
 import com.eyewear.services.EmailService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

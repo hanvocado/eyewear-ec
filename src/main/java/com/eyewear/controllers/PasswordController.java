@@ -14,7 +14,7 @@ public class PasswordController {
 
     @GetMapping("/forgot-password")
     public String showForgotPasswordForm() {
-        return "forgot-password"; // Tên file JSP là forgot-password.jsp trong thư mục /views/
+        return "forgot-password";
     }
 
     @PostMapping("/forgot-password")
@@ -25,13 +25,13 @@ public class PasswordController {
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
         }
-        return "forgot-password"; // Tên file JSP là forgot-password.jsp trong thư mục /views/
+        return "forgot-password";
     }
 
     @GetMapping("/reset-password")
     public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
         model.addAttribute("token", token);
-        return "reset-password"; // Tên file JSP là reset-password.jsp trong thư mục /views/
+        return "reset-password";
     }
 
     @PostMapping("/reset-password")
@@ -41,7 +41,7 @@ public class PasswordController {
                                            Model model) {
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Mật khẩu xác nhận không khớp.");
-            return "reset-password"; // Tên file JSP là reset-password.jsp trong thư mục /views/
+            return "reset-password";
         }
 
         try {
@@ -50,6 +50,6 @@ public class PasswordController {
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
         }
-        return "reset-password"; // Tên file JSP là reset-password.jsp trong thư mục /views/
+        return "reset-password";
     }
 }

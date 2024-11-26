@@ -1,6 +1,6 @@
 package com.eyewear.repositories;
 
-import com.eyewear.model.Users;
+import com.eyewear.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
