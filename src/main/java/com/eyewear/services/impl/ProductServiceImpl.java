@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductSpecification;
 import com.eyewear.repositories.ProductRepository;
 import com.eyewear.services.ProductService;
 
@@ -54,26 +56,13 @@ public class ProductServiceImpl implements ProductService {
 	public Page<Product> findAll(Pageable pageable) {
 		return productRepo.findAll(pageable);
 	}
-	//
 
-
-	@Override
-	public Page<Product> findByCategoryNameInAndPriceBetween(List<Long> categoryId, Double minPrice,
-			Double maxPrice, Pageable pageable) {
-		return productRepo.findByCategoryNameInAndPriceBetween(categoryId, minPrice, maxPrice, pageable);
-	}
 
 	@Override
 	public Page<Product> findByCategoryId(List<Long> categoryId, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return productRepo.findByCategoryIdIn(categoryId, pageable);
 	}
-
-	@Override
-	public Page<Product> findByCategoryName(List<String> categoryName, Pageable pageable) {
-		return productRepo.findByCategoryNameIn(categoryName, pageable);
-	}
-
 	
 	@Override
 	public List<Product> getProductsById(List<Long> listId) {
@@ -99,5 +88,10 @@ public class ProductServiceImpl implements ProductService {
 		return productRepo.findByNameContaining(name, pageable);
 	}
 
-
+	@Override
+	public Page<Product> findByCriteria(List<String> categoryNames, String brand, Double minPrice, Double maxPrice, Pageable pageable) {
+        Specification<Product> spec = ProductSpecification.filterByCriteria(categoryNames, brand, minPrice, maxPrice);
+        return productRepo.findAll(spec, pageable);
+    }
+	
 }

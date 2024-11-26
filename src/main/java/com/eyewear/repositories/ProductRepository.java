@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +17,7 @@ import com.eyewear.entities.Product;
 import jakarta.validation.Valid;
 
 @Repository 
-public interface ProductRepository extends JpaRepository<Product, Long>{
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product>{
 	// Tìm kiếm theo tên
 	List<Product> findByNameContainingIgnoringCase(String name);
 	
@@ -30,8 +31,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	// Lọc theo tên danh mục 
 	Page<Product> findByCategoryNameIn(List<String> categoryName, Pageable pageable);
 	// Lọc theo giá 
-	Page<Product> findByCategoryNameInAndPriceBetween(List<Long> categoryId, Double minPrice, Double maxPrice, Pageable pageable);
-	
 	List<Product> findAllByIdIn(List<Long> ids);
 	
 	@Modifying
