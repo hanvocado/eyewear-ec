@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/common/taglibs.jsp"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <div class="container">
-    <h2>Đơn hàng của tôi</h2>
+    <h2>Lịch sử mua hàng</h2>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -15,14 +17,16 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="order" items="${orders}">
+                <c:forEach items="${orders}" var="order">
                     <tr>
                         <td>${order.orderId}</td>
-                        <td><fmt:formatDate value="${order.orderAt}" pattern="dd/MM/yyyy HH:mm"/></td>
-                        <td><fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="₫"/></td>
+                        <td>${order.orderAt}</td>
+                        <td>
+                            <fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="VND"/>
+                        </td>
                         <td>${order.status}</td>
                         <td>
-                            <a href="<c:url value='/orders/${order.orderId}'/>" 
+                            <a href="<c:url value='/buyer/orders/${order.orderId}'/>" 
                                class="btn btn-primary btn-sm">Xem chi tiết</a>
                         </td>
                     </tr>
