@@ -73,7 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
-    String generateToken(String email) {
+    public String generateToken(String email) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()

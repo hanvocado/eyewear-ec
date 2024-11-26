@@ -4,6 +4,7 @@ import lombok.Builder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,7 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
 
     private final String[] PUBLIC_ENPOINTS = {
-            "/users", "/auth/login", "/auth/introspect"
+            "/users/", "/auth/login", "/auth/introspect", "/home", "*"
     };
 
     protected  static final String SIGNED_KEY =
@@ -28,16 +29,23 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENPOINTS).permitAll()
+
+        httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(request ->
+                request
+                        .requestMatchers("/**" ,"/views").permitAll()
+                        .requestMatchers(HttpMethod.POST, PUBLIC_ENPOINTS).permitAll()
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/users/**").hasAuthority("USER")
                         .anyRequest().authenticated()
-        );
+                )
+        ;
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
                 );
 
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
         return httpSecurity.build();
     }
 
