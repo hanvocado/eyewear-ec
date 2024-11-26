@@ -419,7 +419,7 @@
 								</li>
 							</ul>
 						</li>	
-					<li class="menu-dropdown mega-menu-dropdown "><a
+					<!-- <li class="menu-dropdown mega-menu-dropdown "><a
 						data-hover="megamenu-dropdown" data-close-others="true"
 						data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
 							Features <i class="fa fa-angle-down"></i>
@@ -501,7 +501,7 @@
 									</div>
 								</div>
 							</li>
-						</ul></li>
+						</ul></li> -->
 
 					<!-- <li class="menu-dropdown classic-menu-dropdown "><a
 						data-hover="megamenu-dropdown" data-close-others="true"

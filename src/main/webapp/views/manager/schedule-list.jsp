@@ -4,8 +4,9 @@
     
 <title>Schedule list</title>    
     
-<section class="container-fluid">
-	<div class="col-lg-12 col-xl-12">
+<section>
+	<div class="container">
+		<div class="col-lg-12 col-xl-12">
 	<div class="dashboard-header">
 								<h3>Appointments</h3>
 								<ul class="header-list-btns">
@@ -1137,26 +1138,5 @@
 								</div>
 							</div>
 						</div>
+	</div>
 </section>
-
-<!-- jQuery -->
-		<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="/assets/js/jquery-3.7.1.min.js" type="6e61458afaa1e6d35fa17030-text/javascript"></script>
-		
-		<!-- Bootstrap Core JS -->
-		<script src="/assets/js/bootstrap.bundle.min.js" type="6e61458afaa1e6d35fa17030-text/javascript"></script>
-
-		<!-- select JS -->
-		<script src="/assets/plugins/select2/js/select2.min.js" type="6e61458afaa1e6d35fa17030-text/javascript"></script>
-
-		<!-- Daterangepikcer JS -->
-		<script src="/assets/js/moment.min.js" type="6e61458afaa1e6d35fa17030-text/javascript"></script>
-		<script src="/assets/plugins/daterangepicker/daterangepicker.js" type="6e61458afaa1e6d35fa17030-text/javascript"></script>
-		
-		<!-- Sticky Sidebar JS -->
-        <script src="/assets/plugins/theia-sticky-sidebar/ResizeSensor.js" type="6e61458afaa1e6d35fa17030-text/javascript"></script>
-        <script src="/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js" type="6e61458afaa1e6d35fa17030-text/javascript"></script>
-		
-		<!-- Custom JS -->
-		<script src="/assets/js/script.js" type="6e61458afaa1e6d35fa17030-text/javascript"></script>
-		
-	<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="6e61458afaa1e6d35fa17030-|49" defer></script>

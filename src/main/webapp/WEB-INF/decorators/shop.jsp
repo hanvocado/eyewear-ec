@@ -36,6 +36,7 @@
   <link href="/frontend/layout/css/style-responsive.css" rel="stylesheet">
   <link href="/frontend/layout/css/themes/red.css" rel="stylesheet" id="style-color">
   <link href="/frontend/layout/css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <!-- Theme styles END -->
 
 </head>

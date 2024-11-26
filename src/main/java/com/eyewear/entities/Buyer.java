@@ -28,7 +28,7 @@ public class Buyer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    
+    private String name;
     private String username;
     private String email;
     private String phoneNumber;
@@ -36,6 +36,9 @@ public class Buyer {
 
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders;
+    
+    @OneToMany(mappedBy = "buyer")
+    private List<Appointment> appointments;
 
     // Getters and setters
 }
