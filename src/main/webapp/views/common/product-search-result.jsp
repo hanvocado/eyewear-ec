@@ -21,18 +21,18 @@
 						<h2>Search categories</h2>
 
 						<!-- Lọc theo Danh mục -->
-						<h3>Category</h3>
 						<form method="get" action="/common/products/filter">
+							<h3>Loại sản phẩm</h3>
 							<div class="checkbox-list">
-								<label><input type="checkbox" name="categoryName"
-									value="Tròng Kính"> Tròng Kính</label> <label><input
-									type="checkbox" name="categoryName" value="Gọng Kính"> Category
-									2</label> <label><input type="checkbox" name="categoryName"
-									value="Khác"> Khác</label>
+								<!-- Lặp qua tất cả các danh mục -->
+								<c:forEach var="category" items="${categories}">
+									<label> <input type="checkbox" name="categoryName"
+										value="${category.name}"> ${category.name}
+									</label>
+								</c:forEach>
 							</div>
-
-							<!-- Lọc theo Tình trạng (Availability) -->
-							<h3>Availability</h3>
+							<!-- Lọc theo thương hiệu -->
+							<h3>Thương hiệu</h3>
 							<div class="checkbox-list">
 								<label><input type="checkbox" name="availability"
 									value="in_stock" /> In Stock</label> <label><input

@@ -100,7 +100,7 @@ public class ProductController{
 		return "common/product-search-result";
 	}
 	
-	@RequestMapping("/filter")
+	@RequestMapping("/filter/category")
 	public String getProducts(@RequestParam(value = "categoryName", required = false) List<String> categoryName,
 			@RequestParam(value = "minPrice", required = false) Double minPrice,
 			@RequestParam(value = "maxPrice", required = false) Double maxPrice,
@@ -111,14 +111,7 @@ public class ProductController{
 		Page<Product> productPage = null;
 
 		if (categoryName != null && !categoryName.isEmpty()) {
-			if (minPrice != null && maxPrice != null) {
-				/*
-				 * productPage = productService.findByCategoryNameInAndPriceBetween(categoryIds,
-				 * minPrice, maxPrice, pageable);
-				 */
-			} else {
-				productPage = productService.findBtCategoryName(categoryName, pageable);
-			}
+				productPage = productService.findByCategoryName(categoryName, pageable);
 		} else {
 			productPage = productService.findAll(pageable); // Nếu không lọc theo danh mục, trả về tất cả sản phẩm
 																// phân trang
