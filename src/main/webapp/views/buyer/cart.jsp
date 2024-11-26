@@ -41,11 +41,13 @@
 										<td class="goods-page-ref-no">${cartItem.product.brand}</td>
 										<td class="goods-page-quantity">
 											<div class="product-quantity">
-												<input id="product-quantity" type="text"
-													value="${cartItem.quantity }" readonly
-													class="form-control input-sm">
+												<input id="product-quantity-${cartItem.id}" type="number"
+													value="${cartItem.quantity}" class="form-control input-sm"
+													onchange="updateQuantity(${cartItem.id}, this.value)">
 											</div>
 										</td>
+
+
 										<td class="goods-page-price"><strong><span>$</span>${cartItem.product.price}</strong>
 										</td>
 										<td class="goods-page-total"><strong><span>$</span>${cartItem.product.price * cartItem.quantity}</strong>
@@ -78,7 +80,7 @@
 								<li><em>Shipping cost</em> <strong class="price"><span>$</span>3.00</strong>
 								</li>
 								<li class="shopping-total-price"><em>Total</em> <strong
-									class="price"><span>$</span>50.00</strong></li>
+									class="price"><span>$</span>${totalPrice+3}</strong></li>
 							</ul>
 						</div>
 					</div>

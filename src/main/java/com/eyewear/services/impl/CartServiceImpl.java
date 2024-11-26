@@ -33,6 +33,11 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
+	public int updateQuantity(Long cartItemId, int quantity) {
+		return cartItemRepository.updateQuantity(cartItemId, quantity);
+	}
+
+	@Override
 	public ShoppingCart getOrCreateCart(Buyer buyer) {
 		return cartRepository.findByBuyer(buyer).orElseGet(() -> {
 			// Tạo giỏ hàng mới nếu chưa có
