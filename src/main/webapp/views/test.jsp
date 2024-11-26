@@ -5,7 +5,7 @@
 
 
 
-<form action="/order/checkout" method="get">
+<form action="/buyer/orders/checkout" method="get">
     <table>
         <tr>
             <th class="checkout-image">Image</th>
@@ -47,7 +47,7 @@
 </form> 
 
 
-<form action="/order/cancelOrder">
+<form action="/buyer/orders/cancelOrder">
 <div class="container">
     <h2>Đơn hàng của tôi</h2>
     <div class="table-responsive">

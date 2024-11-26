@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -47,6 +48,8 @@
                         <th>Số lượng</th>
                         <th>Đơn giá</th>
                         <th>Thành tiền</th>
+                        <th></th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -56,6 +59,15 @@
                             <td>${item.quantity}</td>
                             <td><fmt:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/></td>
                             <td><fmt:formatNumber value="${item.price * item.quantity}" type="currency" currencySymbol="₫"/></td>
+                       		<td>
+                       			<form action="<c:url value='/buyer/reviews'/>" method="get">
+    <input type="hidden" name="buyerId" value="${order.buyer.id}">
+    <input type="hidden" name="productId" value="${item.product.id}">
+    <button type="submit" class="btn btn-primary btn-sm">Đánh giá</button>
+</form>
+
+                       		
+                       		</td>
                         </tr>
                     </c:forEach>
                 </tbody>
