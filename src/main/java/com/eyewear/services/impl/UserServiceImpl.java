@@ -1,65 +1,58 @@
 package com.eyewear.services.impl;
 
 import com.eyewear.model.ResetPasswordToken;
-import com.eyewear.model.User;
+import com.eyewear.model.Users;
 import com.eyewear.repositories.PasswordResetTokenRepository;
 import com.eyewear.repositories.UserRepository;
 import com.eyewear.services.UserService;
+import com.eyewear.services.EmailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    @Autowired
-    private PasswordResetTokenRepository tokenRepository;
 
-    @Autowired
-    private JavaMailSender mailSender;
 
     @Override
-    public void createPasswordResetToken(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            String token = UUID.randomUUID().toString();
-            ResetPasswordToken resetToken = new ResetPasswordToken(token, user);
-            tokenRepository.save(resetToken);
-            sendResetEmail(user.getEmail(), token);
+    public void resetPassword(String email) {
+        Optional<Users> userOptional = userRepository.findByEmail(email);
+        if (!userOptional.isPresent()) {
+            throw new IllegalArgumentException("Email không hợp lệ");
         }
+
+        Users user = userOptional.get();
+        String token = UUID.randomUUID().toString();
+        ResetPasswordToken resetToken = new ResetPasswordToken(token, user, LocalDateTime.now().plusMinutes(5));
+        passwordResetTokenRepository.save(resetToken);
+
+        emailService.sendResetPasswordEmail(user.getEmail(), token);
     }
 
     @Override
-    public boolean validatePasswordResetToken(String token) {
-        ResetPasswordToken resetToken = tokenRepository.findByToken(token);
-        return resetToken != null && !resetToken.isExpired();
-    }
-
-    @Override
-    public boolean resetPassword(String token, String newPassword) {
-        ResetPasswordToken resetToken = tokenRepository.findByToken(token);
-        if (resetToken != null && !resetToken.isExpired()) {
-            User user = resetToken.getUser();
-            user.setPassword(newPassword);
-            userRepository.save(user);
-            tokenRepository.delete(resetToken);
-            return true;
+    public void updatePassword(String token, String newPassword) {
+        Optional<ResetPasswordToken> resetTokenOptional = passwordResetTokenRepository.findByToken(token);
+        if (!resetTokenOptional.isPresent() || resetTokenOptional.get().isExpired()) {
+            throw new IllegalArgumentException("Liên kết đã hết hạn");
         }
-        return false;
-    }
 
-    private void sendResetEmail(String email, String token) {
-        String resetLink = "http://localhost:8080/password/reset?token=" + token;
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("Password Reset Request");
-        message.setText("To reset your password, click the link below:\n" + resetLink);
-        mailSender.send(message);
+        ResetPasswordToken resetToken = resetTokenOptional.get();
+        Users user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        passwordResetTokenRepository.delete(resetToken);
     }
 }

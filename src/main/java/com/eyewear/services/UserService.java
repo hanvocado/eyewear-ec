@@ -1,11 +1,6 @@
 package com.eyewear.services;
 
-import com.eyewear.model.User;
-
 public interface UserService {
-    void createPasswordResetToken(String email);
-
-    boolean validatePasswordResetToken(String token);
-
-    boolean resetPassword(String token, String newPassword);
+    void resetPassword(String email);
+    void updatePassword(String token, String newPassword);
 }

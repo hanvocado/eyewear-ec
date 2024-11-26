@@ -1,12 +1,14 @@
 package com.eyewear.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class ResetPasswordToken {
 
     @Id
@@ -16,54 +18,18 @@ public class ResetPasswordToken {
     private String token;
 
     @ManyToOne
-    private User user;
+    @JoinColumn(nullable = false, name = "user_id")
+    private Users user;
 
-    private long expiryDate; // Add necessary annotations and logic for expiry date if needed
+    private LocalDateTime expiryDate;
 
-    // Constructors, getters, setters
-
-    public ResetPasswordToken() {
-    }
-
-    public ResetPasswordToken(String token, User user) {
+    public ResetPasswordToken(String token, Users user, LocalDateTime expiryDate) {
         this.token = token;
         this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public long getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(long expiryDate) {
         this.expiryDate = expiryDate;
     }
 
     public boolean isExpired() {
-        // Implement logic to check if token is expired
-        return System.currentTimeMillis() > this.expiryDate;
+        return LocalDateTime.now().isAfter(expiryDate);
     }
 }
