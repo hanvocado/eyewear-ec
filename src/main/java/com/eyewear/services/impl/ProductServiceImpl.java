@@ -67,6 +67,12 @@ public class ProductServiceImpl implements ProductService {
 		return productRepo.findByCategoryIdIn(categoryId, pageable);
 	}
 
+	@Override
+	public Page<Product> findByCategoryName(List<String> categoryName, Pageable pageable) {
+		
+		return productRepo.findByCategoryName(categoryName, pageable);
+	}
+
 
 	
 }

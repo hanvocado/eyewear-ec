@@ -48,7 +48,7 @@ public class ProductController{
         model.addAttribute("productPage", productPage);
         return "common/product-list";  // Trang hiển thị danh sách sản phẩm
     }
-  
+
 	@GetMapping("/search")
 	public String search(ModelMap model, @RequestParam(name = "name", required = false) String name,
 			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
@@ -101,21 +101,23 @@ public class ProductController{
 	}
 	
 	@RequestMapping("/filter")
-	public String getProducts(@RequestParam(value = "categoryIds", required = false) List<Long> categoryIds,
+	public String getProducts(@RequestParam(value = "categoryName", required = false) List<String> categoryName,
 			@RequestParam(value = "minPrice", required = false) Double minPrice,
 			@RequestParam(value = "maxPrice", required = false) Double maxPrice,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size, Model model) {
 
 		Pageable pageable = PageRequest.of(page, size); // Tạo Pageable với trang và kích thước
-		Page<Product> productPage;
+		Page<Product> productPage = null;
 
-		if (categoryIds != null && !categoryIds.isEmpty()) {
+		if (categoryName != null && !categoryName.isEmpty()) {
 			if (minPrice != null && maxPrice != null) {
-				productPage = productService.findByCategoryNameInAndPriceBetween(categoryIds, minPrice, maxPrice,
-						pageable);
+				/*
+				 * productPage = productService.findByCategoryNameInAndPriceBetween(categoryIds,
+				 * minPrice, maxPrice, pageable);
+				 */
 			} else {
-				productPage = productService.findByCategoryId(categoryIds, pageable);
+				productPage = productService.findBtCategoryName(categoryName, pageable);
 			}
 		} else {
 			productPage = productService.findAll(pageable); // Nếu không lọc theo danh mục, trả về tất cả sản phẩm

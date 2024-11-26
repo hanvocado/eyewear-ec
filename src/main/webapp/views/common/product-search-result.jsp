@@ -24,11 +24,11 @@
 						<h3>Category</h3>
 						<form method="get" action="/common/products/filter">
 							<div class="checkbox-list">
-								<label><input type="checkbox" name="categoryIds"
-									value="1"> Category 1</label> <label><input
-									type="checkbox" name="categoryIds" value="2"> Category
-									2</label> <label><input type="checkbox" name="categoryIds"
-									value="3"> Category 3</label>
+								<label><input type="checkbox" name="categoryName"
+									value="Tròng Kính"> Tròng Kính</label> <label><input
+									type="checkbox" name="categoryName" value="Gọng Kính"> Category
+									2</label> <label><input type="checkbox" name="categoryName"
+									value="Khác"> Khác</label>
 							</div>
 
 							<!-- Lọc theo Tình trạng (Availability) -->

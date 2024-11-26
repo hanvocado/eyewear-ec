@@ -28,4 +28,6 @@ public interface ProductService {
 	Page<Product> findByCategoryNameInAndPriceBetween(List<Long> categoryId, Double minPrice, Double maxPrice, Pageable pageable);
 
 	Page<Product> findByCategoryId(List<Long> categoryId, Pageable pageable);
+	
+	Page<Product> findByCategoryName(List<String> categoryName, Pageable pageable);
 }
