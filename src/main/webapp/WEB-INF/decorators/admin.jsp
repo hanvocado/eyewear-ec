@@ -29,6 +29,19 @@
 <link href="/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
 <link href="/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
 <link href="/admin/style.css" rel="stylesheet" type="text/css">
+<!-- Favicons -->
+<link href="/assets/img/favicon.png" rel="icon">
+<!-- Fontawesome CSS -->
+<link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+<!-- Feathericon CSS -->
+<link rel="stylesheet" href="/assets/css/feather.css">
+<!-- select CSS -->
+<link rel="stylesheet" href="/assets/plugins/select2/css/select2.min.css">
+<!-- Main CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css">
+<!-- Daterangepikcer CSS -->
+<link rel="stylesheet" href="/assets/plugins/daterangepicker/daterangepicker.css">
  
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico">

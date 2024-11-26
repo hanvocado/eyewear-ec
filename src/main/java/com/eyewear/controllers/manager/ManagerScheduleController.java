@@ -13,8 +13,13 @@ public class ManagerScheduleController {
 		return "/manager/schedule-calendar";
 	}
 	
-	@GetMapping("/progress")
-	public String progress() {
-		return "/manager/schedule-progress";
+	@GetMapping("/request")
+	public String request() {
+		return "/manager/schedule-request";
+	}
+	
+	@GetMapping("/list")
+	public String list() {
+		return "/manager/schedule-list";
 	}
 }
