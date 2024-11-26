@@ -82,6 +82,9 @@
 
 
 <!-- END PAGE LEVEL SCRIPTS -->
+
+<script src="/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<script src="/admin/pages/scripts/table-managed.js"></script>
 <script>
 jQuery(document).ready(function() {    
    Metronic.init(); // init metronic core componets
@@ -89,6 +92,7 @@ jQuery(document).ready(function() {
    Demo.init(); // init demo(theme settings page)
    Index.init(); // init index page
    Tasks.initDashboardWidget(); // init tash dashboard widget
+   TableManaged.init();
 });
 </script>
 <!-- END JAVASCRIPTS -->

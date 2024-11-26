@@ -48,12 +48,14 @@ public class OrderServiceImpl implements OrderService {
 		Optional<Order> order = orderRepository.findById(orderId);
 		if(order.isPresent()) {
 			Order editOrder =order.get();
-			if(editOrder.getStatus()=="done") {
+			if(editOrder.getStatus().equalsIgnoreCase("Done")) {
 				return "Đơn hàng đã giao";
+			}else if(editOrder.getStatus().equalsIgnoreCase("Pending")){
+				editOrder.setStatus("Canceled");
+				orderRepository.save(editOrder);
+				return "Huỷ đơn thành công";
 			}
-			editOrder.setStatus("done");
-			orderRepository.save(editOrder);
-			return "Huỷ đơn thành công";
+			
 		}
 		return "loi";
 	}
