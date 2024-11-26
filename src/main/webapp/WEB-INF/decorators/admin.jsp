@@ -44,7 +44,7 @@
 <link rel="stylesheet" href="/assets/plugins/daterangepicker/daterangepicker.css">
  
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico">
+
 </head>
 <body>
     <%@include file="/common/admin/header.jsp"%>
@@ -92,6 +92,9 @@
 <script src="/admin/pages/scripts/index3.js" type="text/javascript"></script>
 <script src="/admin/pages/scripts/tasks.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
+
+<script src="/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<script src="/admin/pages/scripts/table-managed.js"></script>
 <script>
 jQuery(document).ready(function() {    
    Metronic.init(); // init metronic core componets
@@ -99,6 +102,7 @@ jQuery(document).ready(function() {
    Demo.init(); // init demo(theme settings page)
    Index.init(); // init index page
    Tasks.initDashboardWidget(); // init tash dashboard widget
+   TableManaged.init();
 });
 </script>
 <!-- END JAVASCRIPTS -->
