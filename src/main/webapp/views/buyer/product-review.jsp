@@ -2,18 +2,18 @@
 <%@ include file="/common/taglibs.jsp"%>
  
 
-      
-
 
   <div class="container-rv">
     <h2 class="rv-title">Product Review</h2>
-    <form class="rv-form" action="/reviews/save" method="POST">
-    	<input type="text" name="buyerId" value="${review.buyer.id }">
+    <form class="rv-form" action="/buyer/reviews/save" method="POST">
+    	<input type="hidden" name="buyerId" value="${review.buyer.id != null ? review.buyer.id : buyerId}">
+
         <input type="hidden" name="productId" value="${product.id}">
 
         <table>
             <tr>
                 <th class="checkout-image">Image</th>
+                <th class="checkout-image">Name</th>
                 <th class="checkout-description">Description</th>
                 <th class="checkout-price">Price</th>
             </tr>
@@ -22,8 +22,9 @@
                 <td class="checkout-image">
                     <a href="#"><img src="${product.image }  " alt="image"></a>
                 </td>
+                <td><p><strong>${product.name}</strong></p></td>
                 <td class="checkout-description">
-                    <h3><a href="#"></a></h3>
+                    
                     <p><strong>${product.description}</strong></p>
                     <em></em>
                 </td>
@@ -55,6 +56,9 @@
         <label class="rv-label" for="review">Your Feedback:</label><br>
         <textarea id="review" name="reviewContent" class="rv-textarea" placeholder="Write your review here...">${review.reviewContent }</textarea>
 	
-        <button type="submit" class="rv-submit">Submit</button>
+		<button type="submit" class="btn btn-primary btn-sm">
+    		${buyerId == null ? 'Update' : 'Insert'}
+		</button>
+
     </form>
 </div>
