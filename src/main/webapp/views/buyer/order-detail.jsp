@@ -1,5 +1,8 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/common/taglibs.jsp"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <div class="container">
     <div class="card">
@@ -11,21 +14,29 @@
                 <div class="col-md-6">
                     <p>
                         <strong>Ngày đặt:</strong>
-                        <span><fmt:formatDate value="${order.orderAt}" pattern="dd/MM/yyyy HH:mm"/></span>
+                        <span>${order.orderAt}</span>
                     </p>
                     <p>
                         <strong>Trạng thái:</strong>
                         <span>${order.status}</span>
                     </p>
+                    <p>
+                        <strong>Phương thức thanh toán:</strong>
+                        <span>${order.paymentMethod}</span>
+                    </p>
                 </div>
                 <div class="col-md-6">
                     <p>
-                        <strong>Địa chỉ giao hàng:</strong>
-                        <span>${order.shippingAddress}</span>
+                        <strong>Người đặt:</strong>
+                        <span>${order.buyer.username}</span>
                     </p>
                     <p>
                         <strong>Số điện thoại:</strong>
-                        <span>${order.phone}</span>
+                        <span>${order.buyer.phoneNumber}</span>
+                    </p>
+                    <p>
+                        <strong>Email:</strong>
+                        <span>${order.buyer.email}</span>
                     </p>
                 </div>
             </div>
@@ -37,6 +48,8 @@
                         <th>Số lượng</th>
                         <th>Đơn giá</th>
                         <th>Thành tiền</th>
+                        <th></th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +59,15 @@
                             <td>${item.quantity}</td>
                             <td><fmt:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/></td>
                             <td><fmt:formatNumber value="${item.price * item.quantity}" type="currency" currencySymbol="₫"/></td>
+                       		<td>
+                       			<form action="<c:url value='/buyer/reviews'/>" method="get">
+    <input type="hidden" name="buyerId" value="${order.buyer.id}">
+    <input type="hidden" name="productId" value="${item.product.id}">
+    <button type="submit" class="btn btn-primary btn-sm">Đánh giá</button>
+</form>
+
+                       		
+                       		</td>
                         </tr>
                     </c:forEach>
                 </tbody>
