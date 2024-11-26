@@ -31,6 +31,8 @@
 <link href="/admin/style.css" rel="stylesheet" type="text/css">
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico">
+
+
 </head>
 <body>
     <%@include file="/common/admin/header.jsp"%>
@@ -77,6 +79,8 @@
 <script src="/admin/layout3/scripts/demo.js" type="text/javascript"></script>
 <script src="/admin/pages/scripts/index3.js" type="text/javascript"></script>
 <script src="/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+
+
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
 jQuery(document).ready(function() {    
