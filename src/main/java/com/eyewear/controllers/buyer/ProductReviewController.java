@@ -1,4 +1,4 @@
-package com.eyewear.controllers;
+package com.eyewear.controllers.buyer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,7 +25,7 @@ import com.eyewear.services.ProductService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/reviews")
+@RequestMapping("/buyer/reviews")
 public class ProductReviewController {
 	
 	@Autowired
