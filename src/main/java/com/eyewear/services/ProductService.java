@@ -1,12 +1,12 @@
 package com.eyewear.services;
 
 import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import com.eyewear.entities.Product;
+
+import jakarta.validation.Valid;
 
 public interface ProductService {
 	List<Product> findAll();
@@ -30,4 +30,12 @@ public interface ProductService {
 	Page<Product> findByCategoryId(List<Long> categoryId, Pageable pageable);
 
 	List<Product> getProductsById(List<Long> listId);
+	
+	void deleteById(Long productId);
+
+	void save(@Valid Product product);
+
+	void update(@Valid Product product);
+
+	Page<Product> findByNameContaining(String name, Pageable pageable);
 }
