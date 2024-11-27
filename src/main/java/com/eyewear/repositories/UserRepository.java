@@ -1,10 +1,14 @@
 package com.eyewear.repositories;
 
-import com.eyewear.entities.Users;
+import com.eyewear.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<Users, Long> {
-    Optional<Users> findByEmail(String email);
+@Repository
+public interface UserRepository extends JpaRepository<User, String> {
+    Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }

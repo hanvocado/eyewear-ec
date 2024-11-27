@@ -1,38 +1,115 @@
 package com.eyewear.services.impl;
 
+import com.eyewear.dto.request.UserCreationRequest;
+import com.eyewear.dto.request.UserUpdateRequest;
+import com.eyewear.entities.User;
+import com.eyewear.enums.Role;
+import com.eyewear.exceptions.AppException;
+import com.eyewear.exceptions.ErrorCode;
 import com.eyewear.model.ResetPasswordToken;
-import com.eyewear.entities.Users;
 import com.eyewear.repositories.PasswordResetTokenRepository;
-import com.eyewear.repositories.UserRepository;
-import com.eyewear.services.UserService;
 import com.eyewear.services.EmailService;
+import com.eyewear.services.UserService;
+import com.eyewear.repositories.UserRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
+import java.time.LocalDateTime;
+
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserService {
-
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
-    private final PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
+    public User createRequest(UserCreationRequest request) {
+        User user = new User();
+
+        if(userRepository.existsByEmail(request.getEmail())) {
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
+        }
+
+        user.setEmail(request.getEmail());
+
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        user.setPhone(request.getPhone());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setAddress(request.getAddress());
+        user.setRoles(Role.BUYER.name());
+
+        return userRepository.save(user);
+    }
+
+    public User getMyInfo(){
+        var context = SecurityContextHolder.getContext();
+        String email = context.getAuthentication().getName();
+
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        return user;
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User getUser(String id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng!"));
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng!"));
+    }
+
+    @Override
+    public User updateUser(String id, UserUpdateRequest request) {
+        User user = getUser(id);
+
+        user.setPassword(request.getPassword());
+        user.setPhone(request.getPhone());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setAddress(request.getAddress());
+        user.setRoles(Role.MANAGER.name());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
+    }
 
 
     @Override
     public void resetPassword(String email) {
-        Optional<Users> userOptional = userRepository.findByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmail(email);
         if (!userOptional.isPresent()) {
             throw new IllegalArgumentException("Email không hợp lệ");
         }
 
-        Users user = userOptional.get();
+        User user = userOptional.get();
         String token = UUID.randomUUID().toString();
         ResetPasswordToken resetToken = new ResetPasswordToken(token, user, LocalDateTime.now().plusMinutes(5));
         passwordResetTokenRepository.save(resetToken);
@@ -48,7 +125,7 @@ public class UserServiceImpl implements UserService {
         }
 
         ResetPasswordToken resetToken = resetTokenOptional.get();
-        Users user = resetToken.getUser();
+        User user = resetToken.getUser();
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
