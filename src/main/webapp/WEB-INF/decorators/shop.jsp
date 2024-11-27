@@ -113,5 +113,37 @@
            ComponentsPickers.init();
         });   
     </script>
+	
+	<script>
+    function updateQuantity(cartItemId, newQuantity) {
+        fetch('cart/updateQuantity', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cartItemId: cartItemId,
+                quantity: newQuantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Quantity updated successfully!');
+                // Optionally, update the total price dynamically
+                location.reload(); // Reload to reflect new total
+            } else {
+                alert('Failed to update quantity: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Something went wrong! Please try again.');
+        });
+    }
+</script>
+
+
+	
 </body>
 </html>
