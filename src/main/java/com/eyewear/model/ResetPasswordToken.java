@@ -1,6 +1,6 @@
 package com.eyewear.model;
 
-import com.eyewear.entities.Users;
+import com.eyewear.entities.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,11 +20,11 @@ public class ResetPasswordToken {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
-    private Users user;
+    private User user;
 
     private LocalDateTime expiryDate;
 
-    public ResetPasswordToken(String token, Users user, LocalDateTime expiryDate) {
+    public ResetPasswordToken(String token, User user, LocalDateTime expiryDate) {
         this.token = token;
         this.user = user;
         this.expiryDate = expiryDate;

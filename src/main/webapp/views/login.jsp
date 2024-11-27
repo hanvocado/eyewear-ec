@@ -23,7 +23,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-8 col-md-offset-4 padding-left-0">
-                                <a href="${pageContext.request.contextPath}/page-forgotton-password.jsp">Forget Password?</a>
+                                <a href="${pageContext.request.contextPath}/forgot-password">Forget Password?</a>
                             </div>
                         </div>
                         <div class="row">
