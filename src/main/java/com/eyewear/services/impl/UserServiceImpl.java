@@ -18,6 +18,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     public User createRequest(UserCreationRequest request) {
         User user = new User();
@@ -71,5 +74,38 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String id) {
         userRepository.deleteById(id);
+    }
+
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    @Override
+    public void resetPassword(String email) {
+        Optional<Users> userOptional = userRepository.findByEmail(email);
+        if (!userOptional.isPresent()) {
+            throw new IllegalArgumentException("Email không hợp lệ");
+        }
+
+        Users user = userOptional.get();
+        String token = UUID.randomUUID().toString();
+        ResetPasswordToken resetToken = new ResetPasswordToken(token, user, LocalDateTime.now().plusMinutes(5));
+        passwordResetTokenRepository.save(resetToken);
+
+        emailService.sendResetPasswordEmail(user.getEmail(), token);
+    }
+
+    @Override
+    public void updatePassword(String token, String newPassword) {
+        Optional<ResetPasswordToken> resetTokenOptional = passwordResetTokenRepository.findByToken(token);
+        if (!resetTokenOptional.isPresent() || resetTokenOptional.get().isExpired()) {
+            throw new IllegalArgumentException("Liên kết đã hết hạn");
+        }
+
+        ResetPasswordToken resetToken = resetTokenOptional.get();
+        Users user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        passwordResetTokenRepository.delete(resetToken);
     }
 }

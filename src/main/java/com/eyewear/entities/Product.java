@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "product_id")
+	@Column(name = "id")
 	private Long id;
 	
 	@Column(length=100, nullable = false)
@@ -38,6 +38,12 @@ public class Product {
 	private String brand;
 		
 	private String image; // đường dẫn đến Cloudinary
+	
+	@Column(nullable=true)
+	private Float height;
+	
+	@Column(nullable=true)
+	private Float width;
 	
 	//không cần lưu trữ vào cơ sở dữ liệu
 	@Transient

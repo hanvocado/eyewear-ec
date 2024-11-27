@@ -1,6 +1,7 @@
 package com.eyewear.services.impl;
 
 import com.eyewear.entities.Order;
+import com.eyewear.entities.OrderDetail;
 import com.eyewear.repositories.OrderRepository;
 import com.eyewear.repositories.BranchRepository;
 import com.eyewear.repositories.ProductRepository;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -91,12 +93,50 @@ public class RevenueServiceImpl implements RevenueService {
     }
     
     private List<Map<String, Object>> processChartData(List<Order> orders) {
-        List<Map<String, Object>> chartData = new ArrayList<>();
+        return orders.stream()
+            .collect(Collectors.groupingBy(
+                order -> order.getOrderAt().toLocalDate(),
+                TreeMap::new,
+                Collectors.summingDouble(Order::getTotalPrice)))
+            .entrySet().stream()
+            .map(entry -> {
+                Map<String, Object> point = new HashMap<>();
+                point.put("date", entry.getKey().toString());
+                point.put("revenue", entry.getValue());
+                return point;
+            })
+            .collect(Collectors.toList());
+    }
+
+    private Map<String, Object> calculateProductStatistics(List<Order> orders, Long productId) {
+        Map<String, Object> stats = new HashMap<>();
         
-        // Xử lý dữ liệu cho biểu đồ doanh thu theo thời gian
-        // TODO: Implement logic phân tích dữ liệu theo thời gian
+        double totalRevenue = orders.stream()
+            .flatMap(order -> order.getItems().stream())
+            .filter(item -> item.getProduct().getId().equals(productId))
+            .mapToDouble(item -> item.getQuantity() * item.getPrice())
+            .sum();
+            
+        long totalQuantity = orders.stream()
+            .flatMap(order -> order.getItems().stream())
+            .filter(item -> item.getProduct().getId().equals(productId))
+            .mapToLong(OrderDetail::getQuantity)
+            .sum();
         
-        return chartData;
+        stats.put("totalRevenue", totalRevenue);
+        stats.put("totalQuantity", totalQuantity);
+        return stats;
+    }
+
+    private Map<String, Object> calculateBranchStatistics(List<Order> orders, Long branchId) {
+        // Cần thêm relationship với Branch hoặc sửa đổi query để lấy thông tin branch
+        Map<String, Object> stats = new HashMap<>();
+        double totalRevenue = 0;
+        long orderCount = orders.size();
+        
+        stats.put("totalRevenue", totalRevenue);
+        stats.put("orderCount", orderCount);
+        return stats;
     }
     
     private double calculateTotalRevenue(List<Order> orders) {
@@ -105,24 +145,7 @@ public class RevenueServiceImpl implements RevenueService {
             .sum();
     }
     
-    private Map<String, Object> calculateProductStatistics(List<Order> orders, Long productId) {
-        Map<String, Object> stats = new HashMap<>();
-        
-        // Tính toán các chỉ số thống kê theo sản phẩm
-        // TODO: Implement logic thống kê theo sản phẩm
-        
-        return stats;
-    }
-    
-    private Map<String, Object> calculateBranchStatistics(List<Order> orders, Long branchId) {
-        Map<String, Object> stats = new HashMap<>();
-        
-        // Tính toán các chỉ số thống kê theo chi nhánh
-        // TODO: Implement logic thống kê theo chi nhánh
-        
-        return stats;
-    }
-    
+   
     private Resource generateExcelReport(Map<String, Object> data) {
         // Tạo file Excel từ dữ liệu thống kê
         // TODO: Implement logic tạo file Excel

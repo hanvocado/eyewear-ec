@@ -17,7 +17,7 @@ i<%@ include file="/common/taglibs.jsp"%>
 					<div class="panel-group checkout-page accordion scrollable"
 						id="checkout-page">
 
-						<form action="<c:url value="/order/saveOrder"/>" method="post">
+						<form action="<c:url value="/buyer/orders/saveOrder"/>" method="post">
 							<!-- BEGIN CONFIRM -->
 							<div id="confirm" class="panel panel-default">
 
@@ -33,16 +33,23 @@ i<%@ include file="/common/taglibs.jsp"%>
 
 								<!-- thong tin -->
 								<div class="panel-body row">
+								
+								<!-- thông báo lỗi -->
+								 <c:if test="${not empty error2}">
+            						<div class="alert alert-danger">${error2}</div>
+       							 </c:if>
+								
 
 									<div class="form-group">
-										<label for="country-dd">Address <span class="require">*</span></label>
-										<select class="form-control input-sm" id="country-dd">
-											<option value="">--- Please Select ---</option>
-											<option value="244">address 1</option>
-											<option value="1">address 2</option>
-											<option value="2">address 3</option>
-										</select>
+   									 <label for="country-dd">Address <span class="require">*</span></label>
+    								<select class="form-control input-sm" id="country-dd" name="address">
+       									 <option value="">--- Please Select ---</option>
+       									 <option value="244">address 1</option>
+       									 <option value="1">address 2</option>
+       									 <option value="2">address 3</option>
+   									 </select>
 									</div>
+
 
 								</div>
 
@@ -91,6 +98,11 @@ i<%@ include file="/common/taglibs.jsp"%>
 
 
 									<!-- phuong thuc thanh toan -->
+									
+									<!-- thông báo lỗi -->
+								 <c:if test="${not empty error}">
+            						<div class="alert alert-danger">${error}</div>
+       							 </c:if>
 
 									<div class="panel-body row">
 										<div class="col-md-12">
