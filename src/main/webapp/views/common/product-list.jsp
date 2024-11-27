@@ -116,8 +116,10 @@
                                         </div>
                                     </div>
                                     <h3><a href="shop-item.html">${product.name}</a></h3>
-                                    <div class="pi-price">${product.price}</div>
-                                    <a href="#" class="btn btn-default add2cart">Add to cart</a>
+                                    <div class="pi-price">${product.price}
+                                    </div>
+                                    
+                                    <a href="<c:url value='/buyer/cart/addCartItem?productID=${product.id}'/>" class="btn btn-default add2cart">Add to cart</a>
                                 </div>
                             </div>
                         </c:forEach>
