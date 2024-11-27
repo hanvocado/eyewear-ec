@@ -18,6 +18,8 @@ public interface UserService {
     public User updateUser(String id, UserUpdateRequest request);
 
     public void deleteUser(String id);
+    void resetPassword(String email);
+    void updatePassword(String token, String newPassword);
 
     public User getMyInfo();
 }
