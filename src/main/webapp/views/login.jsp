@@ -65,7 +65,7 @@
                     const token = data.result.token;
                     localStorage.setItem('authToken', token); // Lưu token vào localStorage
                     alert('Đăng nhập thành công!');
-                    window.location.href = "/"; // Điều hướng đến trang hồ sơ
+                    window.location.href = '/'; // Điều hướng đến trang hồ sơ
                 } else {
                     alert('Đăng nhập thất bại: ' + (data.message || 'Unknown error'));
                 }
@@ -74,7 +74,6 @@
                 console.error('Error:', error);
                 alert('An error occurred while logging in.');
             });
-
     });
 </script>
 </body>
