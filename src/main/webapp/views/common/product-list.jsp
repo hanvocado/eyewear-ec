@@ -97,12 +97,13 @@
                                         </div>
                                     </div>
                                     <h3><a href="shop-item.html">${product.name}</a></h3>
+
                                     <h4> ${product.brand}</h4>
 									<div class="pi-price">
 										<fmt:formatNumber value="${product.price}" type="number"
 											minFractionDigits="0" maxFractionDigits="1" />
 									</div>
-									<a href="#" class="btn btn-default add2cart">Thêm vào giỏ hàng</a>
+									<a href="<c:url value='/buyer/cart/addCartItem?productID=${product.id}'/>" class="btn btn-default add2cart">Add to cart</a>
                                 </div>
                             </div>
                         </c:forEach>

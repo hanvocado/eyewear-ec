@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "branch-product")
+@Table(name = "branch_product")
 public class BranchProduct {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
