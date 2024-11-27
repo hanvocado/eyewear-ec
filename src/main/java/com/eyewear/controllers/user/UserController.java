@@ -26,7 +26,12 @@ public class UserController {
         return apiResponse;
     }
 
-    @GetMapping
+    @GetMapping("/myInfo")
+    User getMyInfo() {
+        return userService.getMyInfo();
+    }
+
+    @GetMapping("/getUsers")
     List<User> getUsers() {
         return userService.getUsers();
     }

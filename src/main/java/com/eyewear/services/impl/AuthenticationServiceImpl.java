@@ -2,6 +2,7 @@ package com.eyewear.services.impl;
 
 import com.eyewear.dto.request.AuthenticationRequest;
 import com.eyewear.dto.request.IntrospectRequest;
+import com.eyewear.entities.User;
 import com.eyewear.exceptions.AppException;
 import com.eyewear.exceptions.ErrorCode;
 import com.eyewear.repositories.AuthenticationResponse;
@@ -21,10 +22,12 @@ import lombok.experimental.NonFinal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
@@ -66,25 +69,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (!authenticated)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
-        var token = generateToken(request.getEmail());
+
+        var token = generateToken(user);
+
         return AuthenticationResponse.builder()
                 .token(token)
                 .authenticated(true)
                 .build();
     }
 
-    public String generateToken(String email) {
+    public String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(email)
+                .subject(user.getEmail())
                 .issuer("eyewear.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS)
                                 .toEpochMilli()
                 ))
-                .claim("customClaim", "Custom")
+                .claim("scope", user.getRoles())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());

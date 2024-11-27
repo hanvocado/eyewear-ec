@@ -64,10 +64,10 @@
                 if (data.result.authenticated) {
                     const token = data.result.token;
                     localStorage.setItem('authToken', token); // Lưu token vào localStorage
-                    alert('Login successful!');
+                    alert('Đăng nhập thành công!');
                     window.location.href = "/"; // Điều hướng đến trang hồ sơ
                 } else {
-                    alert('Login failed: ' + (data.message || 'Unknown error'));
+                    alert('Đăng nhập thất bại: ' + (data.message || 'Unknown error'));
                 }
             })
             .catch(error => {

@@ -83,7 +83,7 @@
 
         // Kiểm tra mật khẩu trùng khớp
         if (password !== confirmPassword) {
-            alert('Passwords do not match!');
+            alert('Mật khẩu không trùng khớp!');
             return;
         }
         else {
@@ -100,10 +100,10 @@
                     if (data.code == 1000) {
                         const token = data.result.token;
                         localStorage.setItem('authToken', token); // Lưu token vào localStorage
-                        alert('Registration successful!');
+                        alert('Đăng kí thành công!');
                         window.location.href = "/login"; // Điều hướng đến trang hồ sơ
                     } else {
-                        alert('Registration failed: ' + (data.message || 'Unknown error'));
+                        alert('Đăng kí thất bại: ' + (data.message || 'Unknown error'));
                     }
                 })
                 .catch(error => {
