@@ -1,13 +1,13 @@
 package com.eyewear.services;
 
-import com.eyewear.dto.request.AuthenticationRequest;
-import com.eyewear.dto.request.IntrospectRequest;
+import java.text.ParseException;
+
+import com.eyewear.DTO.request.AuthenticationRequest;
+import com.eyewear.DTO.request.IntrospectRequest;
 import com.eyewear.entities.User;
 import com.eyewear.repositories.AuthenticationResponse;
 import com.eyewear.repositories.IntrospectResponse;
 import com.nimbusds.jose.JOSEException;
-
-import java.text.ParseException;
 
 public interface AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request);

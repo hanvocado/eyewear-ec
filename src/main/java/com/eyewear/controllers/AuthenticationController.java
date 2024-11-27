@@ -1,21 +1,23 @@
 package com.eyewear.controllers;
 
-import com.eyewear.dto.request.ApiResponse;
-import com.eyewear.dto.request.AuthenticationRequest;
-import com.eyewear.dto.request.IntrospectRequest;
-import com.eyewear.repositories.AuthenticationResponse;
-import com.eyewear.repositories.IntrospectResponse;
-import com.eyewear.services.AuthenticationService;
-import com.nimbusds.jose.JOSEException;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import java.text.ParseException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.ParseException;
+import com.eyewear.DTO.request.ApiResponse;
+import com.eyewear.DTO.request.AuthenticationRequest;
+import com.eyewear.DTO.request.IntrospectRequest;
+import com.eyewear.repositories.AuthenticationResponse;
+import com.eyewear.repositories.IntrospectResponse;
+import com.eyewear.services.AuthenticationService;
+import com.nimbusds.jose.JOSEException;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RestController
 @RequestMapping("/auth")
