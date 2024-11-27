@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ include file="/common/taglibs.jsp"%>
 
 <section>
 	<div class="main">
@@ -36,8 +36,8 @@
 			
 			    <!-- Chi nhánh -->
 			    <div class="form-group">
-			      <label class="col-md-2 control-label">Chi nhánh<span class="require">*</span></label>
-			      <div class="col-md-8">
+			      <label class="col-lg-2 control-label">Chi nhánh<span class="require">*</span></label>
+			      <div class="col-lg-8">
 			        <select class="form-control" name="branchId">
 			          <c:forEach var="branch" items="${branchs}">
 			            <option value="${branch.id}">
@@ -48,41 +48,93 @@
 			      </div>
 			    </div>
 			
-			    <!-- Thời gian đặt lịch -->
 			    <div class="form-group">
-			      <label class="col-md-2 control-label">Thời gian đặt lịch hẹn có sẵn<span class="require">*</span></label>
-			      <div class="col-md-8">
-			        <select class="form-control" name="appointmentTime">
-			          <option value="1">Option 1</option>
-			          <option value="2">Option 2</option>
-			        </select>
-			      </div>
-			    </div>
-			    
-			    <div class="form-group">
-										<label class="control-label col-md-2">Thời gian đặt lịch hẹn yêu cầu</label>
-										<div class="col-md-8">
-											<div class="input-group date form_datetime">
-												<input type="text" size="16" readonly class="form-control">
-												<span class="input-group-btn">
-												<button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
-												</span>
-											</div>
-											<!-- /input-group -->
-										</div>
-									</div>
-			    
+				  <label class="col-lg-2 control-label">Thời gian đặt lịch hẹn<span class="require">*</span></label>
+					  <div class="col-lg-8">
+						  <div class="row ">
+						    <div class="col-lg-2">
+						      <input type="radio" name="appointmentType" value="existing" id="existing" />
+						      <label for="existing">Đang có</label>
+						    </div>
+						    <div class="col-lg-10">
+						      <select class="form-control" name="appointmentTime">
+						        <option value="1">Option 1</option>
+						        <option value="2">Option 2</option>
+						      </select>
+						    </div>
+						  </div>
+					</div>
+				</div>
+				
+			   <div class="form-group">
+			   		<label class="col-lg-2 control-label"></label>
+			   		<div class="col-lg-8">
+					  <div class="row">
+					    <div class="col-lg-2">
+					      <input type="radio" name="appointmentType" value="custom" id="custom" />
+					      <label for="custom">Tùy chỉnh</label>
+					    </div>
+					    <div class="col-lg-4">
+					      <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
+					        <input type="text" class="form-control" placeholder="Chọn ngày" />
+					        <span class="input-group-btn">
+					          <button class="btn default" type="button">
+					            <i class="fa fa-calendar"></i>
+					          </button>
+					        </span>
+					      </div>
+					    </div>
+					    <div class="col-lg-3">
+					      <div class="input-group">
+					        <input type="text" class="form-control timepicker timepicker-no-seconds" placeholder="Giờ bắt đầu" />
+					        <span class="input-group-btn">
+					          <button class="btn default" type="button">
+					            <i class="fa fa-clock-o"></i>
+					          </button>
+					        </span>
+					      </div>
+					    </div>
+					    <div class="col-lg-3">
+					      <div class="input-group">
+					        <input type="text" class="form-control timepicker timepicker-no-seconds" placeholder="Giờ kết thúc" />
+					        <span class="input-group-btn">
+					          <button class="btn default" type="button">
+					            <i class="fa fa-clock-o"></i>
+					          </button>
+					        </span>
+					      </div>
+					    </div>
+					  </div>
+				</div>
+			   </div>
+							
 			   <!-- Lựa chọn dịch vụ -->
 				<div class="form-group">
 				    <label class="col-lg-2 control-label">Lựa chọn dịch vụ</label>
-				    <div class="col-lg-8 checkbox-list">
-				        <c:forEach var="service" items="${serviceTypes}">
-				            <label>
-				                <input type="checkbox" name="services" value="${service.name}"> ${service.displayName}
-				            </label>
-				        </c:forEach>
+				    <div class="col-lg-8">
+				        <div class="row">
+				            <div class="col-md-6">
+				                <c:forEach var="service" items="${services}" varStatus="status">
+				                    <c:if test="${status.index % 2 == 0}">
+				                        <label>
+				                            <input type="checkbox" name="services" value="${service.name()}"> ${service.getDisplayName()}
+				                        </label><br>
+				                    </c:if>
+				                </c:forEach>
+				            </div>
+				            <div class="col-md-6">
+				                <c:forEach var="service" items="${services}" varStatus="status">
+				                    <c:if test="${status.index % 2 != 0}">
+				                        <label>
+				                            <input type="checkbox" name="services" value="${service.name()}"> ${service.getDisplayName()}
+				                        </label><br>
+				                    </c:if>
+				                </c:forEach>
+				            </div>
+				        </div>
 				    </div>
 				</div>
+
                 
                 <!-- Images -->
                 <div class="form-group">

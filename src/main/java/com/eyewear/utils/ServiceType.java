@@ -8,7 +8,8 @@ public enum ServiceType {
     MAINTENANCE("Bảo trì kính"),
     ROUTINE_CARE("Chăm sóc mắt định kỳ"),
     COSMETIC("Lắp kính thẩm mỹ"),
-    FRAME_CONSULTATION("Tư vấn lựa chọn kính");
+    FRAME_CONSULTATION("Tư vấn lựa chọn kính"),
+	OTHER("Khác");
 
     private final String displayName;
 
