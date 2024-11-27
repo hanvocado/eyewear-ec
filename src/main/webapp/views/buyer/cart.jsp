@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
-<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
+<%@ include file="/common/taglibs.jsp"%>
 
 <div class="main">
 	<div class="container">
@@ -40,11 +38,21 @@
 										</td>
 										<td class="goods-page-ref-no">${cartItem.product.brand}</td>
 										<td class="goods-page-quantity">
-											<div class="product-quantity">
-												<input id="product-quantity-${cartItem.id}" type="number"
-													value="${cartItem.quantity}" class="form-control input-sm"
-													onchange="updateQuantity(${cartItem.id}, this.value)">
-											</div>
+<!-- 											<div class="product-quantity"> -->
+<%-- 												<input id="product-quantity-${cartItem.id}" type="number" --%>
+<%-- 													value="${cartItem.quantity}" class="form-control input-sm" --%>
+<%-- 													onchange="updateQuantity(${cartItem.id}, this.value)"> --%>
+<!-- 											</div> -->
+											
+											<div class="input-group spinner">
+    <button class="btn btn-sm btn-outline-secondary" onclick="decrement(${cartItem.id})">-</button>
+    <input id="product-quantity-${cartItem.id}" type="number" 
+           class="form-control text-center input-sm"
+           value="${cartItem.quantity}" 
+           onchange="updateQuantity(${cartItem.id}, this.value)">
+    <button class="btn btn-sm btn-outline-secondary" onclick="increment(${cartItem.id})">+</button>
+</div>
+											
 										</td>
 
 
