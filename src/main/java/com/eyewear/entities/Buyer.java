@@ -2,6 +2,7 @@ package com.eyewear.entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ public class Buyer {
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders;
     
-    @OneToMany(mappedBy = "buyer")
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
     // Getters and setters
