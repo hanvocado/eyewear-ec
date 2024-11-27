@@ -101,7 +101,7 @@
                         const token = data.result.token;
                         localStorage.setItem('authToken', token); // Lưu token vào localStorage
                         alert('Registration successful!');
-                        window.location.href = "/"; // Điều hướng đến trang hồ sơ
+                        window.location.href = "/login"; // Điều hướng đến trang hồ sơ
                     } else {
                         alert('Registration failed: ' + (data.message || 'Unknown error'));
                     }
