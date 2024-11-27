@@ -3,7 +3,7 @@
 
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <title>Kết quả tìm kiếm</title>
 
 <body>
@@ -47,12 +47,11 @@
 									style="border: 0; color: #f6931f; font-weight: bold;">
 							</p>
 							<div id="slider-range"></div>
-							
+
 							<div class="filter-button-container text-center">
 								<button type="submit" class="btn btn-primary">Lọc</button>
 							</div>
-							<input type="hidden" name="name" value="${name}">
-							
+							<input type="hidden" name="name" value="${searchname}">
 						</form>
 					</div>
 				</div>
@@ -88,7 +87,23 @@
 						</div>
 						<div class="col-md-10 col-sm-10">
 							<div class="pull-right">
-								<form action="/common/products/searchpaginated" method="get">
+								<form method="get" action="<c:choose>  
+               						<c:when test="${action == 'filter'}">/common/products/filter</c:when>
+               							<c:otherwise>/common/products/searchpaginated</c:otherwise>
+             							</c:choose>">
+             						<c:choose>
+             						<c:when test="${action == 'filter'}">
+             						<c:forEach var="category" items="${categoryName}">
+									<input type="hidden" name="categoryName"
+										value="${category}">
+									</c:forEach>
+								<c:forEach var="brand" items="${brand}">
+									<input type="hidden" name="brand"
+										value="${brand}" /> 
+								</c:forEach></c:when>
+             						</c:choose>
+									  <input type="hidden" name="name"
+										value="${searchname}" />
 									<div class="pull-right">
 										<label class="control-label">Show:</label> <select name="size"
 											id="size" onchange="this.form.submit()">
@@ -100,27 +115,9 @@
 												value="15">15</option>
 											<option ${productPage.size == 20 ? 'selected' : ''}
 												value="20">20</option>
-										</select> 
-										<!-- Lấy tham số name và số trang -->
-										<input type="hidden" name="name" value="${name}"> 
-										<input type="hidden" name="page" value="${productPage.number+1}">	
+										</select>
 									</div>
 								</form>
-							</div>
-							<div class="pull-right">
-								<label class="control-label">Sort&nbsp;By:</label> <select
-									class="form-control input-sm">
-									<option value="#?sort=p.sort_order&amp;order=ASC"
-										selected="selected">Default</option>
-									<option value="#?sort=pd.name&amp;order=ASC">Name (A -
-										Z)</option>
-									<option value="#?sort=pd.name&amp;order=DESC">Name (Z
-										- A)</option>
-									<option value="#?sort=p.price&amp;order=ASC">Price
-										(Low &gt; High)</option>
-									<option value="#?sort=p.price&amp;order=DESC">Price
-										(High &gt; Low)</option>
-								</select>
 							</div>
 						</div>
 					</div>
@@ -133,28 +130,34 @@
 							</div>
 						</c:if>
 						<div class="row product-list">
-                        <c:forEach var="product" items="${productPage.content}">
-                            <!-- PRODUCT ITEM START -->
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="product-item">
-                                    <div class="pi-img-wrapper">
-                                        <img src="${product.imageUrl}" class="img-responsive" alt="${product.name}">
-                                        <div>
-                                            <a href="${product.imageUrl}" class="btn btn-default fancybox-button">Zoom</a>
-                                            <a href="/common/products/detail" class="btn btn-default fancybox-fast-view">View</a>
-                                        </div>
-                                    </div>
-                                    <h3><a href="shop-item.html">${product.name}</a></h3>
-                                    <h4> ${product.brand}</h4>
-									<div class="pi-price">
-										<fmt:formatNumber value="${product.price}" type="number"
-											minFractionDigits="0" maxFractionDigits="1" />
+							<c:forEach var="product" items="${productPage.content}">
+								<!-- PRODUCT ITEM START -->
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<div class="product-item">
+										<div class="pi-img-wrapper">
+											<img src="${product.imageUrl}" class="img-responsive"
+												alt="${product.name}">
+											<div>
+												<a href="${product.imageUrl}"
+													class="btn btn-default fancybox-button">Zoom</a> <a
+													href="/common/products/detail"
+													class="btn btn-default fancybox-fast-view">View</a>
+											</div>
+										</div>
+										<h3>
+											<a href="shop-item.html">${product.name}</a>
+										</h3>
+										<h4>${product.brand}</h4>
+										<div class="pi-price">
+											<fmt:formatNumber value="${product.price}" type="number"
+												minFractionDigits="0" maxFractionDigits="1" />
+										</div>
+										<a href="#" class="btn btn-default add2cart">Thêm vào giỏ
+											hàng</a>
 									</div>
-									<a href="#" class="btn btn-default add2cart">Thêm vào giỏ hàng</a>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
+								</div>
+							</c:forEach>
+						</div>
 						<!-- PRODUCT ITEM END -->
 					</div>
 					<!-- END PRODUCT LIST -->
@@ -162,39 +165,129 @@
 					<div class="col-md-8 col-sm-8">
 						<ul class="pagination pull-right">
 							<!-- Previous page link -->
-							<c:if test="${productPage.number > 0}">
-								<li><a
-									href="<c:url value='/common/products/searchpaginated?name=${name}&size=${productPage.size}&page=${productPage.number}'/>"
-									class="prev-page">&laquo;</a></li>
-							</c:if>
-							<c:if test="${productPage.number == 0}">
-								<li class="disabled"><a href="javascript:void(0)"
-									class="prev-page">&laquo;</a></li>
-							</c:if>
+							<c:choose>
+								<c:when test="${action == 'filter'}">
+									<c:if test="${productPage.number > 0}">
+										<li><a
+											href="<c:url value='/common/products/filter'>
+                                    <c:param name='name' value='${name}' />
+                                    <c:param name='size' value='${productPage.size}' />
+                                    <c:param name='page' value='${productPage.number}' />
+                                    <c:forEach var="category" items="${categoryName}">
+                                        <c:param name='categoryName' value='${category}' />
+                                    </c:forEach>
+                                    <c:forEach var="brandItem" items="${brand}">
+                                        <c:param name='brand' value='${brandItem}' />
+                                    </c:forEach>
+                                    <%-- <c:param name='minPrice' value='${minPrice}' />
+                                    <c:param name='maxPrice' value='${maxPrice}' /> --%>
+                                 </c:url>"
+											class="prev-page">&laquo;</a></li>
+									</c:if>
+									<c:if test="${productPage.number == 0}">
+										<li class="disabled"><a href="javascript:void(0)"
+											class="prev-page">&laquo;</a></li>
+									</c:if>
+								</c:when>
+								<c:otherwise>
+									<c:if test="${productPage.number > 0}">
+										<li><a
+											href="<c:url value='/common/products/searchpaginated'>
+                                    <c:param name='name' value='${name}' />
+                                    <c:param name='size' value='${productPage.size}' />
+                                    <c:param name='page' value='${productPage.number}' />
+                                 </c:url>"
+											class="prev-page">&laquo;</a></li>
+									</c:if>
+									<c:if test="${productPage.number == 0}">
+										<li class="disabled"><a href="javascript:void(0)"
+											class="prev-page">&laquo;</a></li>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
 
 							<!-- Page numbers -->
 							<c:forEach items="${pageNumbers}" var="pageNumber">
-								<li
-									class="${pageNumber == productPage.number + 1 ? 'page-item active' : 'page-item'}">
-									<a
-									href="<c:url value='/common/products/searchpaginated?name=${name}&size=${productPage.size}&page=${pageNumber}'/>">
-										${pageNumber} </a>
-								</li>
+							
+								<c:choose>
+									<c:when test="${action == 'filter'}">
+										<li
+											class="${pageNumber == productPage.number + 1 ? 'page-item active' : 'page-item'}">
+											<a
+											href="<c:url value='/common/products/filter'>
+                                    <c:param name='name' value='${name}' />
+                                    <c:param name='size' value='${productPage.size}' />
+                                    <c:param name='page' value='${pageNumber}' />
+                                    <c:forEach var="category" items="${categoryName}">
+                                        <c:param name='categoryName' value='${category}' />
+                                    </c:forEach>
+                                    <c:forEach var="brandItem" items="${brand}">
+                                        <c:param name='brand' value='${brandItem}' />
+                                    </c:forEach>
+                                    <%-- <c:param name='minPrice' value='${minPrice}' />
+                                    <c:param name='maxPrice' value='${maxPrice}' /> --%>
+                                 </c:url>">${pageNumber}</a>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li
+											class="${pageNumber == productPage.number + 1 ? 'page-item active' : 'page-item'}">
+											<a
+											href="<c:url value='/common/products/searchpaginated'>
+                                    <c:param name='name' value='${name}' />
+                                    <c:param name='size' value='${productPage.size}' />
+                                    <c:param name='page' value='${pageNumber}' />
+                                 </c:url>">${pageNumber}</a>
+										</li>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 
 							<!-- Next page link -->
-							<c:if test="${productPage.number < productPage.totalPages - 1}">
-								<li><a
-									href="<c:url value='/common/products/searchpaginated?name=${name}&size=${productPage.size}&page=${productPage.number + 2}'/>"
-									class="next-page">&raquo;</a></li>
-							</c:if>
-							<c:if test="${productPage.number == productPage.totalPages - 1}">
-								<li class="disabled"><a href="javascript:void(0)"
-									class="next-page">&raquo;</a></li>
-							</c:if>
+							<c:choose>
+								<c:when test="${action == 'filter'}">
+									<c:if test="${productPage.number < productPage.totalPages - 1}">
+										<li><a
+											href="<c:url value='/common/products/filter'>
+                                    <c:param name='name' value='${name}' />
+                                    <c:param name='size' value='${productPage.size}' />
+                                    <c:param name='page' value='${productPage.number + 2}' />
+                                    <c:forEach var="category" items="${categoryName}">
+                                        <c:param name='categoryName' value='${category}' />
+                                    </c:forEach>
+                                    <c:forEach var="brandItem" items="${brand}">
+                                        <c:param name='brand' value='${brandItem}' />
+                                    </c:forEach>
+                                    <%-- <c:param name='minPrice' value='${minPrice}' />
+                                    <c:param name='maxPrice' value='${maxPrice}' /> --%>
+                                 </c:url>"
+											class="next-page">&raquo;</a></li>
+									</c:if>
+									<c:if
+										test="${productPage.number == productPage.totalPages - 1}">
+										<li class="disabled"><a href="javascript:void(0)"
+											class="next-page">&raquo;</a></li>
+									</c:if>
+								</c:when>
+								<c:otherwise>
+									<c:if test="${productPage.number < productPage.totalPages - 1}">
+										<li><a
+											href="<c:url value='/common/products/searchpaginated'>
+                                    <c:param name='name' value='${name}' />
+                                    <c:param name='size' value='${productPage.size}' />
+                                    <c:param name='page' value='${productPage.number + 2}' />
+                                 </c:url>"
+											class="next-page">&raquo;</a></li>
+									</c:if>
+									<c:if
+										test="${productPage.number == productPage.totalPages - 1}">
+										<li class="disabled"><a href="javascript:void(0)"
+											class="next-page">&raquo;</a></li>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
 						</ul>
 					</div>
-
 					<!-- END PAGINATOR -->
 				</div>
 				<!-- END CONTENT -->

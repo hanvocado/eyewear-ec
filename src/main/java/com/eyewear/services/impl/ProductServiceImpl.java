@@ -89,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page<Product> findByCriteria(List<String> categoryNames, String brand, Double minPrice, Double maxPrice, Pageable pageable) {
+	public Page<Product> findByCriteria(List<String> categoryNames, List<String> brand, Double minPrice, Double maxPrice, Pageable pageable) {
         Specification<Product> spec = ProductSpecification.filterByCriteria(categoryNames, brand, minPrice, maxPrice);
         return productRepo.findAll(spec, pageable);
     }

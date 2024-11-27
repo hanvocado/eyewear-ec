@@ -370,9 +370,9 @@
 				<li class="menu-search"><span class="sep"></span> <i
 					class="fa fa-search search-btn"></i>
 					<div class="search-box">
-						<form action="#">
+						<form action="/common/products/search" method="get">
 							<div class="input-group">
-								<input type="text" placeholder="Search" class="form-control">
+								<input type="text" placeholder="Search" class="form-control" name="name">
 								<span class="input-group-btn">
 									<button class="btn btn-primary" type="submit">Search</button>
 								</span>
