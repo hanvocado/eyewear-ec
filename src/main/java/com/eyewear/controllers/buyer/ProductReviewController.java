@@ -1,5 +1,6 @@
 package com.eyewear.controllers.buyer;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -29,7 +30,7 @@ import jakarta.validation.Valid;
 public class ProductReviewController {
 	
 	@Autowired
-	ProductReviewService reivewService;
+	ProductReviewService reviewService;
 	@Autowired
 	ProductService productService;
 	
@@ -39,16 +40,25 @@ public class ProductReviewController {
 	}
 	
 	@GetMapping("")
-	public String review( @RequestParam("buyerId") Long buyerID, @RequestParam("productId") Long productId, Model model) {
-	    model.addAttribute("buyerId", buyerID);
+	public String review(@RequestParam("productId") Long productId, Model model,Principal principal) {
+		Long buyerId = getCurrentBuyerId(principal);
 	    Product product = productService.findById(productId);
+	    
+	    Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
+        
+        if (review.isPresent()) {
+        	ProductReview review2 =review.get();
+        	model.addAttribute("review",review2);
+        }
 	    model.addAttribute("product", product);
+	    model.addAttribute("buyerId",buyerId);
 	    return "/buyer/product-review";
 	}
 	@GetMapping("/editReview")
-	public String edit(@RequestParam("buyerId") Long buyerId, @RequestParam("productId") Long productId, Model model) {
+	public String edit(Principal principal, @RequestParam("productId") Long productId, Model model) {
 		Product product = productService.findById(productId);
-		Optional<ProductReview> review = reivewService.getReviewByBuyerAndProduct(buyerId, productId);
+		Long buyerId = getCurrentBuyerId(principal);
+		Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
         
         if (review.isPresent()) {
         	ProductReview review2 =review.get();
@@ -57,11 +67,15 @@ public class ProductReviewController {
 		model.addAttribute("product",product);
 		return "/buyer/product-review";
 	}
+	private Long getCurrentBuyerId(Principal principal) {
+        // TODO: Implement logic to get current buyer id from Principal
+        return 1L; // Temporary return
+    }
 
 	
 	@PostMapping("/save")
 	public ModelAndView saveOrUpdateReview(ModelMap model, @Valid @ModelAttribute("review") ProductReview review,
-	        @RequestParam("buyerId") Long buyerId, @RequestParam("productId") Long productId,
+			Principal principal, @RequestParam("productId") Long productId,
 	        BindingResult result) {
 
 	    // Kiểm tra lỗi xác thực
@@ -69,7 +83,7 @@ public class ProductReviewController {
 	        model.addAttribute("message", "Validation errors occurred.");
 	        return new ModelAndView("review", model); 
 	    }
-
+	    Long buyerId = getCurrentBuyerId(principal);
 	    // Tạo đối tượng Buyer và Product từ buyerId và productId
 	    Buyer buyer = new Buyer();
 	    buyer.setId(buyerId);
@@ -80,22 +94,22 @@ public class ProductReviewController {
 	    review.setReviewDate(LocalDate.now());
 
 	    // Kiểm tra xem bài đánh giá đã tồn tại chưa
-	    Optional<ProductReview> Reviewold = reivewService.getReviewByBuyerAndProduct(buyerId, productId);
+	    Optional<ProductReview> Reviewold = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
 	    
 	    if (Reviewold.isPresent()) {
 	    	ProductReview existingReview =Reviewold.get();
 	        existingReview.setRating(review.getRating());
 	        existingReview.setReviewContent(review.getReviewContent());
 	        existingReview.setReviewDate(LocalDate.now());
-	        reivewService.save(existingReview);  // Cập nhật vào cơ sở dữ liệu
+	        reviewService.save(existingReview);  // Cập nhật vào cơ sở dữ liệu
 	        model.addAttribute("message", "Review updated!");
 	    } else {
 	        // Thêm mới review nếu chưa tồn tại
-	    	reivewService.save(review);  // Thêm mới vào cơ sở dữ liệu
+	    	reviewService.save(review);  // Thêm mới vào cơ sở dữ liệu
 	        model.addAttribute("message", "Review added!");
 	    }
 
-	    return new ModelAndView("index", model); 
+	    return new ModelAndView("redirect:/buyer/orders/history", model); 
 	}
 
 }

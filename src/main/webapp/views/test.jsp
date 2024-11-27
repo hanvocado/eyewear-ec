@@ -14,7 +14,7 @@
             <th>Select</th>
             
         </tr>
-         <input type="text" name="buyerId" >
+         <input type="text" name="buyerId" value="${buyerId}">
         <c:forEach items="${list}" var="i">
       
             <tr>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eyewear.entities.Buyer;
 import com.eyewear.entities.Order;
@@ -65,39 +66,31 @@ public class BuyerOrderController {
 		return "test";
 	}
 
-	@GetMapping("/getorder")
-	public String getorder(Model model) {
-		List<Order> orders = orderService.getOrdersByBuyer((long) 1);
-        model.addAttribute("orders", orders);
-        return "test";
-	}
 	
-	@GetMapping("/cancel/{orderId}")
-	public String cancelOrder(@PathVariable("orderId") Long orderId,Model model) {
-	   
+    @GetMapping("/cancel/{orderId}")
+	public String cancelOrder(@PathVariable("orderId") Long orderId, RedirectAttributes redirectAttributes) {
+	    // Gọi service để hủy đơn hàng
 	    String message = orderService.cancelOrder(orderId);
-	    
-	    model.addAttribute("message",message);
-	    return "redirect:/buyer/orders/my-orders"; 
+
+	    // Thêm thông báo vào RedirectAttributes
+	    redirectAttributes.addFlashAttribute("message", message);
+
+	    // Chuyển hướng về trang danh sách đơn hàng
+	    return "redirect:/buyer/orders/my-orders";
 	}
 
 	@GetMapping("/checkout")
 	public ModelAndView placeOrder(@RequestParam(name = "selectedProducts") List<Long> listid,
-			@RequestParam(name = "buyerId") int buyerId, ModelMap model) {
+			 ModelMap model) {
 
 		List<Product> pro = productService.getProductsById(listid);
-		//List<String>
-
+		
 		if (pro == null || pro.isEmpty()) {
 
 			model.addAttribute("errorMessage", "No products found for the selected IDs.");
 			return new ModelAndView("error", model);
 		}
 
-
-
-		model.addAttribute("buyerId", buyerId); 
-		//model.addAttribute("totalPrice", totalPrice); 
 		model.addAttribute("productList", pro);
 		return new ModelAndView("buyer/checkout", model); 
 	}
@@ -110,7 +103,7 @@ public class BuyerOrderController {
 	        @RequestParam List<Double> prices,
 	        @RequestParam(value = "CashOnDelivery", required = false) String CashOnDelivery,
 	        @RequestParam(value="address",required =false) String address,
-	        @RequestParam("buyerid") String buyerid,
+	        Principal principal,
 	        ModelMap model) {
 	    	
 		// Kiểm tra giá trị CashOnDelivery
@@ -123,12 +116,13 @@ public class BuyerOrderController {
 	       
 	        return new ModelAndView("buyer/checkout", model);
 	    }
+	    Long buyerId = getCurrentBuyerId(principal);
 		    Order order = new Order();
 		    order.setOrderAt(LocalDateTime.now());
 		    order.setStatus("Pending");
 		    order.setPaymentMethod(CashOnDelivery);
 		    Buyer buyer = new Buyer();
-		    buyer.setId(Long.parseLong(buyerid));
+		    buyer.setId(buyerId);
 		    //order.setTotalPrice(0);
 		    order.setBuyer(buyer);
 

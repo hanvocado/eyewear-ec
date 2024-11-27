@@ -57,7 +57,7 @@
         <textarea id="review" name="reviewContent" class="rv-textarea" placeholder="Write your review here...">${review.reviewContent }</textarea>
 	
 		<button type="submit" class="btn btn-primary btn-sm">
-    		${buyerId == null ? 'Update' : 'Insert'}
+    		${review.buyer.id !=null ? 'Update' : 'Insert'}
 		</button>
 
     </form>
