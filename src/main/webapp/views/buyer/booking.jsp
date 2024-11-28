@@ -2,6 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 
+<body>
+<c:if test="${not empty message }">
+		<div class="alert alert-${messageType } alert-dismissable"
+			id="alertBox">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true"></button>
+			${message }
+		</div>
+	</c:if>
 <section>
 	<div class="main">
 		<div class="container">
@@ -38,7 +47,7 @@
 				<div class="form-group">
 				    <label class="col-lg-2 control-label">Chi nhánh<span class="require">*</span></label>
 				    <div class="col-lg-8">
-				        <select class="form-control" name="branch">
+				        <select class="form-control" name="branchId">
 				            <c:forEach var="branch" items="${branchs}">
 				                <option value="${branch.id}">
 				                    ${branch.name} - ${branch.address.streetNumber} ${branch.address.streetName}, ${branch.address.commue}, ${branch.address.district}, ${branch.address.province}
@@ -173,5 +182,9 @@
         });
     });
 </script>
+</body>
+
+
+
 
    

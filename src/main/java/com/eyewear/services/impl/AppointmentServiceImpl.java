@@ -28,21 +28,27 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private BranchRepository branchRepository;
 
 	@Override
-	public Appointment bookAppointment(LocalDateTime startDateTime, LocalDateTime endDateTime, String message,
+	public boolean bookAppointment(LocalDateTime startDateTime, LocalDateTime endDateTime, String message,
 			List<String> services, Long buyerId, Long branchId) {
 
-		Buyer buyer = buyerRepository.findById(buyerId)
-	            .orElseThrow(() -> new RuntimeException("Buyer not found"));
-		
-		Branch branch = branchRepository.findById(branchId)
-	            .orElseThrow(() -> new RuntimeException("Branch not found"));
-		
-		String status = AppointmentStatus.PENDING.name();
-		
-		Appointment appointment = Appointment.builder().start(startDateTime).end(endDateTime)
-				.createdAt(LocalDateTime.now()).message(message).status(status).services(services).buyer(buyer).branch(branch).build();
+		try {
+			Buyer buyer = buyerRepository.findById(buyerId)
+			        .orElseThrow(() -> new RuntimeException("Buyer not found"));
+			
+			Branch branch = branchRepository.findById(branchId)
+			        .orElseThrow(() -> new RuntimeException("Branch not found"));
+			
+			String status = AppointmentStatus.PENDING.name();
+			
+			Appointment appointment = Appointment.builder().start(startDateTime).end(endDateTime)
+					.createdAt(LocalDateTime.now()).message(message).status(status).services(services).buyer(buyer).branch(branch).build();
 
-		return appointmentRepo.save(appointment);
+			appointmentRepo.save(appointment);
+			return true;
+		} catch (Exception e) {
+            System.err.println("Lỗi khi đặt lịch: " + e.getMessage());
+            return false; 
+        }
 	}
 
 	@Override

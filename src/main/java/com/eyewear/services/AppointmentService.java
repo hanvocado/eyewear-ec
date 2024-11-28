@@ -8,7 +8,7 @@ import com.eyewear.entities.Branch;
 
 public interface AppointmentService {
 
-	Appointment bookAppointment(LocalDateTime startDateTime, LocalDateTime endDateTime, String message, List<String> services, Long buyerId, Long branchId);
+	boolean bookAppointment(LocalDateTime startDateTime, LocalDateTime endDateTime, String message, List<String> services, Long buyerId, Long branchId);
 
 	List<String> getFormattedAppointmentsScheduled();
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eyewear.entities.Address;
 import com.eyewear.entities.Appointment;
@@ -64,7 +65,7 @@ public class BookingController {
 	}
 
 	@PostMapping()
-	public ModelAndView bookingAppointment(ModelMap model,
+	public String bookingAppointment(Model model,
 			@RequestParam(value = "appointmentType") String appointmentType,
 			@RequestParam(value = "appointmentTime", required = false) String appointmentTime,
 			@RequestParam(value = "customDate", required = false) String customDate,
@@ -72,8 +73,8 @@ public class BookingController {
 			@RequestParam(value = "customEndTime", required = false) String customEndTime,
 			@RequestParam(value = "selectedServices", required = false) List<String> services,
 			@RequestParam(value = "message", required = false) String message,
-			@RequestParam(value = "branch") Long branchId,
-			Principal principal) {
+			@RequestParam(value = "branchId") Long branchId,
+			Principal principal, RedirectAttributes redirectAttributes) {
 
 		DateTimeProcessing dtProcess = new DateTimeProcessing();
 		LocalDateTime[] appointmentTimes = dtProcess.getAppointmentTimes(
@@ -84,11 +85,18 @@ public class BookingController {
 
 	    Long buyerId = getCurrentBuyerId(principal);
 	    
-	    Appointment appointment = appointmentService.bookAppointment(
+	    boolean success = appointmentService.bookAppointment(
                 startDateTime, endDateTime, message, services, buyerId, branchId);
-	    model.addAttribute("appointment", appointment);
+	    
+	    if (success) {
+	    	redirectAttributes.addFlashAttribute("message", "Đặt lịch thành công!");
+	    	redirectAttributes.addFlashAttribute("messageType", "success");
+		} else {
+			redirectAttributes.addFlashAttribute("message", "Đặt lịch thất bại!");
+			redirectAttributes.addFlashAttribute("messageType", "danger");
+		}
 
-		return new ModelAndView("redirect:/buyer/booking/success", model);
+		return "buyer/booking";
 	}
 
 	private Long getCurrentBuyerId(Principal principal) {
