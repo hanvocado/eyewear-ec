@@ -46,14 +46,15 @@ public class SecurityConfig {
 
         httpSecurity
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request ->
                 request
                         .requestMatchers(HttpMethod.POST, PUBLIC_ENPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/myInfo").permitAll()
                         .requestMatchers (new AntPathRequestMatcher("/js/**")). permitAll()
-                        .requestMatchers("/users/**").hasAuthority("SCOPE_ADMIN")
-                        .requestMatchers("/manager/**").hasAuthority("SCOPE_MANAGER")
-                        .requestMatchers("/buyer/**").hasAuthority("SCOPE_BUYER")
+                        .requestMatchers("/users/**").hasRole("ADMIN")
+                        .requestMatchers("/manager/**").hasRole("MANAGER")
+                        .requestMatchers("/buyer/**").hasRole("BUYER")
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -94,8 +95,8 @@ public class SecurityConfig {
         JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
 
         // Cấu hình tiền tố cho quyền (ví dụ "SCOPE_" cho các quyền)
-        authoritiesConverter.setAuthorityPrefix("SCOPE_");
         authoritiesConverter.setAuthoritiesClaimName("scope");
+        authoritiesConverter.setAuthorityPrefix("ROLE_");
         converter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
             // Log ra tất cả các claim trong JWT
@@ -114,6 +115,7 @@ public class SecurityConfig {
             // Trả về authorities từ claim "scope"
             return authoritiesConverter.convert(jwt);
         });
+
         return converter;
     }
 
@@ -125,7 +127,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:8080")); // Địa chỉ cho phép
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080")); // Địa chỉ cho phép
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // Các phương thức cho phép
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Authorization")); // Nếu cần trả về header Authorization

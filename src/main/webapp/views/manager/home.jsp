@@ -5,21 +5,27 @@
 <head>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-        fetch('/manager', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer' + localStorage.token,
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error("Token not found");
+                return;
             }
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
+
+            fetch('/manager', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ${token.trim()}',
                 }
-                throw new Error('Unauthorized');
             })
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
-    });
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Unauthorized');
+                })
+                .then(data => console.log(data))
+                .catch(error => console.error(error));
+        });
     </script>
     <meta charset="UTF-8">
 <title>Manager home</title>

@@ -24,35 +24,27 @@
 
 	<%--});--%>
 
-	const token = localStorage.getItem('token'); // Lấy token từ localStorage
-	console.log(token)
-	if (token) {
-		// Gửi yêu cầu GET với Bearer token trong header
-		fetch('http://localhost:8080/manager', {
+	document.addEventListener('DOMContentLoaded', () => {
+		const token = localStorage.getItem('token');
+		if (!token) {
+			console.error("Token not found");
+			return;
+		}
+		console.log(token)
+
+		fetch('/manager', {
 			method: 'GET',
 			headers: {
-				'Authorization': `Bearer ${token}`,
-			},
+				'Authorization': `Bearer ${localStorage.getItem('token')?.trim()}`, // Đảm bảo token hợp lệ
+				'Content-Type': 'application/json'
+			}
 		})
 				.then(response => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
+					if (response.ok) {
+						return response.json();
 					}
-					return response.json();  // Giải mã dữ liệu JSON từ server
 				})
-				.then(data => {
-					// Xử lý dữ liệu trả về khi thành công
-					console.log("SUCCESS: ", data);  // In dữ liệu trả về ra console
-					// Cập nhật nội dung trong HTML
-
-				})
-				.catch(error => {
-					// Xử lý khi có lỗi xảy ra
-					console.error("ERROR: ", error);  // In lỗi ra console
-				});
-	} else {
-		console.error("Token không tồn tại trong localStorage");
-	}
+	});
 </script>
 <!-- BEGIN STYLE CUSTOMIZER -->
 <div class="color-panel hidden-sm">
