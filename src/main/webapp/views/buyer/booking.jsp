@@ -91,7 +91,7 @@
 				                <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
 				                    <input type="text" class="form-control" name="customDate" placeholder="Chọn ngày" />
 				                    <span class="input-group-btn">
-				                        <button class="btn default" type="button">
+				                        <button class="btn default " type="button">
 				                            <i class="fa fa-calendar"></i>
 				                        </button>
 				                    </span>

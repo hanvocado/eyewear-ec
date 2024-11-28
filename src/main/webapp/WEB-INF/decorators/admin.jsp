@@ -29,16 +29,6 @@
 <link href="/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
 <link href="/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
 <link href="/admin/style.css" rel="stylesheet" type="text/css">
-
-<!-- BEGIN PAGE LEVEL STYLES -->
-<link rel="stylesheet" type="text/css" href="/assets/global/plugins/clockface/css/clockface.css"/>
-<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-datepicker/css/datepicker3.css"/>
-<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
-<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css"/>
-<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
-<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
-<!-- END PAGE LEVEL STYLES -->
- 
 <!-- END THEME STYLES -->
 
 
@@ -93,15 +83,6 @@
 
 <!-- END PAGE LEVEL SCRIPTS -->
 
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script type="text/javascript" src="/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-<script type="text/javascript" src="/assets/global/plugins/clockface/js/clockface.js"></script>
-<script type="text/javascript" src="/assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
-<script type="text/javascript" src="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script type="text/javascript" src="/assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-<script type="text/javascript" src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-<!-- END PAGE LEVEL PLUGINS -->
 
 <script src="/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 <script src="/admin/pages/scripts/table-managed.js"></script>
@@ -113,7 +94,6 @@ jQuery(document).ready(function() {
    Index.init(); // init index page
    Tasks.initDashboardWidget(); // init tash dashboard widget
    TableManaged.init();
-   ComponentsPickers.init();
 });
 </script>
 <!-- END JAVASCRIPTS -->
