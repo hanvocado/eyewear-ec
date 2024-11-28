@@ -1,3 +1,4 @@
+
 package com.eyewear.controllers.buyer;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.eyewear.DTO.CartItemDTO;
+
 import com.eyewear.entities.Buyer;
 import com.eyewear.entities.CartItem;
 import com.eyewear.entities.Product;
@@ -25,8 +26,6 @@ import com.eyewear.entities.ShoppingCart;
 import com.eyewear.services.BuyerService;
 import com.eyewear.services.CartService;
 import com.eyewear.services.ProductService;
-import com.eyewear.services.impl.CartServiceImpl;
-import com.eyewear.services.impl.ProductServiceImpl;
 
 @RequestMapping("/buyer/cart")
 @Controller

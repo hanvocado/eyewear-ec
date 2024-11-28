@@ -1,10 +1,12 @@
 package com.eyewear.controllers.buyer;
 
+import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eyewear.entities.Buyer;
 import com.eyewear.entities.Product;
@@ -29,47 +32,70 @@ import jakarta.validation.Valid;
 public class ProductReviewController {
 	
 	@Autowired
-	ProductReviewService reivewService;
+	ProductReviewService reviewService;
 	@Autowired
 	ProductService productService;
 	
 	@GetMapping("test")
 	public String index() {
-		return "test";
+		return "buyer/cart";
 	}
 	
+	
+	@GetMapping("/getReviews")
+    public String getReviews(
+            @RequestParam Long productId,
+            @RequestParam(required = false) Integer rating,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model) {
+        
+        Page<ProductReview> reviewPage = reviewService.findAll(PageRequest.of(page, size), productId, rating);
+        
+        model.addAttribute("reviews", reviewPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", reviewPage.getTotalPages());
+        model.addAttribute("rating", rating);
+        model.addAttribute("productId", productId);
+        
+        return "test2";
+    }
+	
+	
 	@GetMapping("")
-	public String review( @RequestParam("buyerId") Long buyerID, @RequestParam("productId") Long productId, Model model) {
-	    model.addAttribute("buyerId", buyerID);
+	public String review(@RequestParam("productId") Long productId, @RequestParam("orderId") Long orderId, Model model,Principal principal) {
+		Long buyerId = getCurrentBuyerId(principal);
 	    Product product = productService.findById(productId);
-	    model.addAttribute("product", product);
-	    return "/buyer/product-review";
-	}
-	@GetMapping("/editReview")
-	public String edit(@RequestParam("buyerId") Long buyerId, @RequestParam("productId") Long productId, Model model) {
-		Product product = productService.findById(productId);
-		Optional<ProductReview> review = reivewService.getReviewByBuyerAndProduct(buyerId, productId);
+	    
+	   Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
         
         if (review.isPresent()) {
         	ProductReview review2 =review.get();
         	model.addAttribute("review",review2);
         }
-		model.addAttribute("product",product);
-		return "/buyer/product-review";
+	    model.addAttribute("product", product);
+	    model.addAttribute("buyerId",buyerId);
+	    model.addAttribute("orderId",orderId);
+	    return "buyer/product-review";
 	}
+	
+	private Long getCurrentBuyerId(Principal principal) {
+        // TODO: Implement logic to get current buyer id from Principal
+        return 1L; // Temporary return
+    }
 
 	
 	@PostMapping("/save")
-	public ModelAndView saveOrUpdateReview(ModelMap model, @Valid @ModelAttribute("review") ProductReview review,
-	        @RequestParam("buyerId") Long buyerId, @RequestParam("productId") Long productId,
+	public String saveOrUpdateReview(RedirectAttributes redirectAttributes, @Valid @ModelAttribute("review") ProductReview review,
+			Principal principal, @RequestParam("productId") Long productId, @RequestParam("orderId") Long orderId,
 	        BindingResult result) {
 
 	    // Kiểm tra lỗi xác thực
 	    if (result.hasErrors()) {
-	        model.addAttribute("message", "Validation errors occurred.");
-	        return new ModelAndView("review", model); 
+	    	redirectAttributes.addAttribute("message", "Validation errors occurred.");
+	        return "review"; 
 	    }
-
+	    Long buyerId = getCurrentBuyerId(principal);
 	    // Tạo đối tượng Buyer và Product từ buyerId và productId
 	    Buyer buyer = new Buyer();
 	    buyer.setId(buyerId);
@@ -80,22 +106,25 @@ public class ProductReviewController {
 	    review.setReviewDate(LocalDate.now());
 
 	    // Kiểm tra xem bài đánh giá đã tồn tại chưa
-	    Optional<ProductReview> Reviewold = reivewService.getReviewByBuyerAndProduct(buyerId, productId);
+	    Optional<ProductReview> Reviewold = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
 	    
 	    if (Reviewold.isPresent()) {
 	    	ProductReview existingReview =Reviewold.get();
 	        existingReview.setRating(review.getRating());
 	        existingReview.setReviewContent(review.getReviewContent());
 	        existingReview.setReviewDate(LocalDate.now());
-	        reivewService.save(existingReview);  // Cập nhật vào cơ sở dữ liệu
-	        model.addAttribute("message", "Review updated!");
+	        reviewService.save(existingReview);  // Cập nhật vào cơ sở dữ liệu
+	        redirectAttributes.addFlashAttribute("message", "Đã cập nhật đánh giá!");
 	    } else {
 	        // Thêm mới review nếu chưa tồn tại
-	    	reivewService.save(review);  // Thêm mới vào cơ sở dữ liệu
-	        model.addAttribute("message", "Review added!");
+	    	reviewService.save(review);  // Thêm mới vào cơ sở dữ liệu
+	    	redirectAttributes.addFlashAttribute("message", "Cảm ơn bạn đã dánh giá!");
 	    }
 
-	    return new ModelAndView("index", model); 
+	    return "redirect:/buyer/reviews?orderId=" + orderId 
+	    	    + "&buyerId=" + buyerId 
+	    	    + "&productId=" + product.getId();
+
 	}
 
 }
