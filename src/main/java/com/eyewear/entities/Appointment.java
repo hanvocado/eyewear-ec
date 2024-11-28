@@ -1,13 +1,19 @@
 package com.eyewear.entities;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import com.eyewear.utils.StringListConverter;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -17,11 +23,9 @@ public class Appointment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-    @Column(name = "from_date")
-	private LocalDateTime from;
+	private LocalDateTime start;
     
-    @Column(name = "to_date")
-	private LocalDateTime to;
+	private LocalDateTime end;
     
 	private LocalDateTime createdAt;
 	private String status;
@@ -29,11 +33,9 @@ public class Appointment {
 	@Column(length = 500)
 	private String message;
 
+	@Convert(converter = StringListConverter.class)
 	@Column(length = 500)
-	private String services;
-
-	@Column(length = 500)
-	private String images;
+	private List<String> services;
 	
 	@ManyToOne
 	@JoinColumn(name = "buyer_id", nullable = false)
@@ -42,4 +44,10 @@ public class Appointment {
 	@ManyToOne
 	@JoinColumn(name = "branch_id", nullable = false)
 	private Branch branch;
+	
+	@Transient
+	public String getFormattedTimeRange() {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+	    return start.format(formatter) + " - " + end.format(formatter);
+	}
 }

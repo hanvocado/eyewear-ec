@@ -2,6 +2,8 @@ package com.eyewear.controllers.buyer;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,17 +12,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eyewear.entities.Address;
+import com.eyewear.entities.Appointment;
 import com.eyewear.entities.Branch;
 import com.eyewear.entities.Buyer;
 import com.eyewear.services.AppointmentService;
 import com.eyewear.services.BranchService;
 import com.eyewear.services.BuyerService;
+import com.eyewear.utils.DateTimeProcessing;
 import com.eyewear.utils.ServiceType;
 
 @Controller
@@ -32,7 +39,7 @@ public class BookingController {
 
 	@Autowired
 	private BuyerService buyerService;
-	
+
 	@Autowired
 	private AppointmentService appointmentService;
 
@@ -43,33 +50,46 @@ public class BookingController {
 				.orElseThrow(() -> new RuntimeException("Không tìm thấy buyer với ID: " + buyerId));
 
 		List<Branch> branchs = branchService.findAll();
+		
+		List<String> appointmentOpts = appointmentService.getFormattedAppointmentsScheduled();
 
 		List<ServiceType> services = Arrays.asList(ServiceType.values());
 
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("branchs", branchs);
 		model.addAttribute("services", services);
+        model.addAttribute("appointmentOpts", appointmentOpts);
 
 		return "buyer/booking";
 	}
 
-	@PostMapping("")
-    public String createAppointment(@RequestParam("branchId") Long branchId,
-                                    @RequestParam("from") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime from,
-                                    @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime to,
-                                    @RequestParam("message") String message,
-                                    @RequestParam(value = "services", required = false) List<String> services,
-                                    Principal principal) {
+	@PostMapping()
+	public ModelAndView bookingAppointment(ModelMap model,
+			@RequestParam(value = "appointmentType") String appointmentType,
+			@RequestParam(value = "appointmentTime", required = false) String appointmentTime,
+			@RequestParam(value = "customDate", required = false) String customDate,
+			@RequestParam(value = "customStartTime", required = false) String customStartTime,
+			@RequestParam(value = "customEndTime", required = false) String customEndTime,
+			@RequestParam(value = "selectedServices", required = false) List<String> services,
+			@RequestParam(value = "message", required = false) String message,
+			@RequestParam(value = "branch") Long branchId,
+			Principal principal) {
 
-        if (services != null && !services.isEmpty()) {
-            String servicesString = String.join(", ", services);
+		DateTimeProcessing dtProcess = new DateTimeProcessing();
+		LocalDateTime[] appointmentTimes = dtProcess.getAppointmentTimes(
+                appointmentType, appointmentTime, customDate, customStartTime, customEndTime);
 
-            Long buyerId = getCurrentBuyerId(principal);
-//            appointmentService.createAppointment(buyerId, branchId, from, to, message, servicesString);
-        }
+        LocalDateTime startDateTime = appointmentTimes[0];
+        LocalDateTime endDateTime = appointmentTimes[1];
 
-        return "redirect:/appointments/success";
-    }
+	    Long buyerId = getCurrentBuyerId(principal);
+	    
+	    Appointment appointment = appointmentService.bookAppointment(
+                startDateTime, endDateTime, message, services, buyerId, branchId);
+	    model.addAttribute("appointment", appointment);
+
+		return new ModelAndView("redirect:/buyer/booking/success", model);
+	}
 
 	private Long getCurrentBuyerId(Principal principal) {
 		return 1L;

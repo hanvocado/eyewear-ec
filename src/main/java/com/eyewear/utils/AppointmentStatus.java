@@ -1,9 +1,11 @@
 package com.eyewear.utils;
 
 public enum AppointmentStatus {
-	PENDING,
+	SCHEDULED,
 	APPROVED,
 	REJECTED,
+	FINISHED,
+	PENDING,	
 	CANCELLED
 }
 
