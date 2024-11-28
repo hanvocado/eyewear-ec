@@ -77,145 +77,108 @@
 								Custom Link</a></li>
 					</ul>
 
-					<div class="sidebar-filter margin-bottom-25">
-						<h2>Filter</h2>
-						<h3>Availability</h3>
-						<div class="checkbox-list">
-							<label><input type="checkbox"> Not Available (3)</label>
-							<label><input type="checkbox"> In Stock (26)</label>
-						</div>
+          </div>
+          <!-- END SIDEBAR -->
+                <!-- BEGIN CONTENT -->
+                <div class="col-md-9 col-sm-7">
+                    <div class="row list-view-sorting clearfix">
+                        <div class="col-md-10 col-sm-10">
+                            <form action="/common/products" method="get">
+                                <div class="pull-right">
+                                    <label class="control-label">Show:</label>
+                                    <select name="size" id="size" onchange="this.form.submit()">
+                                        <option ${productPage.size == 3 ? 'selected' : ''} value="3">3</option>
+                                        <option ${productPage.size == 5 ? 'selected' : ''} value="5">5</option>
+                                        <option ${productPage.size == 10 ? 'selected' : ''} value="10">10</option>
+                                        <option ${productPage.size == 15 ? 'selected' : ''} value="15">15</option>
+                                        <option ${productPage.size == 20 ? 'selected' : ''} value="20">20</option>
+                                    </select>
+                                </div>
+                            </form>
+                            <div class="pull-right">
+                                <label class="control-label">Sort&nbsp;By:</label>
+                                <select class="form-control input-sm">
+                                    <option value="#?sort=p.sort_order&amp;order=ASC" selected="selected">Default</option>
+                                    <option value="#?sort=pd.name&amp;order=ASC">Name (A - Z)</option>
+                                    <option value="#?sort=pd.name&amp;order=DESC">Name (Z - A)</option>
+                                    <option value="#?sort=p.price&amp;order=ASC">Price (Low &gt; High)</option>
+                                    <option value="#?sort=p.price&amp;order=DESC">Price (High &gt; Low)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FORM -->
+                    <!-- BEGIN PRODUCT LIST -->
+                    <div class="row product-list">
+                        <c:forEach var="product" items="${productPage.content}">
+                            <!-- PRODUCT ITEM START -->
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="product-item">
+                                    <div class="pi-img-wrapper">
+                                        <img src="${product.imageUrl}" class="img-responsive" alt="${product.name}">
+                                        <div>
+                                            <a href="${product.imageUrl}" class="btn btn-default fancybox-button">Zoom</a>
+                                            <a href="/common/products/detail" class="btn btn-default fancybox-fast-view">View</a>
+                                        </div>
+                                    </div>
+                                    <h3><a href="shop-item.html">${product.name}</a></h3>
 
-						<h3>Price</h3>
-						<p>
-							<label for="amount">Range:</label> <input type="text" id="amount"
-								style="border: 0; color: #f6931f; font-weight: bold;">
-						</p>
-						<div id="slider-range"></div>
-					</div>
-				</div>
-				<!-- END SIDEBAR -->
-				<!-- BEGIN CONTENT -->
-				<div class="col-md-9 col-sm-7">
-					<div class="row list-view-sorting clearfix">
-						<div class="col-md-10 col-sm-10">
-							<form action="/common/products" method="get">
-								<div class="pull-right">
-									<label class="control-label">Show:</label> <select name="size"
-										id="size" onchange="this.form.submit()">
-										<option ${productPage.size == 3 ? 'selected' : ''} value="3">3</option>
-										<option ${productPage.size == 5 ? 'selected' : ''} value="5">5</option>
-										<option ${productPage.size == 10 ? 'selected' : ''} value="10">10</option>
-										<option ${productPage.size == 15 ? 'selected' : ''} value="15">15</option>
-										<option ${productPage.size == 20 ? 'selected' : ''} value="20">20</option>
-									</select>
-								</div>
-							</form>
-							<div class="pull-right">
-								<label class="control-label">Sort&nbsp;By:</label> <select
-									class="form-control input-sm">
-									<option value="#?sort=p.sort_order&amp;order=ASC"
-										selected="selected">Default</option>
-									<option value="#?sort=pd.name&amp;order=ASC">Name (A -
-										Z)</option>
-									<option value="#?sort=pd.name&amp;order=DESC">Name (Z
-										- A)</option>
-									<option value="#?sort=p.price&amp;order=ASC">Price
-										(Low &gt; High)</option>
-									<option value="#?sort=p.price&amp;order=DESC">Price
-										(High &gt; Low)</option>
-									<option value="#?sort=rating&amp;order=DESC">Rating
-										(Highest)</option>
-									<option value="#?sort=rating&amp;order=ASC">Rating
-										(Lowest)</option>
-									<option value="#?sort=p.model&amp;order=ASC">Model (A
-										- Z)</option>
-									<option value="#?sort=p.model&amp;order=DESC">Model (Z
-										- A)</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<!-- FORM -->
-					<!-- BEGIN PRODUCT LIST -->
-					<!-- Toast Notification -->
-<c:if test="${not empty successMessage}">
-    <div class="flash-message alert alert-success">
-        <strong>${successMessage}</strong> 
-    </div>
-</c:if>
-
-<c:if test="${not empty errorMessage}">
-    <div class="flash-message alert alert-danger">
-        <strong>Lỗi:</strong> ${errorMessage}
-    </div>
-</c:if>
-
-
-					<div class="row product-list">
-						<c:forEach var="product" items="${productPage.content}">
-							<!-- PRODUCT ITEM START -->
-							<div class="col-md-4 col-sm-6 col-xs-12">
-								<div class="product-item">
-									<div class="pi-img-wrapper">
-										<img src="${product.imageUrl}" class="img-responsive"
-											alt="${product.name}">
-										<div>
-											<a href="${product.imageUrl}"
-												class="btn btn-default fancybox-button">Zoom</a> <a
-												href="#product-pop-up"
-												class="btn btn-default fancybox-fast-view">View</a>
-										</div>
+                                    <h4> ${product.brand}</h4>
+									<div class="pi-price">
+										<fmt:formatNumber value="${product.price}" type="number"
+											minFractionDigits="0" maxFractionDigits="1" />
 									</div>
-									<h3>
-										<a href="shop-item.html">${product.name}</a>
-									</h3>
-									<div class="pi-price">${product.price}</div>
-
-									<a
-										href="<c:url value='/buyer/cart/addCartItem?productID=${product.id}'/>"
-										class="btn btn-default add2cart">Add to cart</a>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
-					<!-- END PRODUCT ITEM LIST -->
-
-					<!-- BEGIN PAGINATOR -->
+									<a href="<c:url value='/buyer/cart/addCartItem?productID=${product.id}'/>" class="btn btn-default add2cart">Add to cart</a>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <!-- END PRODUCT ITEM LIST -->
+                    
+                    <!-- PHÂN TRANG -->
 					<div class="row">
 						<!-- Display information about the current items -->
-						<div class="col-md-4 col-sm-4 items-info">Items
-							${productPage.number * productPage.size + 1} to
+						<div class="col-md-4 col-sm-4 items-info">Sản phẩm 
+							${productPage.number * productPage.size + 1}-
 							${productPage.number * productPage.size + productPage.numberOfElements}
-							of ${productPage.totalElements} total</div>
-
+							trong tổng số ${productPage.totalElements} sản phẩm</div>
 						<!-- Pagination -->
 						<div class="col-md-8 col-sm-8">
 							<ul class="pagination pull-right">
-								<!-- Previous-->
-								<li><a
-									href="<c:url value='/common/products?size=${product.size}&page=${productPage.number - 1}'/>"
-									class="${productPage.number == 0 ? 'disabled' : ''}">&laquo;</a>
-								</li>
+								<!-- Previous page link -->
+								<c:if test="${productPage.number > 0}">
+									<li><a
+										href="<c:url value='/common/products?size=${productPage.size}&page=${productPage.number - 1}'/>"
+										class="prev-page">&laquo;</a></li>
+								</c:if>
+								<c:if test="${productPage.number == 0}">
+									<li class="disabled"><a href="javascript:void(0)"
+										class="prev-page">&laquo;</a></li>
+								</c:if>
 
-								<!-- Page number-->
+								<!-- Page numbers -->
 								<c:forEach items="${pageNumbers}" var="pageNumber">
 									<li
 										class="${pageNumber == productPage.number + 1 ? 'page-item active' : 'page-item'}">
 										<a
-										href="<c:url value='/common/products?size=${product.size}&page=${pageNumber}'/>">
+										href="<c:url value='/common/products?size=${productPage.size}&page=${pageNumber - 1}'/>">
 											${pageNumber} </a>
 									</li>
 								</c:forEach>
 
 								<!-- Next page link -->
-								<li><a
-									href="<c:url value='/common/products?size=${product.size}&page=${productPage.number + 1}'/>"
-									class="${productPage.number == productPage.totalPages - 1 ? 'disabled' : ''}">&raquo;</a>
-								</li>
+								<c:if test="${productPage.number < productPage.totalPages - 1}">
+									<li><a
+										href="<c:url value='/common/products?size=${productPage.size}&page=${productPage.number + 1}'/>"
+										class="next-page">&raquo;</a></li>
+								</c:if>
+								<c:if test="${productPage.number == productPage.totalPages - 1}">
+									<li class="disabled"><a href="javascript:void(0)"
+										class="next-page">&raquo;</a></li>
+								</c:if>
 							</ul>
 						</div>
 					</div>
-
 					<!-- END PAGINATOR -->
 				</div>
 				<!-- END CONTENT -->

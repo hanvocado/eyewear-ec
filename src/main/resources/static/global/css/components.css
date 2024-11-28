@@ -12641,9 +12641,22 @@ Purple Soft
   opacity: 1;
   filter: alpha(opacity=100);
 }
+.filter-button-container {
+    margin-top: 20px; /* Khoảng cách trên nút */
+  }
 .dashboard-stat.purple-soft .more {
   color: #FFFFFF;
   background-color: #7d6ba1;
+}
+.product-item h3 {
+    height: 40px; /* Cố định chiều cao tên sản phẩm */
+    overflow: hidden; /* Cắt chữ nếu dài hơn khung */
+    text-overflow: ellipsis; /* Hiển thị "..." nếu quá dài */
+    white-space: nowrap;
+}
+
+.product-item h4 {
+    height: 20px; /* Cố định chiều cao thương hiệu */
 }
 
 /* General Element */
@@ -12671,7 +12684,6 @@ Transparent Button
   background: transparent;
   color: #888;
 }
-
 
         .container-rv {
             max-width: 800px;
