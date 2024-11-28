@@ -1,6 +1,6 @@
 package com.eyewear.exceptions;
 
-import com.eyewear.dto.request.ApiResponse;
+import com.eyewear.DTO.request.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

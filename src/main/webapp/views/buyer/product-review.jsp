@@ -2,12 +2,29 @@
 <%@ include file="/common/taglibs.jsp"%>
  
 
+	
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<c:if test="${not empty message}">
+    <script>
+        Swal.fire({
+            title: 'Thông báo',
+            text: "<c:out value='${message}' />",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Chuyển hướng tới controller
+                window.location.href = '<c:url value="/buyer/orders/${orderId}" />';
+            }
+        });
+    </script>
+</c:if>
 
   <div class="container-rv">
     <h2 class="rv-title">Product Review</h2>
     <form class="rv-form" action="/buyer/reviews/save" method="POST">
-    	<input type="hidden" name="buyerId" value="${review.buyer.id != null ? review.buyer.id : buyerId}">
-
+    	<input type="hidden" name="buyerId" >
+		<input type="hidden" name="orderId" value="${orderId }">
         <input type="hidden" name="productId" value="${product.id}">
 
         <table>
@@ -57,7 +74,7 @@
         <textarea id="review" name="reviewContent" class="rv-textarea" placeholder="Write your review here...">${review.reviewContent }</textarea>
 	
 		<button type="submit" class="btn btn-primary btn-sm">
-    		${buyerId == null ? 'Update' : 'Insert'}
+    		${review.buyer.id !=null ? 'Update' : 'Add'}
 		</button>
 
     </form>
