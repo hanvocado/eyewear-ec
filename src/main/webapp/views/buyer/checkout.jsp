@@ -108,10 +108,10 @@
 													<td class="checkout-quantity"><strong><span>${i.quantity }</span></strong> <input
 														type="hidden" name="quantities[${status.index}]" value="${i.quantity }" />
 													</td>
-													<td class="checkout-price"><strong><span>$</span>${i.product.price}</strong>
+													<td class="checkout-price"><strong><span>₫</span>${i.product.price}</strong>
 														<input type="hidden" name="prices[${status.index}]"
 														value="${i.product.price}" /></td>
-													<td class="checkout-total"><strong><span>$</span>${i.product.price * i.quantity}</strong></td>
+													<td class="checkout-total"><strong><span>₫</span>${i.product.price * i.quantity}</strong></td>
 												</tr>
 												
 												<c:set var="totalPrice"
@@ -155,16 +155,16 @@
 
 									<div class="checkout-total-block">
 										<ul>
-											<li><em>Sub total</em> <strong class="price"><span>$</span>${totalPrice}</strong>
+											<li><em>Sub total</em> <strong class="price"><span>₫</span>${totalPrice}</strong>
 											</li>
-											<li><em>Shipping cost</em> <strong class="price"><span>$</span>3.00</strong>
+											<li><em>Shipping cost</em> <strong class="price"><span>₫</span>3.00</strong>
 											</li>
-											<li><em>Eco Tax (-2.00)</em> <strong class="price"><span>$</span>3.00</strong>
+											<li><em>Eco Tax (-2.00)</em> <strong class="price"><span>₫</span>3.00</strong>
 											</li>
-											<li><em>VAT (17.5%)</em> <strong class="price"><span>$</span>3.00</strong>
+											<li><em>VAT (17.5%)</em> <strong class="price"><span>₫</span>3.00</strong>
 											</li>
 											<li class="checkout-total-price"><em>Total</em> <strong
-												class="price" ><span>$</span>${totalPrice+9}</strong></li>
+												class="price" ><span>₫</span>${totalPrice+9}</strong></li>
 												
 										</ul>
 									</div>

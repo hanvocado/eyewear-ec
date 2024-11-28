@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eyewear.entities.Buyer;
 import com.eyewear.entities.Product;
@@ -62,7 +63,7 @@ public class ProductReviewController {
 	
 	
 	@GetMapping("")
-	public String review(@RequestParam("productId") Long productId, Model model,Principal principal) {
+	public String review(@RequestParam("productId") Long productId, @RequestParam("orderId") Long orderId, Model model,Principal principal) {
 		Long buyerId = getCurrentBuyerId(principal);
 	    Product product = productService.findById(productId);
 	    
@@ -74,21 +75,10 @@ public class ProductReviewController {
         }
 	    model.addAttribute("product", product);
 	    model.addAttribute("buyerId",buyerId);
+	    model.addAttribute("orderId",orderId);
 	    return "buyer/product-review";
 	}
-	@GetMapping("/editReview")
-	public String edit(Principal principal, @RequestParam("productId") Long productId, Model model) {
-		Product product = productService.findById(productId);
-		Long buyerId = getCurrentBuyerId(principal);
-		Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
-        
-        if (review.isPresent()) {
-        	ProductReview review2 =review.get();
-        	model.addAttribute("review",review2);
-        }
-		model.addAttribute("product",product);
-		return "/buyer/product-review";
-	}
+	
 	private Long getCurrentBuyerId(Principal principal) {
         // TODO: Implement logic to get current buyer id from Principal
         return 1L; // Temporary return
@@ -96,14 +86,14 @@ public class ProductReviewController {
 
 	
 	@PostMapping("/save")
-	public ModelAndView saveOrUpdateReview(ModelMap model, @Valid @ModelAttribute("review") ProductReview review,
-			Principal principal, @RequestParam("productId") Long productId,
+	public String saveOrUpdateReview(RedirectAttributes redirectAttributes, @Valid @ModelAttribute("review") ProductReview review,
+			Principal principal, @RequestParam("productId") Long productId, @RequestParam("orderId") Long orderId,
 	        BindingResult result) {
 
 	    // Kiểm tra lỗi xác thực
 	    if (result.hasErrors()) {
-	        model.addAttribute("message", "Validation errors occurred.");
-	        return new ModelAndView("review", model); 
+	    	redirectAttributes.addAttribute("message", "Validation errors occurred.");
+	        return "review"; 
 	    }
 	    Long buyerId = getCurrentBuyerId(principal);
 	    // Tạo đối tượng Buyer và Product từ buyerId và productId
@@ -124,14 +114,17 @@ public class ProductReviewController {
 	        existingReview.setReviewContent(review.getReviewContent());
 	        existingReview.setReviewDate(LocalDate.now());
 	        reviewService.save(existingReview);  // Cập nhật vào cơ sở dữ liệu
-	        model.addAttribute("message", "Review updated!");
+	        redirectAttributes.addFlashAttribute("message", "Đã cập nhật đánh giá!");
 	    } else {
 	        // Thêm mới review nếu chưa tồn tại
 	    	reviewService.save(review);  // Thêm mới vào cơ sở dữ liệu
-	        model.addAttribute("message", "Review added!");
+	    	redirectAttributes.addFlashAttribute("message", "Cảm ơn bạn đã dánh giá!");
 	    }
 
-	    return new ModelAndView("redirect:/buyer/orders/history", model); 
+	    return "redirect:/buyer/reviews?orderId=" + orderId 
+	    	    + "&buyerId=" + buyerId 
+	    	    + "&productId=" + product.getId();
+
 	}
 
 }

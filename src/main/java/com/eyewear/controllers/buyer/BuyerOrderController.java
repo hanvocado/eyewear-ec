@@ -17,8 +17,10 @@ import com.eyewear.entities.CartItem;
 import com.eyewear.entities.Order;
 import com.eyewear.entities.OrderDetail;
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductReview;
 import com.eyewear.services.CartService;
 import com.eyewear.services.OrderService;
+import com.eyewear.services.ProductReviewService;
 import com.eyewear.services.ProductService;
 
 import java.security.Principal;
@@ -37,6 +39,8 @@ public class BuyerOrderController {
 	ProductService productService;
     @Autowired
     CartService cartService;
+    @Autowired
+    ProductReviewService reviewService;
     
     // Hiển thị danh sách/lịch sử đơn hàng (gộp 2 phương thức getPurchaseHistory và getMyOrders)
     @GetMapping({"/my-orders", "/history"})  // Hỗ trợ cả 2 URL pattern
@@ -52,6 +56,15 @@ public class BuyerOrderController {
     public String getOrderDetail(@PathVariable Long orderId, Model model, Principal principal) {
         Long buyerId = getCurrentBuyerId(principal);
         Order order = orderService.getOrderDetail(orderId, buyerId);
+        List<Long> ProductReviewed = new ArrayList<>();
+        for(OrderDetail detail: order.getItems()) {
+        	Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, detail.getProduct().getId());
+            
+            if (review.isPresent()) {
+            	ProductReviewed.add(detail.getProduct().getId());
+            }
+        }
+        model.addAttribute("proreviewed",ProductReviewed);
         model.addAttribute("order", order);
         return "buyer/order-detail";
     }

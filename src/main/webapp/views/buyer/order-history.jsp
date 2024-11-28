@@ -37,7 +37,7 @@
                         <td>${order.orderId}</td>
                         <td>${order.orderAt}</td>
                         <td>
-                            <fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="VND"/>
+                            <fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="₫"/>
                         </td>
                         <td>${order.status}</td>
                         <td>
