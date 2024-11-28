@@ -107,7 +107,19 @@
                             </div>
                         </div>
                     </div>
-                    <!-- FORM -->
+                    <!-- Toast Notification -->
+                    <c:if test="${not empty successMessage}">
+                      <div class="flash-message alert alert-success">
+                          <strong>${successMessage}</strong> 
+                      </div>
+                  </c:if>
+                  
+                  <c:if test="${not empty errorMessage}">
+                      <div class="flash-message alert alert-danger">
+                          <strong>Lỗi:</strong> ${errorMessage}
+                      </div>
+                  </c:if>
+                  <!-- Toast Notification -->
                     <!-- BEGIN PRODUCT LIST -->
                     <div class="row product-list">
                         <c:forEach var="product" items="${productPage.content}">
