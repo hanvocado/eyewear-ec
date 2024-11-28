@@ -3,7 +3,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        fetch('/manager', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer' + localStorage.token,
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Unauthorized');
+            })
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+    });
+    </script>
+    <meta charset="UTF-8">
 <title>Manager home</title>
 </head>
 <body>

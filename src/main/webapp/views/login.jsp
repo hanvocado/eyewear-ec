@@ -63,7 +63,7 @@
             .then(data => {
                 if (data.result.authenticated) {
                     const token = data.result.token;
-                    localStorage.setItem('authToken', token); // Lưu token vào localStorage
+                    localStorage.token = token; // Lưu token vào localStorage
                     alert('Đăng nhập thành công!');
                     window.location.href = '/'; // Điều hướng đến trang hồ sơ
                 } else {

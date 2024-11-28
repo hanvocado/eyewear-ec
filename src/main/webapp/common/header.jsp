@@ -1,6 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
+<script>
+	<%--const token = localStorage.getItem('authToken');--%>
+	<%--console.log(localStorage.getItem('authToken'));--%>
+	<%--console.log(token)--%>
+	<%--document.addEventListener('DOMContentLoaded', () => {--%>
+	<%--	fetch('/users/myInfo', {--%>
+	<%--		method: 'GET',--%>
+	<%--		headers: {--%>
+	<%--			'Authorization': 'Bearer ${token}', // Đưa token vào header--%>
+	<%--			'Content-Type': 'application/json'--%>
+	<%--		},--%>
+	<%--	})--%>
+	<%--			.then(response => {--%>
+	<%--				if (response.ok) {--%>
+	<%--					return response.json();--%>
+	<%--				}--%>
+	<%--				throw new Error('Unauthorized');--%>
+	<%--			})--%>
+	<%--			.then(data => console.log(data))--%>
+	<%--			.catch(error => console.error(error));--%>
+
+	<%--});--%>
+
+	const token = localStorage.getItem('token'); // Lấy token từ localStorage
+	console.log(token)
+	if (token) {
+		// Gửi yêu cầu GET với Bearer token trong header
+		fetch('http://localhost:8080/manager', {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${token}`,
+			},
+		})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();  // Giải mã dữ liệu JSON từ server
+				})
+				.then(data => {
+					// Xử lý dữ liệu trả về khi thành công
+					console.log("SUCCESS: ", data);  // In dữ liệu trả về ra console
+					// Cập nhật nội dung trong HTML
+
+				})
+				.catch(error => {
+					// Xử lý khi có lỗi xảy ra
+					console.error("ERROR: ", error);  // In lỗi ra console
+				});
+	} else {
+		console.error("Token không tồn tại trong localStorage");
+	}
+</script>
 <!-- BEGIN STYLE CUSTOMIZER -->
 <div class="color-panel hidden-sm">
 	<div class="color-mode-icons icon-color"></div>
@@ -35,7 +88,8 @@
                 <div class="col-md-6 col-sm-6 additional-nav">
                     <ul class="list-unstyled list-inline pull-right">
                         <li><a href="/login">Log In</a></li>
-                        <li><a href="/register">Registration</a></li>
+						<li><a href="/manager">Manager</a></li>
+						<li><a href="/register">Registration</a></li>
                     </ul>
                 </div>
                 <!-- END TOP BAR MENU -->

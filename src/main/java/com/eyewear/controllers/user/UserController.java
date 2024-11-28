@@ -22,7 +22,6 @@ public class UserController {
         ApiResponse<User> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(userService.createRequest(request));
-
         return apiResponse;
     }
 
