@@ -13,7 +13,11 @@ import org.springframework.http.MediaType;
 import com.eyewear.repositories.BranchRepository;
 import com.eyewear.repositories.ProductRepository;
 import com.eyewear.services.RevenueService;
+import com.itextpdf.text.DocumentException;
 
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -77,37 +81,37 @@ public class RevenueStatisticsController {
         return "manager/revenue-statistic";
     }
     
-    @PostMapping("/export")
-    public ResponseEntity<Resource> exportReport(
-            @RequestParam(required = false) Long branchId,
-            @RequestParam(required = false) Long productId,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-            @RequestParam String fileType) {
-        
-        try {
-            LocalDateTime startDateTime = startDate.atStartOfDay();
-            LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
-            
-            Resource file = revenueService.generateReportFile(
-                branchId, productId, startDateTime, endDateTime, fileType);
-                
-            String contentType = fileType.equalsIgnoreCase("excel") 
-                ? "application/vnd.ms-excel" 
-                : "application/pdf";
-                
-            String filename = String.format("revenue-report-%s.%s", 
-                startDate, fileType.toLowerCase());
-            
-            return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, 
-                    "attachment; filename=\"" + filename + "\"")
-                .body(file);
-                
-        } catch (Exception e) {
-            // Handle error appropriately
-            return ResponseEntity.internalServerError().build();
-        }
+    @GetMapping("/export/{type}")
+    public void exportReport(
+           @PathVariable String type,
+           @RequestParam(required = false) Long branchId,
+           @RequestParam(required = false) Long productId,
+           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+           HttpServletResponse response) throws IOException {
+       
+       response.setCharacterEncoding("UTF-8");
+
+       if ("excel".equalsIgnoreCase(type)) {
+           response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+           response.setHeader("Content-Disposition", "attachment; filename=revenue-report.xlsx");
+       } else {
+           response.setContentType("application/pdf; charset=UTF-8");
+           response.setHeader("Content-Disposition", "attachment; filename=revenue-report.pdf");
+       }
+
+       try {
+           LocalDateTime startDateTime = startDate.atStartOfDay();
+           LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+           
+           revenueService.writeReportToStream(
+               branchId, productId, startDateTime, endDateTime,
+               type, response.getOutputStream());
+               
+           response.getOutputStream().flush();
+       } catch (Exception e) {
+           response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+           response.getWriter().write("Error generating report: " + e.getMessage());
+       }
     }
 }

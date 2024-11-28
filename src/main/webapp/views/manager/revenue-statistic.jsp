@@ -6,11 +6,9 @@
 <div class="container-fluid">
     <h2>Thống kê doanh thu</h2>
 
-    <!-- Form lọc -->
     <div class="card-body">
-        <form action="${pageContext.request.contextPath}/manager/revenue/data" method="GET">
+        <form action="${pageContext.request.contextPath}/manager/revenue/data" method="GET" id="revenueForm">
             <div class="row">
-                <!-- Chi nhánh -->
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="branchId">Chi nhánh</label>
@@ -25,7 +23,6 @@
                     </div>
                 </div>
 
-                <!-- Sản phẩm -->
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="productId">Sản phẩm</label>
@@ -40,7 +37,6 @@
                     </div>
                 </div>
 
-                <!-- Từ ngày -->
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="startDate">Từ ngày</label>
@@ -49,7 +45,6 @@
                     </div>
                 </div>
 
-                <!-- Đến ngày -->
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="endDate">Đến ngày</label>
@@ -59,21 +54,20 @@
                 </div>
             </div>
 
-            <!-- Nút hành động -->
             <div class="mt-3">
                 <button type="submit" class="btn btn-primary">Xem báo cáo</button>
-                <button type="button" class="btn btn-secondary" onclick="exportReport('excel')">Xuất Excel</button>
-                <button type="button" class="btn btn-secondary" onclick="exportReport('pdf')">Xuất PDF</button>
+                <a href="${pageContext.request.contextPath}/manager/revenue/export/excel?${pageContext.request.queryString}" 
+                   class="btn btn-secondary">Xuất Excel</a>
+                <a href="${pageContext.request.contextPath}/manager/revenue/export/pdf?${pageContext.request.queryString}" 
+                   class="btn btn-secondary">Xuất PDF</a>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Hiển thị kết quả -->
 <c:if test="${not empty revenueData}">
     <div class="card mt-4">
         <div class="card-body">
-            <!-- Tổng doanh thu -->
             <div class="row mb-4">
                 <div class="col">
                     <h4>Tổng doanh thu: 
@@ -83,7 +77,6 @@
                 </div>
             </div>
 
-            <!-- Thống kê theo sản phẩm nếu có -->
             <c:if test="${not empty revenueData.productStatistics}">
                 <div class="row mb-4">
                     <div class="col">
@@ -97,7 +90,6 @@
                 </div>
             </c:if>
 
-            <!-- Thống kê theo chi nhánh nếu có -->
             <c:if test="${not empty revenueData.branchStatistics}">
                 <div class="row mb-4">
                     <div class="col">
@@ -111,7 +103,6 @@
                 </div>
             </c:if>
 
-            <!-- Biểu đồ -->
             <div class="row">
                 <div class="col">
                     <canvas id="revenueChart" style="width:100%; height:400px;"></canvas>
@@ -121,10 +112,8 @@
     </div>
 </c:if>
 
-<!-- Script cho biểu đồ và xuất báo cáo -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script>
-// Chỉ khởi tạo biểu đồ nếu có dữ liệu
 <c:if test="${not empty revenueData.chartData}">
     const ctx = document.getElementById('revenueChart').getContext('2d');
     new Chart(ctx, {
@@ -165,35 +154,4 @@
         }
     });
 </c:if>
-
-// Hàm xuất báo cáo
-function exportReport(fileType) {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '${pageContext.request.contextPath}/manager/revenue/export';
-    
-    // Thêm các tham số hiện tại
-    const params = {
-        branchId: document.getElementById('branchId').value,
-        productId: document.getElementById('productId').value,
-        startDate: document.getElementById('startDate').value,
-        endDate: document.getElementById('endDate').value,
-        fileType: fileType
-    };
-    
-    // Tạo input hidden cho mỗi tham số
-    for (const key in params) {
-        if (params[key]) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = params[key];
-            form.appendChild(input);
-        }
-    }
-    
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
-}
 </script>
