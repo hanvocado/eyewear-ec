@@ -4,6 +4,24 @@
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<c:if test="${not empty message}">
+    <script>
+        Swal.fire({
+            title: 'Thông báo',
+            text: "<c:out value='${message}' />",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+</c:if>
+
+
+<!-- test cart -->
+<form action="/buyer/cart" method="get">
+	<input type="text" name="cartID" >
+	<button type="submit">submit</button>
+</form>
 
 <form action="/buyer/orders/checkout" method="get">
     <table>
@@ -40,7 +58,7 @@
 </form>
 
 
-<form action="/reviews/editReview" method="get">
+<form action="/buyer/reviews" method="get">
 	<input type="text" name="buyerId" ></input>
 	<input type="text" name="productId" ></input>
 	<button type="submit">submit</button>

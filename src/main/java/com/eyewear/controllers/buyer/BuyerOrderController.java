@@ -13,9 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eyewear.entities.Buyer;
+import com.eyewear.entities.CartItem;
 import com.eyewear.entities.Order;
 import com.eyewear.entities.OrderDetail;
 import com.eyewear.entities.Product;
+import com.eyewear.services.CartService;
 import com.eyewear.services.OrderService;
 import com.eyewear.services.ProductService;
 
@@ -23,6 +25,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/buyer/orders")  // Thêm prefix /buyer để phân biệt với admin
@@ -32,6 +35,8 @@ public class BuyerOrderController {
     private OrderService orderService;
     @Autowired
 	ProductService productService;
+    @Autowired
+    CartService cartService;
     
     // Hiển thị danh sách/lịch sử đơn hàng (gộp 2 phương thức getPurchaseHistory và getMyOrders)
     @GetMapping({"/my-orders", "/history"})  // Hỗ trợ cả 2 URL pattern
@@ -80,41 +85,46 @@ public class BuyerOrderController {
 	}
 
 	@GetMapping("/checkout")
-	public ModelAndView placeOrder(@RequestParam(name = "selectedProducts") List<Long> listid,
+	public ModelAndView placeOrder(@RequestParam(name = "listCartIemId") List<Long> listid,
 			 ModelMap model) {
 
-		List<Product> pro = productService.getProductsById(listid);
+		List<CartItem> cart = new ArrayList<>();
+		for(Long id : listid) {
+			Optional<CartItem> fcart = cartService.findById(id);
+			cart.add(fcart.get());
+		}
 		
-		if (pro == null || pro.isEmpty()) {
+		if (cart == null || cart.isEmpty()) {
 
 			model.addAttribute("errorMessage", "No products found for the selected IDs.");
 			return new ModelAndView("error", model);
 		}
 
-		model.addAttribute("productList", pro);
+		model.addAttribute("cartList", cart);
 		return new ModelAndView("buyer/checkout", model); 
 	}
 	
 	
 	@PostMapping("/saveOrder")
-	public ModelAndView checkout(
+	public String checkout(
 	        @RequestParam List<Long> productIds,
 	        @RequestParam List<Integer> quantities,
+	        @RequestParam float totalPrice,
 	        @RequestParam List<Double> prices,
 	        @RequestParam(value = "CashOnDelivery", required = false) String CashOnDelivery,
 	        @RequestParam(value="address",required =false) String address,
 	        Principal principal,
-	        ModelMap model) {
+	        Model model) {
 	    	
 		// Kiểm tra giá trị CashOnDelivery
 	    if (CashOnDelivery == null || CashOnDelivery.trim().isEmpty()) {
-	    	return new ModelAndView("buyer/checkout",model);
+	    	return "buyer/checkout";
 	    }
 
 	    // Kiểm tra giá trị address
 	    if (address == null || address.trim().isEmpty()) {
 	       
-	        return new ModelAndView("buyer/checkout", model);
+	        return "buyer/checkout";
 	    }
 	    Long buyerId = getCurrentBuyerId(principal);
 		    Order order = new Order();
@@ -123,7 +133,7 @@ public class BuyerOrderController {
 		    order.setPaymentMethod(CashOnDelivery);
 		    Buyer buyer = new Buyer();
 		    buyer.setId(buyerId);
-		    //order.setTotalPrice(0);
+		    order.setTotalPrice(totalPrice);
 		    order.setBuyer(buyer);
 
 		
@@ -142,12 +152,14 @@ public class BuyerOrderController {
 	    order.setItems(orderDetails);
 
 	    // Lưu đơn hàng vào cơ sở dữ liệu
-	    orderService.placeOrder(order);
-	    model.addAttribute("message", "Order placed successfully!");
-	    return new ModelAndView("redirect:/buyer/orders/my-orders", model);
+	    try {
+	        orderService.placeOrder(order);
+	        model.addAttribute("message","Đặt hàng thành công!");
+	      
+	    } catch (Exception e) {
+	    	model.addAttribute("message","Đặt hàng thất bại!");
+	    }
+
+	    return "buyer/checkout";
 	}
-
-
-
-	
 }

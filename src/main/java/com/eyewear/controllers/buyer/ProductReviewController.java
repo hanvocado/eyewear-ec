@@ -2,10 +2,11 @@ package com.eyewear.controllers.buyer;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -36,15 +37,36 @@ public class ProductReviewController {
 	
 	@GetMapping("test")
 	public String index() {
-		return "test";
+		return "buyer/cart";
 	}
+	
+	
+	@GetMapping("/getReviews")
+    public String getReviews(
+            @RequestParam Long productId,
+            @RequestParam(required = false) Integer rating,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model) {
+        
+        Page<ProductReview> reviewPage = reviewService.findAll(PageRequest.of(page, size), productId, rating);
+        
+        model.addAttribute("reviews", reviewPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", reviewPage.getTotalPages());
+        model.addAttribute("rating", rating);
+        model.addAttribute("productId", productId);
+        
+        return "test2";
+    }
+	
 	
 	@GetMapping("")
 	public String review(@RequestParam("productId") Long productId, Model model,Principal principal) {
 		Long buyerId = getCurrentBuyerId(principal);
 	    Product product = productService.findById(productId);
 	    
-	    Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
+	   Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
         
         if (review.isPresent()) {
         	ProductReview review2 =review.get();
@@ -52,7 +74,7 @@ public class ProductReviewController {
         }
 	    model.addAttribute("product", product);
 	    model.addAttribute("buyerId",buyerId);
-	    return "/buyer/product-review";
+	    return "buyer/product-review";
 	}
 	@GetMapping("/editReview")
 	public String edit(Principal principal, @RequestParam("productId") Long productId, Model model) {

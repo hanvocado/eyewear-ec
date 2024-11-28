@@ -60,11 +60,14 @@
                             <td><fmt:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/></td>
                             <td><fmt:formatNumber value="${item.price * item.quantity}" type="currency" currencySymbol="₫"/></td>
                        		<td>
-                       			<form action="<c:url value='/buyer/reviews'/>" method="get">
-    <input type="hidden" name="buyerId" value="${order.buyer.id}">
-    <input type="hidden" name="productId" value="${item.product.id}">
-    <button type="submit" class="btn btn-primary btn-sm">Đánh giá</button>
-</form>
+                       			<form action="/buyer/reviews" method="get">
+    								<input type="hidden" name="buyerId" value="${order.buyer.id}">
+    								<input type="hidden" name="productId" value="${item.product.id}">
+    								<c:if test="${order.status.toLowerCase() == 'done'}">
+    									<button type="submit" class="btn btn-primary btn-sm">Đánh giá</button>
+    								</c:if>
+   	 								
+								</form>
 
                        		
                        		</td>

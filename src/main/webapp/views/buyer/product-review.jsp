@@ -6,7 +6,7 @@
   <div class="container-rv">
     <h2 class="rv-title">Product Review</h2>
     <form class="rv-form" action="/buyer/reviews/save" method="POST">
-    	<input type="hidden" name="buyerId" value="${review.buyer.id != null ? review.buyer.id : buyerId}">
+    	<input type="hidden" name="buyerId" >
 
         <input type="hidden" name="productId" value="${product.id}">
 
