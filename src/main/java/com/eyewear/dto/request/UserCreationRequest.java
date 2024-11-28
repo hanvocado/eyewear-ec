@@ -1,4 +1,4 @@
-package com.eyewear.dto.request;
+package com.eyewear.DTO.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.*;

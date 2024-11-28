@@ -1,7 +1,7 @@
 package com.eyewear.services.impl;
 
-import com.eyewear.dto.request.AuthenticationRequest;
-import com.eyewear.dto.request.IntrospectRequest;
+import com.eyewear.DTO.request.AuthenticationRequest;
+import com.eyewear.DTO.request.IntrospectRequest;
 import com.eyewear.entities.User;
 import com.eyewear.exceptions.AppException;
 import com.eyewear.exceptions.ErrorCode;

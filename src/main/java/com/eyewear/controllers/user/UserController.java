@@ -1,8 +1,8 @@
 package com.eyewear.controllers.user;
 
-import com.eyewear.dto.request.ApiResponse;
-import com.eyewear.dto.request.UserCreationRequest;
-import com.eyewear.dto.request.UserUpdateRequest;
+import com.eyewear.DTO.request.ApiResponse;
+import com.eyewear.DTO.request.UserCreationRequest;
+import com.eyewear.DTO.request.UserUpdateRequest;
 import com.eyewear.entities.User;
 import com.eyewear.services.UserService;
 import jakarta.validation.Valid;
