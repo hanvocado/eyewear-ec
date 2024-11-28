@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,5 +42,7 @@ public class Buyer {
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
-    // Getters and setters
+    @OneToOne(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ShoppingCart shoppingCart; // Một Buyer có một ShoppingCart
+  
 }

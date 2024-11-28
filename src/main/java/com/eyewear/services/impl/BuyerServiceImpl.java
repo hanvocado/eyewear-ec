@@ -18,6 +18,6 @@ public class BuyerServiceImpl implements BuyerService{
 	public Optional<Buyer> findById(Long id) {
 		return buyerRepository.findById(id);
 	}
-	
+
 	
 }

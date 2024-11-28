@@ -22,6 +22,7 @@ import com.eyewear.entities.Buyer;
 import com.eyewear.entities.CartItem;
 import com.eyewear.entities.Product;
 import com.eyewear.entities.ShoppingCart;
+import com.eyewear.services.BuyerService;
 import com.eyewear.services.CartService;
 import com.eyewear.services.ProductService;
 import com.eyewear.services.impl.CartServiceImpl;
@@ -35,7 +36,8 @@ public class CartController {
 	private CartService cartService;
 	@Autowired
 	private ProductService productService;
-
+	@Autowired
+	private BuyerService buyerService;
 	@GetMapping("")
 	public String viewCart(Model model, @RequestParam(name = "cartID", required = false) Long cartid) {
 		if (cartid == null) {
@@ -65,19 +67,10 @@ public class CartController {
 	}
 
 
-
-	@ModelAttribute("cartItemsForCartIcon")
-	public List<CartItem> populateCartItems() {
-
-		Long cartId = 1L;
-		ShoppingCart cart = cartService.findByCartId(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
-		return cart.getCartItems();
-	}
-
-	@ModelAttribute("cartTotalValue")
-	public double calculateCartTotalValue(@ModelAttribute("cartItemsForCartIcon") List<CartItem> cartItems) {
-		return cartItems.stream().mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity()).sum();
-	}
+//	@ModelAttribute("cartTotalValue")
+//	public double calculateCartTotalValue(@ModelAttribute("cartItemsForCartIcon") List<CartItem> cartItems) {
+//		return cartItems.stream().mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity()).sum();
+//	}
 
 	@GetMapping("/deleteCartItem")
 	public String deleteCart(Model model, @RequestParam("cartItemID") Long cartItemId,
@@ -95,18 +88,21 @@ public class CartController {
 	}
 
 	@GetMapping("/addCartItem")
-	public String addCartItem(@RequestParam("productID") Long productId, Model model) {
+	public String addCartItem(@RequestParam("productID") Long productId, Model model,RedirectAttributes redirectAttributes) {
 		// Tìm sản phẩm dựa trên ID
 		Product product = productService.findById(productId);
+		Buyer buyer = buyerService.findById(1L).orElseThrow(() -> new RuntimeException("Buyer not found"));
 		if (product != null) {
-
-			// Thêm sản phẩm vào giỏ hàng (giả sử CartService có phương thức addItemToCart)
-			cartService.addCartItem(null, productId, 1);
-
+			
+			// Thêm sản phẩm vào giỏ hàng
+			cartService.addCartItem(buyer, productId, 1);
+			redirectAttributes.addFlashAttribute("successMessage", "Thêm vật phẩm thành công!");
 		} else {
 			// model.addAttribute("error", "Product not found!");
+			  redirectAttributes.addFlashAttribute("errorMessage", "Sản phẩm không tìm thấy!");
 		}
 
-		return "buyer/cart";
+		//return "redirect:/buyer/cart?cartID="+ buyer.getShoppingCart().getCartId();
+		return "redirect:/common/products";
 	}
 }
