@@ -30,7 +30,7 @@ public class Buyer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    
+    private String name;
     private String username;
     private String email;
     private String phoneNumber;
@@ -38,6 +38,9 @@ public class Buyer {
 
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders;
+    
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    private List<Appointment> appointments;
 
     @OneToOne(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
     private ShoppingCart shoppingCart; // Một Buyer có một ShoppingCart

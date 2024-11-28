@@ -11,12 +11,13 @@ import com.eyewear.services.BuyerService;
 
 @Service
 public class BuyerServiceImpl implements BuyerService{
-	@Autowired
-	BuyerRepository buyerRepository;
+	@Autowired 
+	private BuyerRepository buyerRepository;
 
 	@Override
 	public Optional<Buyer> findById(Long id) {
 		return buyerRepository.findById(id);
-	} 
+	}
+
 	
 }

@@ -38,14 +38,32 @@
   <link href="/frontend/layout/css/style-responsive.css" rel="stylesheet">
   <link href="/frontend/layout/css/themes/red.css" rel="stylesheet" id="style-color">
   <link href="/frontend/layout/css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <!-- Theme styles END -->
+  
 
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link rel="stylesheet" type="text/css" href="/global/plugins/clockface/css/clockface.css"/>
+<link rel="stylesheet" type="text/css" href="/global/plugins/bootstrap-datepicker/css/datepicker3.css"/>
+<link rel="stylesheet" type="text/css" href="/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
+<link rel="stylesheet" type="text/css" href="/global/plugins/bootstrap-colorpicker/css/colorpicker.css"/>
+<link rel="stylesheet" type="text/css" href="/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
+<link rel="stylesheet" type="text/css" href="/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
+<!-- END PAGE LEVEL STYLES -->
+<!-- BEGIN THEME STYLES -->
+<link href="/global/css/components-rounded.css" id="style_components" rel="stylesheet" type="text/css">
+<link href="/global/css/plugins.css" rel="stylesheet" type="text/css">
+<link href="/admin/layout3/css/layout.css" rel="stylesheet" type="text/css">
+<link href="/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
+<link href="/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
+<!-- END THEME STYLES -->
+<link rel="shortcut icon" href="favicon.ico"/>
 
-<!-- Bootstrap CSS -->
+<!-- <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Bootstrap JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+Bootstrap JavaScript
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
 <style>
 .flash-message {
     position: fixed; /* Vị trí cố định trên màn hình */
@@ -150,88 +168,59 @@
 	<div>
 		<%@include file="/common/footer.jsp"%>
 	</div>
-	
-	<script src="/frontend/pages/scripts/checkout.js" type="text/javascript"></script>
 
+<script src="/frontend/pages/scripts/checkout.js" type="text/javascript"></script>	
+<script src="/frontend/layout/scripts/back-to-top.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script><!-- for slider-range -->
+<script src="/frontend/layout/scripts/layout.js" type="text/javascript"></script>
 	
-	<script>
-    function updateQuantity(cartItemId, newQuantity) {
-        fetch('cart/updateQuantity', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cartItemId: cartItemId,
-                quantity: newQuantity
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                //alert('Quantity updated successfully!');
-                // Optionally, update the total price dynamically
-                location.reload(); // Reload to reflect new total
-            } else {
-                alert('Failed to update quantity: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Something went wrong! Please try again.');
-        });
-    }
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log("DOM fully loaded and parsed");
+<script src="/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<script src="/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+<script src="/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+
+<!-- Load các plugin cần thiết -->
+<script src="/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script src="/global/plugins/clockface/js/clockface.js"></script>
+<script src="/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script src="/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<script src="/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+<!-- Metronic và các script liên quan -->
+<script src="/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="/admin/layout3/scripts/layout.js" type="text/javascript"></script>
+<script src="/admin/layout3/scripts/demo.js" type="text/javascript"></script>
+<script src="/admin/pages/scripts/components-pickers.js"></script>
+
+<!-- Các script khác -->
+<script src="/global/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script>
+<script src="/global/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js" type="text/javascript"></script>
+<script src="/global/plugins/zoom/jquery.zoom.min.js" type="text/javascript"></script>
+<script src="/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script>
+<script src="/global/plugins/rateit/src/jquery.rateit.js" type="text/javascript"></script>
+
+<!-- Khởi tạo -->
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        Metronic.init(); 
+        Layout.init(); 
+        Demo.init(); 
+        ComponentsPickers.init(); 
+        Layout.initOWL(); 
+        Layout.initTwitter();
+        Layout.initImageZoom(); 
+        Layout.initTouchspin(); 
+        Layout.initUniform(); 
+        Layout.initSliderRange(); 
     });
-
-    function decrement(id) {
-        let input = document.getElementById("product-quantity-" + id);
-
-        if (input && input.value > 1) {
-            input.value--; // Giảm số lượng
-            updateQuantity(id, input.value); // Cập nhật số lượng
-        }
-    }
-
-
-    function increment(id) {
-    	let input = document.getElementById("product-quantity-" + id);
-        input.value++;
-        updateQuantity(id, input.value);
-    }
 </script>
 
-	
-
-	<script src="/global/plugins/jquery.min.js" type="text/javascript"></script>
-    <script src="/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
-    <script src="/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>      
-    <script src="/frontend/layout/scripts/back-to-top.js" type="text/javascript"></script>
-    <script src="/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-    <!-- END CORE PLUGINS -->
-
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <script src="/global/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script>pop up
-    <script src="/global/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js" type="text/javascript"></script><!-- slider for products -->
-    <script src='/global/plugins/zoom/jquery.zoom.min.js' type="text/javascript"></script><!-- product zoom -->
-    <script src="/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script><!-- Quantity -->
-    <script src="/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
-    <script src="/global/plugins/rateit/src/jquery.rateit.js" type="text/javascript"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script><!-- for slider-range -->
-
-    <script src="/frontend/layout/scripts/layout.js" type="text/javascript"></script>
-    
-    <script type="text/javascript">
-        jQuery(document).ready(function() {
-            /* Layout.init(); */    
-            Layout.initOWL();
-            Layout.initTwitter();
-            Layout.initImageZoom();
-            Layout.initTouchspin();
-            Layout.initUniform();
-            Layout.initSliderRange();
-        });
-    </script>
 </body>
 </html>
