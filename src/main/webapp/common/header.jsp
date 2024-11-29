@@ -2,51 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
-<script>
-	<%--const token = localStorage.getItem('authToken');--%>
-	<%--console.log(localStorage.getItem('authToken'));--%>
-	<%--console.log(token)--%>
-	<%--document.addEventListener('DOMContentLoaded', () => {--%>
-	<%--	fetch('/users/myInfo', {--%>
-	<%--		method: 'GET',--%>
-	<%--		headers: {--%>
-	<%--			'Authorization': 'Bearer ${token}', // Đưa token vào header--%>
-	<%--			'Content-Type': 'application/json'--%>
-	<%--		},--%>
-	<%--	})--%>
-	<%--			.then(response => {--%>
-	<%--				if (response.ok) {--%>
-	<%--					return response.json();--%>
-	<%--				}--%>
-	<%--				throw new Error('Unauthorized');--%>
-	<%--			})--%>
-	<%--			.then(data => console.log(data))--%>
-	<%--			.catch(error => console.error(error));--%>
-
-	<%--});--%>
-
-	document.addEventListener('DOMContentLoaded', () => {
-		const token = localStorage.getItem('token');
-		if (!token) {
-			console.error("Token not found");
-			return;
-		}
-		console.log(token)
-
-		fetch('/manager', {
-			method: 'GET',
-			headers: {
-				'Authorization': `Bearer ${localStorage.getItem('token')?.trim()}`, // Đảm bảo token hợp lệ
-				'Content-Type': 'application/json'
-			}
-		})
-				.then(response => {
-					if (response.ok) {
-						return response.json();
-					}
-				})
-	});
-</script>
 <!-- BEGIN STYLE CUSTOMIZER -->
 <div class="color-panel hidden-sm">
 	<div class="color-mode-icons icon-color"></div>
@@ -80,7 +35,7 @@
                 <!-- BEGIN TOP BAR MENU -->
                 <div class="col-md-6 col-sm-6 additional-nav">
                     <ul class="list-unstyled list-inline pull-right">
-                        <li><a href="/login">Log In</a></li>
+                        <li><a href="/login_page">Log In</a></li>
 						<li><a href="/manager">Manager</a></li>
 						<li><a href="/register">Registration</a></li>
                     </ul>

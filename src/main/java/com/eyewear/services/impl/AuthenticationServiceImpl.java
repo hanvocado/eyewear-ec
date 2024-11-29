@@ -89,7 +89,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         Instant.now().plus(1, ChronoUnit.HOURS)
                                 .toEpochMilli()
                 ))
-                .claim("scope", user.getRoles())
+                .claim("roles", user.getRoles())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
