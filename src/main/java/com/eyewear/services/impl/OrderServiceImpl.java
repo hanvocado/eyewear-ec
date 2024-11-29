@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +26,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getOrdersByBuyer(Long buyerId) {
         return orderRepository.findAllByBuyerId(buyerId);
+    }
+    
+    public List<Order> getOrdersByBuyerAndStatus(Long buyerId, List<String> statuses) {
+        return orderRepository.findByBuyerIdAndStatusIn(buyerId, statuses);
+    }
+    
+    public List<Order> getHistoryOrdersByBuyer(Long buyerId) {
+    	return orderRepository.findByBuyerIdAndStatusIn(
+                buyerId, 
+                Arrays.asList("COMPLETED", "CANCELED")
+            );
     }
 
     @Override
