@@ -18,23 +18,32 @@ import lombok.NoArgsConstructor;
 @DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    private Long id;
-
-    @Column(length = 100, nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private double price;
-
-    private String description;
-    private String brand;
-    private String image; // Đường dẫn đến Cloudinary
-
-    @Transient
-    private String imageUrl; // URL sẽ được tạo động
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
+	
+	@Column(length=100, nullable = false)
+	private String name;
+	
+	@Column(nullable = false)
+	private double price;
+	
+	private String description;
+	
+	private String brand;
+		
+	private String image; // đường dẫn đến Cloudinary
+	
+	@Column(nullable=true)
+	private Float height;
+	
+	@Column(nullable=true)
+	private Float width;
+	
+	//không cần lưu trữ vào cơ sở dữ liệu
+	@Transient
+    private String imageUrl; // URL to be generated
 
     @ManyToOne
     @JoinColumn(name = "category_id")

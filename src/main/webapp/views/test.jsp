@@ -4,8 +4,26 @@
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<c:if test="${not empty message}">
+    <script>
+        Swal.fire({
+            title: 'Thông báo',
+            text: "<c:out value='${message}' />",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+</c:if>
 
-<form action="/order/checkout" method="get">
+
+<!-- test cart -->
+<form action="/buyer/cart" method="get">
+	<input type="text" name="cartID" >
+	<button type="submit">submit</button>
+</form>
+
+<form action="/buyer/orders/checkout" method="get">
     <table>
         <tr>
             <th class="checkout-image">Image</th>
@@ -14,7 +32,7 @@
             <th>Select</th>
             
         </tr>
-         <input type="text" name="buyerId" >
+         <input type="text" name="buyerId" value="${buyerId}">
         <c:forEach items="${list}" var="i">
       
             <tr>
@@ -40,14 +58,14 @@
 </form>
 
 
-<form action="/reviews/editReview" method="get">
+<form action="/buyer/reviews" method="get">
 	<input type="text" name="buyerId" ></input>
 	<input type="text" name="productId" ></input>
 	<button type="submit">submit</button>
 </form> 
 
 
-<form action="/order/cancelOrder">
+<form action="/buyer/orders/cancelOrder">
 <div class="container">
     <h2>Đơn hàng của tôi</h2>
     <div class="table-responsive">

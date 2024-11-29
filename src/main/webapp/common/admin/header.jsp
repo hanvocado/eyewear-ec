@@ -367,6 +367,33 @@
 								</div>
 							</li>
 						</ul></li>
+						
+					<!-- Quản lý lịch hẹn -->
+						<li class="menu-dropdown mega-menu-dropdown"><a
+						data-hover="megamenu-dropdown" data-close-others="true"
+						data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+							Quản lý lịch hẹn <i class="fa fa-angle-down"></i>
+					</a>
+						<ul class="dropdown-menu" style="min-width: 190px">
+							<li>
+								<div class="mega-menu-content">
+									<div class="row">
+										<ul class="mega-menu-submenu">
+											<li><a href="<c:url value="/manager/schedule/calendar"/>"
+												class="iconify"> <i class="fa-regular fa-calendar-days"></i> Lịch trình
+											</a></li>
+											<li><a href="<c:url value="/manager/schedule/request"/>"
+												class="iconify"> <i class="icon-paper-plane"></i> Lịch hẹn đang chờ
+											</a></li>
+											<li><a href="<c:url value="/manager/schedule/list"/>"
+												class="iconify"> <i class="icon-paper-plane"></i> Danh sách lịch hẹn
+											</a></li>
+										</ul>
+									</div>
+								</div>
+							</li>
+						</ul></li>
+						
 						<li class="menu-dropdown mega-menu-dropdown">
 							<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
 							Kho <i class="fa fa-angle-down"></i>
@@ -392,7 +419,7 @@
 								</li>
 							</ul>
 						</li>	
-					<li class="menu-dropdown mega-menu-dropdown "><a
+					<!-- <li class="menu-dropdown mega-menu-dropdown "><a
 						data-hover="megamenu-dropdown" data-close-others="true"
 						data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
 							Features <i class="fa fa-angle-down"></i>
@@ -474,9 +501,9 @@
 									</div>
 								</div>
 							</li>
-						</ul></li>
+						</ul></li> -->
 
-					<li class="menu-dropdown classic-menu-dropdown "><a
+					<!-- <li class="menu-dropdown classic-menu-dropdown "><a
 						data-hover="megamenu-dropdown" data-close-others="true"
 						data-toggle="dropdown" href="javascript:;"> Extra <i
 							class="fa fa-angle-down"></i>
@@ -563,7 +590,7 @@
 											class="icon-bar-chart"></i> Item 5
 									</a></li>
 								</ul></li>
-						</ul></li>
+						</ul></li> -->
 
 				</ul>
 			</div>

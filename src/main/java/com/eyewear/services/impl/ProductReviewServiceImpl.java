@@ -20,32 +20,6 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 	@Autowired
 	ProductReviewRepository reviewRepo;
 	
-	@Override
-	public void delete(ProductReview entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-	
-	@Override
-	public Optional<ProductReview> findById(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
-	@Override
-	public Page<ProductReview> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ProductReview> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 
 	@Override
@@ -54,7 +28,7 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 		return null;
 	}
 
-
+	
 
 	@Override
 	public boolean editReview(int reviewId) {
@@ -71,10 +45,40 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 	}
 
 
+	@Override
+	public Page<ProductReview> findAll(Pageable pageable, Long productId) {
+		// TODO Auto-generated method stub
+		return reviewRepo.findByProductId(productId, pageable);
+	}
+
+
+
+	@Override
+	public List<ProductReview> findAll(Long productId) {
+		// TODO Auto-generated method stub
+		return reviewRepo.findByProductId(productId);
+	}
+
+
+
+	@Override
+	public List<ProductReview> findAll(Long productId, int rating) {
+		// TODO Auto-generated method stub
+		return reviewRepo.findByProductIdAndRating(productId, rating);
+	}
 
 	@Override
 	public Optional<ProductReview> getReviewByBuyerAndProduct(Long buyerId, Long productId) {
 		return reviewRepo.findByBuyerIdAndProductId(buyerId, productId);
 	}
 	
+	
+	@Override
+    public Page<ProductReview> findAll(Pageable pageable, Long productId, Integer rating) {
+        if (rating != null) {
+            return reviewRepo.findByProductIdAndRating(productId, rating, pageable);
+        } else {
+            return reviewRepo.findByProductId(productId, pageable);
+        }
+    }
 }

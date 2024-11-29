@@ -46,8 +46,8 @@ public class OrderManagementController {
     // Cập nhật trạng thái nhiều đơn hàng
     @PostMapping("/bulk-update")
     public String bulkUpdateStatus(
-            @RequestParam("orderIds[]") List<Long> orderIds,
-            @RequestParam String newStatus,
+            @RequestParam("orderIds") List<Long> orderIds,
+            @RequestParam("bulkStatus") String newStatus,  // Đổi tên parameter
             RedirectAttributes redirectAttrs) {
         try {
             orderService.bulkUpdateOrderStatus(orderIds, newStatus);

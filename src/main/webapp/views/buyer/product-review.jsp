@@ -2,18 +2,35 @@
 <%@ include file="/common/taglibs.jsp"%>
  
 
-      
-
+	
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<c:if test="${not empty message}">
+    <script>
+        Swal.fire({
+            title: 'Thông báo',
+            text: "<c:out value='${message}' />",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Chuyển hướng tới controller
+                window.location.href = '<c:url value="/buyer/orders/${orderId}" />';
+            }
+        });
+    </script>
+</c:if>
 
   <div class="container-rv">
     <h2 class="rv-title">Product Review</h2>
-    <form class="rv-form" action="/reviews/save" method="POST">
-    	<input type="text" name="buyerId" value="${review.buyer.id }">
+    <form class="rv-form" action="/buyer/reviews/save" method="POST">
+    	<input type="hidden" name="buyerId" >
+		<input type="hidden" name="orderId" value="${orderId }">
         <input type="hidden" name="productId" value="${product.id}">
 
         <table>
             <tr>
                 <th class="checkout-image">Image</th>
+                <th class="checkout-image">Name</th>
                 <th class="checkout-description">Description</th>
                 <th class="checkout-price">Price</th>
             </tr>
@@ -22,8 +39,9 @@
                 <td class="checkout-image">
                     <a href="#"><img src="${product.image }  " alt="image"></a>
                 </td>
+                <td><p><strong>${product.name}</strong></p></td>
                 <td class="checkout-description">
-                    <h3><a href="#"></a></h3>
+                    
                     <p><strong>${product.description}</strong></p>
                     <em></em>
                 </td>
@@ -55,6 +73,9 @@
         <label class="rv-label" for="review">Your Feedback:</label><br>
         <textarea id="review" name="reviewContent" class="rv-textarea" placeholder="Write your review here...">${review.reviewContent }</textarea>
 	
-        <button type="submit" class="rv-submit">Submit</button>
+		<button type="submit" class="btn btn-primary btn-sm">
+    		${review.buyer.id !=null ? 'Update' : 'Add'}
+		</button>
+
     </form>
 </div>
