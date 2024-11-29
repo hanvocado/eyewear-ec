@@ -38,4 +38,6 @@ public interface ProductService {
 	void update(@Valid Product product);
 
 	Page<Product> findByNameContaining(String name, Pageable pageable);
+
+	List<Product> findListById(Iterable<Long> id);
 }

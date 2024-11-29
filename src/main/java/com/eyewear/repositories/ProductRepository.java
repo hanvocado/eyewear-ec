@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.eyewear.entities.Category;
 import com.eyewear.entities.Product;
 
 import jakarta.validation.Valid;
@@ -33,12 +34,13 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	List<Product> findAllByIdIn(List<Long> ids);
 	@Modifying
     @Transactional
-    @Query("UPDATE Product p SET p.name = :name, p.price = :price, p.description = :description, p.brand = :brand WHERE p.id = :id")
+    @Query("UPDATE Product p SET p.name = :name, p.price = :price, p.description = :description, p.brand = :brand, p.category = :category WHERE p.id = :id")
     int updateProduct(@Param("id") Long id,
                       @Param("name") String name,
                       @Param("price") double price,
                       @Param("description") String description,
-                      @Param("brand") String brand);
+                      @Param("brand") String brand,
+    				  @Param("category") Category category);
 
 	Page<Product> findByNameContaining(String name, Pageable pageable);
 

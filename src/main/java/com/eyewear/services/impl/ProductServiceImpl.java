@@ -87,12 +87,18 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void update(@Valid Product product) {
-		productRepo.updateProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getBrand());
+		productRepo.updateProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getBrand(), product.getCategory());
 	}
 
 	@Override
 	public Page<Product> findByNameContaining(String name, Pageable pageable) {
 		return productRepo.findByNameContaining(name, pageable);
+	}
+
+	@Override
+	public List<Product> findListById(Iterable<Long> id) {
+		// TODO Auto-generated method stub
+		return productRepo.findAllById(id);
 	}
 
 

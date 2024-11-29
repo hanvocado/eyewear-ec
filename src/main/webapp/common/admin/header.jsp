@@ -382,7 +382,7 @@
 														Sản Phẩm </a>
 													</li>
 													<li>
-														<a href="<c:url value="/manager/warehouse/categorysearchpaginated"/>" class="iconify">
+														<a href="<c:url value="/manager/warehouse/category/searchpaginated"/>" class="iconify">
 														<i class="icon-basket"></i>
 														Danh mục </a>
 													</li>

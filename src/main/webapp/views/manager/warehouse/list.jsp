@@ -73,7 +73,7 @@
 							</div>
 						</div>
 						<c:if test="${!list.hasContent()}">
-	No Category
+	No Product
 </c:if>
 
 						<c:if test="${list.hasContent()}">
