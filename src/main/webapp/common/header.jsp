@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <!-- BEGIN STYLE CUSTOMIZER -->
 <div class="color-panel hidden-sm">
 	<div class="color-mode-icons icon-color"></div>
@@ -36,9 +37,14 @@
                 <div class="col-md-6 col-sm-6 additional-nav">
                     <ul class="list-unstyled list-inline pull-right">
                         <li><a href="/login_page">Log In</a></li>
-						<li><a href="/manager">Manager</a></li>
 						<li><a href="/register">Registration</a></li>
-                    </ul>
+						<li>
+							<form action="/logout" method="post" th:csrf="true">
+								<button type="submit" class="dropdown-item"><i
+										class="fas fa-sign-out-alt"></i> Logout</button>
+							</form>
+						</li>
+					</ul>
                 </div>
                 <!-- END TOP BAR MENU -->
             </div>

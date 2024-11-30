@@ -57,18 +57,19 @@ public class SecurityConfig {
                         .requestMatchers("/manager/**").hasRole("MANAGER")
                         .requestMatchers("/buyer/**").hasRole("BUYER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/**")
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/static/**", "/","/**")
                         .permitAll())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/signin")
                         .successHandler(customsuccessHandler)
-                        .defaultSuccessUrl("/", true)
+                        .failureHandler(customAuthenticationFailureHandler())
+                        //.defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/login_page")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                         .permitAll()
@@ -78,5 +79,8 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
 
 }
