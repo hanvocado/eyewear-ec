@@ -203,6 +203,10 @@
 <script src="/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script>
 <script src="/global/plugins/rateit/src/jquery.rateit.js" type="text/javascript"></script>
 
+
+
+
+
 <!-- Khởi tạo -->
 <script type="text/javascript">
     jQuery(document).ready(function () {
@@ -217,6 +221,10 @@
         Layout.initUniform(); 
         Layout.initSliderRange(); 
     });
+    
+    
+    
+    
 </script> 
 
 </body>
