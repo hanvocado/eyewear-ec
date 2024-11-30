@@ -1,7 +1,5 @@
 package com.eyewear.services;
 
-import java.util.List;
-
 import com.eyewear.DTO.request.UserCreationRequest;
 import com.eyewear.DTO.request.UserUpdateRequest;
 import com.eyewear.entities.User;

@@ -83,6 +83,7 @@
 
 <!-- END PAGE LEVEL SCRIPTS -->
 
+
 <script src="/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 <script src="/admin/pages/scripts/table-managed.js"></script>
 <script>
