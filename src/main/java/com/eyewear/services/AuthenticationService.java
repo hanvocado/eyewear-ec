@@ -7,6 +7,8 @@ import com.eyewear.repositories.AuthenticationResponse;
 import com.eyewear.repositories.IntrospectResponse;
 import com.nimbusds.jose.JOSEException;
 
+import java.text.ParseException;
+
 public interface AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request);
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException;
