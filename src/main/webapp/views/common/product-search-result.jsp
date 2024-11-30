@@ -41,52 +41,17 @@
 							</div>
 							<!-- Lọc theo Khoảng giá -->
 							<h3>Giá</h3>
-							<p>
-								<label for="amount">Khoảng giá:</label> <input type="text"
-									id="amount" readonly
-									style="border: 0; color: #f6931f; font-weight: bold;" />
-							</p>
-							<div id="slider-range"></div>
-							<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-							<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-							<script>
-								$(function() {
-									// Lấy giá trị min/max từ backend thông qua Thymeleaf
-									var minPrice =${min};
-									var maxPrice = ${max};
-
-									// Khởi tạo slider
-									$("#slider-range")
-											.slider(
-													{
-														range : true,
-														min : minPrice,
-														max : maxPrice,
-														values : [ minPrice,
-																maxPrice ], // Giá trị khởi tạo
-														slide : function(event,
-																ui) {
-															$("#amount")
-																	.val(
-																			ui.values[0]
-																					+ " - "
-																					+ ui.values[1]);
-														}
-													});
-
-									// Hiển thị giá trị ban đầu
-									$("#amount")
-											.val(
-													$("#slider-range").slider(
-															"values", 0)
-															+ " - "
-															+ $("#slider-range")
-																	.slider(
-																			"values",
-																			1));
-								});
-							</script>
-
+							<div class="price-input-container">
+								<div>
+									<label for="minPrice">Min Price:</label> <input type="number"
+										id="minPrice" name="minPrice" step="100000" value="${minPrice}" />
+								</div>
+								<p>-</p>
+								<div>
+									<label for="maxPrice">Max Price:</label> 
+									<input type="number" id="maxPrice" name="maxPrice" step="200000" value="${maxPrice}" />
+								</div>
+							</div>			
 							<div class="filter-button-container text-center">
 								<button type="submit" class="btn btn-primary">Lọc</button>
 							</div>
@@ -130,19 +95,22 @@
                						<c:when test="${action == 'filter'}">/common/products/filter</c:when>
                							<c:otherwise>/common/products/searchpaginated</c:otherwise>
              							</c:choose>">
-             						<c:choose>
-             						<c:when test="${action == 'filter'}">
-             						<c:forEach var="category" items="${categoryName}">
-									<input type="hidden" name="categoryName"
-										value="${category}">
-									</c:forEach>
-								<c:forEach var="brand" items="${brand}">
-									<input type="hidden" name="brand"
-										value="${brand}" /> 
-								</c:forEach></c:when>
-             						</c:choose>
-									  <input type="hidden" name="name"
-										value="${searchname}" />
+									<c:choose>
+										<c:when test="${action == 'filter'}">
+											<c:forEach var="category" items="${categoryName}">
+												<input type="hidden" name="categoryName" value="${category}">
+											</c:forEach>
+											<c:forEach var="brand" items="${brand}">
+												<input type="hidden" name="brand" value="${brand}" />
+											</c:forEach>
+										</c:when>
+									</c:choose>
+									<input type="hidden" name="name" value="${searchname}" /> <input
+										type="hidden" name="maxPrice"
+										value="<fmt:formatNumber value='${maxPrice}' type='number' pattern='###0' />" /> 
+										<input type="hidden" name="minPrice"
+										value="<fmt:formatNumber value='${minPrice}' type='number' pattern='###0' />" />
+
 									<div class="pull-right">
 										<label class="control-label">Show:</label> <select name="size"
 											id="size" onchange="this.form.submit()">
@@ -209,7 +177,7 @@
 									<c:if test="${productPage.number > 0}">
 										<li><a
 											href="<c:url value='/common/products/filter'>
-                                    <c:param name='name' value='${name}' />
+                                    <c:param name='name' value='${searchname}' />
                                     <c:param name='size' value='${productPage.size}' />
                                     <c:param name='page' value='${productPage.number}' />
                                     <c:forEach var="category" items="${categoryName}">
@@ -218,8 +186,8 @@
                                     <c:forEach var="brandItem" items="${brand}">
                                         <c:param name='brand' value='${brandItem}' />
                                     </c:forEach>
-                                    <%-- <c:param name='minPrice' value='${minPrice}' />
-                                    <c:param name='maxPrice' value='${maxPrice}' /> --%>
+                                    <c:param name='minPrice' value='${minPrice}' />
+                                    <c:param name='maxPrice' value='${maxPrice}' />
                                  </c:url>"
 											class="prev-page">&laquo;</a></li>
 									</c:if>
@@ -232,7 +200,7 @@
 									<c:if test="${productPage.number > 0}">
 										<li><a
 											href="<c:url value='/common/products/searchpaginated'>
-                                    <c:param name='name' value='${name}' />
+                                    <c:param name='name' value='${searchname}' />
                                     <c:param name='size' value='${productPage.size}' />
                                     <c:param name='page' value='${productPage.number}' />
                                  </c:url>"
@@ -247,14 +215,13 @@
 
 							<!-- Page numbers -->
 							<c:forEach items="${pageNumbers}" var="pageNumber">
-							
 								<c:choose>
 									<c:when test="${action == 'filter'}">
 										<li
-											class="${pageNumber == productPage.number + 1 ? 'page-item active' : 'page-item'}">
+											class="${pageNumber == productPage.number + 1? 'page-item active' : 'page-item'}">
 											<a
 											href="<c:url value='/common/products/filter'>
-                                    <c:param name='name' value='${name}' />
+                                    <c:param name='name' value='${searchname}' />
                                     <c:param name='size' value='${productPage.size}' />
                                     <c:param name='page' value='${pageNumber}' />
                                     <c:forEach var="category" items="${categoryName}">
@@ -263,8 +230,8 @@
                                     <c:forEach var="brandItem" items="${brand}">
                                         <c:param name='brand' value='${brandItem}' />
                                     </c:forEach>
-                                    <%-- <c:param name='minPrice' value='${minPrice}' />
-                                    <c:param name='maxPrice' value='${maxPrice}' /> --%>
+                                    <c:param name='minPrice' value='${minPrice}' />
+                                    <c:param name='maxPrice' value='${maxPrice}' />
                                  </c:url>">${pageNumber}</a>
 										</li>
 									</c:when>
@@ -273,7 +240,7 @@
 											class="${pageNumber == productPage.number + 1 ? 'page-item active' : 'page-item'}">
 											<a
 											href="<c:url value='/common/products/searchpaginated'>
-                                    <c:param name='name' value='${name}' />
+                                    <c:param name='name' value='${searchname}' />
                                     <c:param name='size' value='${productPage.size}' />
                                     <c:param name='page' value='${pageNumber}' />
                                  </c:url>">${pageNumber}</a>
@@ -288,17 +255,17 @@
 									<c:if test="${productPage.number < productPage.totalPages - 1}">
 										<li><a
 											href="<c:url value='/common/products/filter'>
-                                    <c:param name='name' value='${name}' />
+                                    <c:param name='name' value='${searchname}' />
                                     <c:param name='size' value='${productPage.size}' />
                                     <c:param name='page' value='${productPage.number + 2}' />
                                     <c:forEach var="category" items="${categoryName}">
                                         <c:param name='categoryName' value='${category}' />
                                     </c:forEach>
                                     <c:forEach var="brandItem" items="${brand}">
-                                        <c:param name='brand' value='${brandItem}' />
+                                    <c:param name='brand' value='${brandItem}' />
                                     </c:forEach>
-                                    <%-- <c:param name='minPrice' value='${minPrice}' />
-                                    <c:param name='maxPrice' value='${maxPrice}' /> --%>
+                                    <c:param name='minPrice' value='${minPrice}' />
+                                    <c:param name='maxPrice' value='${maxPrice}' />
                                  </c:url>"
 											class="next-page">&raquo;</a></li>
 									</c:if>
@@ -312,7 +279,7 @@
 									<c:if test="${productPage.number < productPage.totalPages - 1}">
 										<li><a
 											href="<c:url value='/common/products/searchpaginated'>
-                                    <c:param name='name' value='${name}' />
+                                    <c:param name='name' value='${searchname}' />
                                     <c:param name='size' value='${productPage.size}' />
                                     <c:param name='page' value='${productPage.number + 2}' />
                                  </c:url>"
@@ -335,4 +302,3 @@
 		</div>
 	</div>
 </body>
-
