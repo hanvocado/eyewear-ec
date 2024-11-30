@@ -43,4 +43,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
                       @Param("brand") String brand);
 
 	Page<Product> findByNameContaining(String name, Pageable pageable);
+	
+	@Query("SELECT MIN(p.price) FROM Product p")
+    Double findMinPrice();
+
+    @Query("SELECT MAX(p.price) FROM Product p")
+    Double findMaxPrice();
 }

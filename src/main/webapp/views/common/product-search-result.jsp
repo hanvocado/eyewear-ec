@@ -42,11 +42,50 @@
 							<!-- Lọc theo Khoảng giá -->
 							<h3>Giá</h3>
 							<p>
-								<label for="amount">Range:</label> <input type="text"
-									id="amount"
-									style="border: 0; color: #f6931f; font-weight: bold;">
+								<label for="amount">Khoảng giá:</label> <input type="text"
+									id="amount" readonly
+									style="border: 0; color: #f6931f; font-weight: bold;" />
 							</p>
 							<div id="slider-range"></div>
+							<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+							<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+							<script>
+								$(function() {
+									// Lấy giá trị min/max từ backend thông qua Thymeleaf
+									var minPrice =${min};
+									var maxPrice = ${max};
+
+									// Khởi tạo slider
+									$("#slider-range")
+											.slider(
+													{
+														range : true,
+														min : minPrice,
+														max : maxPrice,
+														values : [ minPrice,
+																maxPrice ], // Giá trị khởi tạo
+														slide : function(event,
+																ui) {
+															$("#amount")
+																	.val(
+																			ui.values[0]
+																					+ " - "
+																					+ ui.values[1]);
+														}
+													});
+
+									// Hiển thị giá trị ban đầu
+									$("#amount")
+											.val(
+													$("#slider-range").slider(
+															"values", 0)
+															+ " - "
+															+ $("#slider-range")
+																	.slider(
+																			"values",
+																			1));
+								});
+							</script>
 
 							<div class="filter-button-container text-center">
 								<button type="submit" class="btn btn-primary">Lọc</button>

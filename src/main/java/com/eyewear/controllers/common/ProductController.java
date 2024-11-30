@@ -52,6 +52,9 @@ public class ProductController {
         
         List<Category> categories = categoryService.findAll();
         List<String> uniqueBrand = getUniqueBrands();
+        
+        Double maxPrice = productService.findMaxPrice();
+        Double minPrice = productService.findMinPrice();
 
         Page <Product> resultPage = searchProducts(name, pageable);
         String message = getMessage(resultPage, name);
@@ -63,6 +66,8 @@ public class ProductController {
         model.addAttribute("categories", categories);
         model.addAttribute("productPage", resultPage);
         model.addAttribute("message", message);
+        model.addAttribute("max", maxPrice);
+        model.addAttribute("min", minPrice);
         // Truyền tên từ thanh tìm xuống view
         model.addAttribute("searchname", name);
 

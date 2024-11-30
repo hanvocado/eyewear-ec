@@ -93,5 +93,15 @@ public class ProductServiceImpl implements ProductService {
         Specification<Product> spec = ProductSpecification.filterByCriteria(categoryNames, brand, minPrice, maxPrice);
         return productRepo.findAll(spec, pageable);
     }
+
+	@Override
+	public Double findMaxPrice() {
+		return productRepo.findMaxPrice();
+	}
+
+	@Override
+	public Double findMinPrice() {
+		return productRepo.findMinPrice();
+	}
 	
 }
