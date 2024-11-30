@@ -1,15 +1,5 @@
 package com.eyewear.services.impl;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.eyewear.DTO.request.UserCreationRequest;
 import com.eyewear.DTO.request.UserUpdateRequest;
 import com.eyewear.entities.User;

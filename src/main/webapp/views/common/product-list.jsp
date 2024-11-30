@@ -1,56 +1,81 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="jakarta.tags.core"%>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@include file="/common/taglibs.jsp"%>
+
+
+
+
 <body>
-    <div class="main">
-        <div class="container">
-            <!-- BEGIN SIDEBAR & CONTENT -->
-            <div class="row margin-bottom-40">
-            
-            <!-- BEGIN SIDEBAR -->
-          <div class="sidebar col-md-3 col-sm-5">
-            <ul class="list-group margin-bottom-25 sidebar-menu">
-              <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Ladies</a></li>
-              <li class="list-group-item clearfix dropdown active">
-                <a href="javascript:void(0);" class="collapsed">
-                  <i class="fa fa-angle-right"></i>
-                  Mens
-                  
-                </a>
-                <ul class="dropdown-menu" style="display:block;">
-                  <li class="list-group-item dropdown clearfix active">
-                    <a href="javascript:void(0);" class="collapsed"><i class="fa fa-angle-right"></i> Shoes </a>
-                      <ul class="dropdown-menu" style="display:block;">
-                        <li class="list-group-item dropdown clearfix">
-                          <a href="javascript:void(0);"><i class="fa fa-angle-right"></i> Classic </a>
-                          <ul class="dropdown-menu">
-                            <li><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Classic 1</a></li>
-                            <li><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Classic 2</a></li>
-                          </ul>
-                        </li>
-                        <li class="list-group-item dropdown clearfix active">
-                          <a href="javascript:void(0);" class="collapsed"><i class="fa fa-angle-right"></i> Sport  </a>
-                          <ul class="dropdown-menu" style="display:block;">
-                            <li class="active"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Sport 1</a></li>
-                            <li><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Sport 2</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-                  </li>
-                  <li><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Trainers</a></li>
-                  <li><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Jeans</a></li>
-                  <li><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Chinos</a></li>
-                  <li><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> T-Shirts</a></li>
-                </ul>
-              </li>
-              <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Kids</a></li>
-              <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Accessories</a></li>
-              <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Sports</a></li>
-              <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Brands</a></li>
-              <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Electronics</a></li>
-              <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Home & Garden</a></li>
-              <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> Custom Link</a></li>
-            </ul>
+	<div class="main">
+		<div class="container">
+			<!-- BEGIN SIDEBAR & CONTENT -->
+			<div class="row margin-bottom-40">
+
+				<!-- BEGIN SIDEBAR -->
+				<div class="sidebar col-md-3 col-sm-5">
+					<ul class="list-group margin-bottom-25 sidebar-menu">
+						<li class="list-group-item clearfix"><a
+							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
+								Ladies</a></li>
+						<li class="list-group-item clearfix dropdown active"><a
+							href="javascript:void(0);" class="collapsed"> <i
+								class="fa fa-angle-right"></i> Mens
+
+						</a>
+							<ul class="dropdown-menu" style="display: block;">
+								<li class="list-group-item dropdown clearfix active"><a
+									href="javascript:void(0);" class="collapsed"><i
+										class="fa fa-angle-right"></i> Shoes </a>
+									<ul class="dropdown-menu" style="display: block;">
+										<li class="list-group-item dropdown clearfix"><a
+											href="javascript:void(0);"><i class="fa fa-angle-right"></i>
+												Classic </a>
+											<ul class="dropdown-menu">
+												<li><a href="shop-product-list.html"><i
+														class="fa fa-angle-right"></i> Classic 1</a></li>
+												<li><a href="shop-product-list.html"><i
+														class="fa fa-angle-right"></i> Classic 2</a></li>
+											</ul></li>
+										<li class="list-group-item dropdown clearfix active"><a
+											href="javascript:void(0);" class="collapsed"><i
+												class="fa fa-angle-right"></i> Sport </a>
+											<ul class="dropdown-menu" style="display: block;">
+												<li class="active"><a href="shop-product-list.html"><i
+														class="fa fa-angle-right"></i> Sport 1</a></li>
+												<li><a href="shop-product-list.html"><i
+														class="fa fa-angle-right"></i> Sport 2</a></li>
+											</ul></li>
+									</ul></li>
+								<li><a href="shop-product-list.html"><i
+										class="fa fa-angle-right"></i> Trainers</a></li>
+								<li><a href="shop-product-list.html"><i
+										class="fa fa-angle-right"></i> Jeans</a></li>
+								<li><a href="shop-product-list.html"><i
+										class="fa fa-angle-right"></i> Chinos</a></li>
+								<li><a href="shop-product-list.html"><i
+										class="fa fa-angle-right"></i> T-Shirts</a></li>
+							</ul></li>
+						<li class="list-group-item clearfix"><a
+							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
+								Kids</a></li>
+						<li class="list-group-item clearfix"><a
+							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
+								Accessories</a></li>
+						<li class="list-group-item clearfix"><a
+							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
+								Sports</a></li>
+						<li class="list-group-item clearfix"><a
+							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
+								Brands</a></li>
+						<li class="list-group-item clearfix"><a
+							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
+								Electronics</a></li>
+						<li class="list-group-item clearfix"><a
+							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
+								Home & Garden</a></li>
+						<li class="list-group-item clearfix"><a
+							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
+								Custom Link</a></li>
+					</ul>
 
           </div>
           <!-- END SIDEBAR -->
@@ -82,7 +107,19 @@
                             </div>
                         </div>
                     </div>
-                    <!-- FORM -->
+                    <!-- Toast Notification -->
+                    <c:if test="${not empty successMessage}">
+                      <div class="flash-message alert alert-success">
+                          <strong>${successMessage}</strong> 
+                      </div>
+                  </c:if>
+                  
+                  <c:if test="${not empty errorMessage}">
+                      <div class="flash-message alert alert-danger">
+                          <strong>Lỗi:</strong> ${errorMessage}
+                      </div>
+                  </c:if>
+                  <!-- Toast Notification -->
                     <!-- BEGIN PRODUCT LIST -->
                     <div class="row product-list">
                         <c:forEach var="product" items="${productPage.content}">
@@ -155,10 +192,12 @@
 						</div>
 					</div>
 					<!-- END PAGINATOR -->
-                </div>
-                <!-- END CONTENT -->
-            </div>
-            <!-- END SIDEBAR & CONTENT -->
-        </div>
-    </div>
+				</div>
+				<!-- END CONTENT -->
+			</div>
+			<!-- END SIDEBAR & CONTENT -->
+		</div>
+	</div>
 </body>
+
+

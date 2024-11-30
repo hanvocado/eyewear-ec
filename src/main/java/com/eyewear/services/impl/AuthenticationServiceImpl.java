@@ -1,14 +1,5 @@
 package com.eyewear.services.impl;
 
-import java.text.ParseException;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.eyewear.DTO.request.AuthenticationRequest;
 import com.eyewear.DTO.request.IntrospectRequest;
 import com.eyewear.entities.User;

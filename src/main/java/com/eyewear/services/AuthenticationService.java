@@ -1,7 +1,5 @@
 package com.eyewear.services;
 
-import java.text.ParseException;
-
 import com.eyewear.DTO.request.AuthenticationRequest;
 import com.eyewear.DTO.request.IntrospectRequest;
 import com.eyewear.entities.User;
