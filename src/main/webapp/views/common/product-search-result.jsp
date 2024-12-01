@@ -147,8 +147,7 @@
 											<div>
 												<a href="${product.imageUrl}"
 													class="btn btn-default fancybox-button">Zoom</a> <a
-													href="/common/products/detail"
-													class="btn btn-default fancybox-fast-view">View</a>
+													href="/common/products/detail/${product.id}" class="btn btn-default fancybox-fast-view">View</a>
 											</div>
 										</div>
 										<h3>

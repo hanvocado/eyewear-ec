@@ -301,7 +301,7 @@
 								Fixed</a></li>
 						<li><a href="shop-index-light-footer.html">Home Light
 								Footer</a></li>
-						<li><a href="shop-product-list.html">Product List</a></li>
+						<li><a href="/common/products">Product List</a></li>
 						<li><a href="shop-search-result.html">Search Result</a></li>
 						<li><a href="shop-item.html">Product Page</a></li>
 						<li><a href="shop-shopping-cart-null.html">Shopping Cart
@@ -329,11 +329,11 @@
 				<li class="menu-search"><span class="sep"></span> <i
 					class="fa fa-search search-btn"></i>
 					<div class="search-box">
-						<form action="#">
+						<form action="/common/products/search" method="get">
 							<div class="input-group">
-								<input type="text" placeholder="Search" class="form-control">
+								<input type="text" placeholder="Tìm kiếm sản phẩm" class="form-control">
 								<span class="input-group-btn">
-									<button class="btn btn-primary" type="submit">Search</button>
+									<button class="btn btn-primary" type="submit">Tìm kiếm</button>
 								</span>
 							</div>
 						</form>
