@@ -39,5 +39,9 @@ public interface ProductService {
 
 	Page<Product> findByNameContaining(String name, Pageable pageable);
 
-	Page<Product> findByCriteria(List<String> categoryNames, String brand, Double minPrice, Double maxPrice, Pageable pageable);
+	Page<Product> findByCriteria(List<String> categoryNames, List<String> brand, Double minPrice, Double maxPrice, Pageable pageable);
+	
+	Double findMaxPrice();
+	
+	Double findMinPrice();
 }

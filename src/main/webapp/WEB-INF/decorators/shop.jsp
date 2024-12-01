@@ -208,7 +208,7 @@
 
 
 <!-- Khởi tạo -->
-<script type="text/javascript">
+<script>
     jQuery(document).ready(function () {
         Metronic.init(); 
         Layout.init(); 
@@ -221,11 +221,70 @@
         Layout.initUniform(); 
         Layout.initSliderRange(); 
     });
-    
-    
-    
-    
-</script> 
+    // Khi người dùng thay đổi giá trị, kiểm tra và loại bỏ ".0" nếu có
+    document.addEventListener('input', function(e) {
+        if (e.target.id === 'minPrice' || e.target.id === 'maxPrice') {
+            var value = e.target.value;
+            
+            // Chuyển đổi thành số nguyên nếu có phần thập phân là 0
+            if (value.indexOf('.') !== -1 && value.split('.')[1] === '0') {
+                e.target.value = value.split('.')[0];
+            }
+        }
+    });
+
+    // Đảm bảo hiển thị giá trị mà không có phần ".0"
+    function formatValue(value) {
+        // Nếu giá trị là một số nguyên, chỉ hiển thị số nguyên
+        if (value.indexOf('.') !== -1 && value.split('.')[1] === '0') {
+            return value.split('.')[0];
+        }
+        return value;
+    }
+
+    // Chỉnh sửa các giá trị khi tải trang hoặc khi giá trị thay đổi
+    window.onload = function() {
+        var minPriceInput = document.getElementById('minPrice');
+        var maxPriceInput = document.getElementById('maxPrice');
+        
+        // Làm tròn và loại bỏ phần ".0" trong giá trị nhập ban đầu
+        minPriceInput.value = formatValue(minPriceInput.value);
+        maxPriceInput.value = formatValue(maxPriceInput.value);
+    };
+
+function updateQuantity(cartItemId, newQuantity) {
+    fetch('cart/updateQuantity', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            cartItemId: cartItemId,
+            quantity: newQuantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+           //alert('Quantity updated successfully!');
+            // Optionally, update the total price dynamically
+            location.reload(); // Reload to reflect new total
+        } else {
+            alert('Failed to update quantity: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Something went wrong! Please try again.');
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    console.log("DOM fully loaded and parsed");
+});
+
+</script>
+
 
 </body>
 </html>
