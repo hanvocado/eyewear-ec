@@ -35,11 +35,14 @@
                                             </td>
                                             <td class="goods-page-ref-no">${cartItem.product.brand}</td>
                                             <td class="goods-page-quantity">
-                                                <input id="product-quantity-${cartItem.id}" type="number" 
-       													class="form-control text-center input-sm" 
-       													value="${cartItem.quantity}" 
-       													onchange="updateQuantity(${cartItem.id}, this.value)"
-       													 style="width: 70px; height: 30px;">
+                                                <div class="input-group spinner">
+    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${cartItem.id}, ${cartItem.quantity}-1)">-</button>
+    <input id="product-quantity-${cartItem.id}" type="number" 
+           class="form-control text-center input-sm"
+           value="${cartItem.quantity}" 
+           onchange="updateQuantity(${cartItem.id}, this.value)">
+    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${cartItem.id}, ${cartItem.quantity}+1)">+</button>
+</div>
                                             </td>
                                             <td class="goods-page-price"><strong><span>$</span>${cartItem.product.price}</strong></td>
                                             <td class="goods-page-total"><strong><span>$</span><span id="total-${cartItem.id}">${cartItem.product.price * cartItem.quantity}</span></strong></td>
