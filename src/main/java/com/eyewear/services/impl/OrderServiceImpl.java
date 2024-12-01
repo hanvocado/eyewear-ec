@@ -14,6 +14,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
@@ -37,6 +44,10 @@ public class OrderServiceImpl implements OrderService {
                 buyerId, 
                 Arrays.asList("COMPLETED", "CANCELED")
             );
+    }
+    
+    public Page<Order> findAll(Specification<Order> spec, Pageable pageable) {
+        return orderRepository.findAll(spec, pageable);
     }
 
     @Override

@@ -1,33 +1,29 @@
 package com.eyewear.controllers.buyer;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.eyewear.entities.Buyer;
-import com.eyewear.entities.CartItem;
-import com.eyewear.entities.Order;
-import com.eyewear.entities.OrderDetail;
-import com.eyewear.entities.Product;
-import com.eyewear.entities.ProductReview;
-import com.eyewear.services.CartService;
-import com.eyewear.services.OrderService;
-import com.eyewear.services.ProductReviewService;
-import com.eyewear.services.ProductService;
-
-import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest; 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.eyewear.entities.*;
+import com.eyewear.services.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/buyer/orders")  // Thêm prefix /buyer để phân biệt với admin
@@ -44,11 +40,60 @@ public class BuyerOrderController {
     
  // Xem đơn hàng đang xử lý (chờ xác nhận, đã xác nhận, đang giao, đã giao)
     @GetMapping("/my-orders")
-    public String getMyOrders(Model model, Principal principal) {
+    public String getMyOrders(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size,
+        @RequestParam(required = false) String sortBy,
+        @RequestParam(defaultValue = "desc") String sortDir,
+        @RequestParam(required = false) String status,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+        Model model, 
+        Principal principal
+    ) {
         Long buyerId = getCurrentBuyerId(principal);
-        List<Order> activeOrders = orderService.getOrdersByBuyer(buyerId);
-        model.addAttribute("orders", activeOrders);
+        
+        Sort sort = Sort.by(sortDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, 
+                           sortBy != null ? sortBy : "orderAt");
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        Specification<Order> spec = Specification.where(byBuyerId(buyerId));
+        
+        if (status != null && !status.isEmpty()) {
+            spec = spec.and(byStatus(status));
+        }
+        if (fromDate != null) {
+            spec = spec.and(byOrderDateGreaterThanOrEqual(fromDate));
+        }
+        if (toDate != null) {
+            spec = spec.and(byOrderDateLessThanOrEqual(toDate));
+        }
+        
+        Page<Order> orders = orderService.findAll(spec, pageable);
+        model.addAttribute("orders", orders);
+        
         return "buyer/order-track";
+    }
+
+    // Thêm Specification methods
+    private Specification<Order> byBuyerId(Long buyerId) {
+        return (root, query, cb) -> 
+            cb.equal(root.get("buyer").get("id"), buyerId);
+    }
+
+    private Specification<Order> byStatus(String status) {
+        return (root, query, cb) -> 
+            cb.equal(cb.lower(root.get("status")), status.toLowerCase());
+    }
+
+    private Specification<Order> byOrderDateGreaterThanOrEqual(LocalDate date) {
+        return (root, query, cb) -> 
+            cb.greaterThanOrEqualTo(root.get("orderAt").as(LocalDate.class), date);
+    }
+
+    private Specification<Order> byOrderDateLessThanOrEqual(LocalDate date) {
+        return (root, query, cb) -> 
+            cb.lessThanOrEqualTo(root.get("orderAt").as(LocalDate.class), date);
     }
 
     // Xem lịch sử đơn hàng (đã giao)
