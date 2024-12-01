@@ -15,7 +15,9 @@ import java.util.Optional;
 
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 
@@ -47,6 +49,15 @@ public class OrderServiceImpl implements OrderService {
     public Page<Order> findAll(Specification<Order> spec, Pageable pageable) {
         return orderRepository.findAll(spec, pageable);
     }
+    
+    public Page<Order> getAllOrdersSortByDatePaginated(Pageable pageable) {
+    	   PageRequest pageRequest = PageRequest.of(
+    	       pageable.getPageNumber(), 
+    	       pageable.getPageSize(),
+    	       Sort.by(Sort.Direction.DESC, "orderAt")
+    	   );
+    	   return orderRepository.findAll(pageRequest); 
+    	}
 
     @Override
     public Order getOrderDetail(Long orderId, Long buyerId) {

@@ -13,6 +13,7 @@ public interface OrderService {
     Order getOrderDetail(Long orderId, Long buyerId);
     List<Order> getHistoryOrdersByBuyer(Long buyerId);
     Page<Order> findAll(Specification<Order> spec, Pageable pageable);
+    Page<Order> getAllOrdersSortByDatePaginated(Pageable pageable);
     
     List<Order> getAllOrdersSortByDate();
     void updateOrderStatus(Long orderId, String newStatus);
