@@ -143,23 +143,19 @@
 									<!-- phuong thuc thanh toan -->
 
 									
-
+<br><br>
 									<div class="panel-body row">
 										<div class="col-md-12">
 											<p>Please select the preferred payment method to use on
 												this order.</p>
+												
 											<div class="radio-list">
 												<label> <input type="radio" id="CashOnDelivery" name="CashOnDelivery"
 													value="CashOnDelivery" placeholder="Enter Payment Method" required> Cash On Delivery
 												</label>
 												
 											</div>
-											<div class="form-group">
-												<label for="delivery-payment-method">Add Comments
-													About Your Order</label>
-												<textarea id="delivery-payment-method" rows="8"
-													class="form-control"></textarea>
-											</div>
+											
 
 
 										</div>
@@ -188,8 +184,9 @@
 									<button class="btn btn-primary pull-right" type="submit" > Confirm Order</button>
 
 									
-									<button type="button"
-										class="btn btn-default pull-right margin-right-20">Cancel</button>
+									<button type="button" class="btn btn-default pull-right margin-right-20" 
+        								onclick="window.history.back()">Cancel</button>
+
 								</div>
 							</div>
 						</form>
