@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setAddress(request.getAddress());
-        user.setPictures(request.getPicture());
+        user.setPicture(request.getPicture());
         user.setRoles(Role.BUYER.name());
 
         return userRepository.save(user);
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setAddress(request.getAddress());
-        user.setPictures(request.getPicture());
+        user.setPicture(request.getPicture());
         return userRepository.save(user);
     }
 

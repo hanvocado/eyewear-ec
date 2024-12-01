@@ -25,5 +25,5 @@ public class User {
     String lastName;
     String address;
     String roles;
-    String pictures;
+    String picture;
 }

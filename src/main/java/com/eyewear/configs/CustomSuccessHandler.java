@@ -41,7 +41,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 				newUser.setEmail(email);
 				newUser.setFirstName(oAuth2User.getAttribute("given_name"));
 				newUser.setLastName(oAuth2User.getAttribute("family_name"));
-				newUser.setPictures(oAuth2User.getAttribute("picture"));
+				newUser.setPicture(oAuth2User.getAttribute("picture"));
 				newUser.setPhone(oAuth2User.getAttribute("phone"));
 				newUser.setAddress(oAuth2User.getAttribute("address"));
 				newUser.setRoles(Role.BUYER.name());
