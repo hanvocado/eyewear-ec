@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 
-
 <div class="container">
 	<h2>Đơn hàng của tôi</h2>
 
@@ -15,15 +14,17 @@
 					<label class="form-label">Trạng thái</label> <select name="status"
 						class="form-select">
 						<option value="">Tất cả</option>
-						<option value="pending"
-							${param.status == 'pending' ? 'selected' : ''}>Chờ xử lý</option>
-						<option value="processing"
-							${param.status == 'processing' ? 'selected' : ''}>Đang
-							xử lý</option>
-						<option value="done" ${param.status == 'done' ? 'selected' : ''}>Hoàn
+						<option value="Đã xác nhận"
+							${param.status == 'Đã xác nhận' ? 'selected' : ''}>Đã
+							xác nhận</option>
+						<option value="Đang giao"
+							${param.status == 'Đang giao' ? 'selected' : ''}>Đang
+							giao</option>
+						<option value="Hoàn thành"
+							${param.status == 'Hoàn thành' ? 'selected' : ''}>Hoàn
 							thành</option>
-						<option value="canceled"
-							${param.status == 'canceled' ? 'selected' : ''}>Đã hủy</option>
+						<option value="Đã hủy"
+							${param.status == 'Đã hủy' ? 'selected' : ''}>Đã hủy</option>
 					</select>
 				</div>
 				<div class="col-md-3">
@@ -47,17 +48,17 @@
 			<thead>
 				<tr>
 					<th><a
-						href="/buyer/orders/my-orders?sortBy=orderId&sortDir=${param.sortDir == 'asc' ? 'desc' : 'asc'}&status=${param.status}&fromDate=${param.fromDate}&toDate=${param.toDate}">
+						href="/buyer/orders/my-orders?page=0&sortBy=orderId&sortDir=${param.sortDir == 'asc' ? 'desc' : 'asc'}${!empty param.size ? '&size='.concat(param.size) : ''}${!empty param.status ? '&status='.concat(param.status) : ''}${!empty param.fromDate ? '&fromDate='.concat(param.fromDate) : ''}${!empty param.toDate ? '&toDate='.concat(param.toDate) : ''}">
 							Mã đơn hàng <i
 							class="bi ${param.sortBy == 'orderId' ? (param.sortDir == 'asc' ? 'bi-sort-up' : 'bi-sort-down') : 'bi-sort'}"></i>
 					</a></th>
 					<th><a
-						href="/buyer/orders/my-orders?sortBy=orderAt&sortDir=${param.sortDir == 'asc' ? 'desc' : 'asc'}&status=${param.status}&fromDate=${param.fromDate}&toDate=${param.toDate}">
+						href="/buyer/orders/my-orders?page=0&sortBy=orderAt&sortDir=${param.sortDir == 'asc' ? 'desc' : 'asc'}${!empty param.size ? '&size='.concat(param.size) : ''}${!empty param.status ? '&status='.concat(param.status) : ''}${!empty param.fromDate ? '&fromDate='.concat(param.fromDate) : ''}${!empty param.toDate ? '&toDate='.concat(param.toDate) : ''}">
 							Ngày đặt <i
 							class="bi ${param.sortBy == 'orderAt' ? (param.sortDir == 'asc' ? 'bi-sort-up' : 'bi-sort-down') : 'bi-sort'}"></i>
 					</a></th>
 					<th><a
-						href="/buyer/orders/my-orders?sortBy=totalPrice&sortDir=${param.sortDir == 'asc' ? 'desc' : 'asc'}&status=${param.status}&fromDate=${param.fromDate}&toDate=${param.toDate}">
+						href="/buyer/orders/my-orders?page=0&sortBy=totalPrice&sortDir=${param.sortDir == 'asc' ? 'desc' : 'asc'}${!empty param.size ? '&size='.concat(param.size) : ''}${!empty param.status ? '&status='.concat(param.status) : ''}${!empty param.fromDate ? '&fromDate='.concat(param.fromDate) : ''}${!empty param.toDate ? '&toDate='.concat(param.toDate) : ''}">
 							Tổng tiền <i
 							class="bi ${param.sortBy == 'totalPrice' ? (param.sortDir == 'asc' ? 'bi-sort-up' : 'bi-sort-down') : 'bi-sort'}"></i>
 					</a></th>
@@ -93,19 +94,19 @@
 			<ul class="pagination justify-content-center">
 				<li class="page-item ${orders.number == 0 ? 'disabled' : ''}">
 					<a class="page-link"
-					href="/buyer/orders/my-orders?page=${orders.number - 1}&sortBy=${param.sortBy}&sortDir=${param.sortDir}&status=${param.status}&fromDate=${param.fromDate}&toDate=${param.toDate}">
+					href="/buyer/orders/my-orders?page=${orders.number - 1}${!empty param.size ? '&size='.concat(param.size) : ''}${!empty param.sortBy ? '&sortBy='.concat(param.sortBy) : ''}${!empty param.sortDir ? '&sortDir='.concat(param.sortDir) : ''}${!empty param.status ? '&status='.concat(param.status) : ''}${!empty param.fromDate ? '&fromDate='.concat(param.fromDate) : ''}${!empty param.toDate ? '&toDate='.concat(param.toDate) : ''}">
 						Trước </a>
 				</li>
 				<c:forEach begin="0" end="${orders.totalPages - 1}" var="i">
 					<li class="page-item ${orders.number == i ? 'active' : ''}"><a
 						class="page-link"
-						href="/buyer/orders/my-orders?page=${i}&sortBy=${param.sortBy}&sortDir=${param.sortDir}&status=${param.status}&fromDate=${param.fromDate}&toDate=${param.toDate}">
+						href="/buyer/orders/my-orders?page=${i}${!empty param.size ? '&size='.concat(param.size) : ''}${!empty param.sortBy ? '&sortBy='.concat(param.sortBy) : ''}${!empty param.sortDir ? '&sortDir='.concat(param.sortDir) : ''}${!empty param.status ? '&status='.concat(param.status) : ''}${!empty param.fromDate ? '&fromDate='.concat(param.fromDate) : ''}${!empty param.toDate ? '&toDate='.concat(param.toDate) : ''}">
 							${i + 1} </a></li>
 				</c:forEach>
 				<li
 					class="page-item ${orders.number + 1 == orders.totalPages ? 'disabled' : ''}">
 					<a class="page-link"
-					href="/buyer/orders/my-orders?page=${orders.number + 1}&sortBy=${param.sortBy}&sortDir=${param.sortDir}&status=${param.status}&fromDate=${param.fromDate}&toDate=${param.toDate}">
+					href="/buyer/orders/my-orders?page=${orders.number + 1}${!empty param.size ? '&size='.concat(param.size) : ''}${!empty param.sortBy ? '&sortBy='.concat(param.sortBy) : ''}${!empty param.sortDir ? '&sortDir='.concat(param.sortDir) : ''}${!empty param.status ? '&status='.concat(param.status) : ''}${!empty param.fromDate ? '&fromDate='.concat(param.fromDate) : ''}${!empty param.toDate ? '&toDate='.concat(param.toDate) : ''}">
 						Sau </a>
 				</li>
 			</ul>
@@ -117,7 +118,7 @@
 function confirmCancel(orderId) {
    Swal.fire({
        title: 'Xác nhận hủy đơn',
-       text: 'Bạn có chắc chắn muốn hủy đơn hàng này không?', 
+       text: 'Bạn có chắc chắn muốn hủy đơn hàng này không?',
        icon: 'warning',
        showCancelButton: true,
        confirmButtonText: 'Có',
