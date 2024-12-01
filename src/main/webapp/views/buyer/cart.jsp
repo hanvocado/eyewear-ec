@@ -44,8 +44,8 @@
     <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${cartItem.id}, ${cartItem.quantity}+1)">+</button>
 </div>
                                             </td>
-                                            <td class="goods-page-price"><strong><span>$</span>${cartItem.product.price}</strong></td>
-                                            <td class="goods-page-total"><strong><span>$</span><span id="total-${cartItem.id}">${cartItem.product.price * cartItem.quantity}</span></strong></td>
+                                            <td class="goods-page-price"><strong><span>₫</span>${cartItem.product.price}</strong></td>
+                                            <td class="goods-page-total"><strong><span>₫</span><span id="total-${cartItem.id}">${cartItem.product.price * cartItem.quantity}</span></strong></td>
                                             <td class="del-goods-col"><a class="del-goods" href="${pageContext.request.contextPath}/buyer/cart/deleteCartItem?cartItemID=${cartItem.id}">&nbsp;</a></td>
                                         </tr>
                                     </c:forEach>
@@ -54,9 +54,9 @@
                             
                             <div class="shopping-total">
                                 <ul>
-                                    <li><em>Sub total</em> <strong class="price"><span>$</span><span id="subTotal">0.00</span></strong></li>
-                                    <li><em>Shipping cost</em> <strong class="price"><span>$</span>3.00</strong></li>
-                                    <li class="shopping-total-price"><em>Total</em> <strong class="price"><span>$</span><span id="totalPrice">${totalPrice + 3}</span></strong></li>
+                                    <li><em>Sub total</em> <strong class="price"><span>₫</span><span id="subTotal">0.00</span></strong></li>
+                                    <li><em>Shipping cost</em> <strong class="price"><span>₫</span>3.00</strong></li>
+                                    <li class="shopping-total-price"><em>Total</em> <strong class="price"><span>₫</span><span id="totalPrice">${totalPrice + 3}</span></strong></li>
                                 </ul>
                             </div>
                         </div>
@@ -77,44 +77,3 @@
     </div>
 </div>
 
-<script>
-    function updateTotalPrice() {
-        var total = 0;
-        var subTotal = 0;
-
-        // Duyệt qua tất cả các checkbox để tính tổng giá trị
-        var checkboxes = document.getElementsByName("listCartIemId");
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                var itemId = checkboxes[i].value;
-                var quantity = document.getElementById("product-quantity-" + itemId).value;
-                var price = document.getElementById("total-" + itemId).innerText.replace('$', '');
-
-                subTotal += parseFloat(price);
-            }
-        }
-
-        // Cập nhật subTotal và total
-        document.getElementById("subTotal").innerText = subTotal.toFixed(2);
-        document.getElementById("totalPrice").innerText = (subTotal + 3).toFixed(2);
-    }
-
-    function checkSelectedItems() {
-        var checkboxes = document.getElementsByName("listCartIemId");
-        var checked = false;
-
-        // Kiểm tra xem có item nào được chọn
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                checked = true;
-                break;
-            }
-        }
-
-        if (!checked) {
-            alert("You must select at least one item to proceed with checkout.");
-        } else {
-            document.getElementById("checkoutForm").submit();
-        }
-    }
-</script>
