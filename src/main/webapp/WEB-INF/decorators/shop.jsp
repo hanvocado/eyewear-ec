@@ -203,8 +203,12 @@
 <script src="/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script>
 <script src="/global/plugins/rateit/src/jquery.rateit.js" type="text/javascript"></script>
 
+
+
+
+
 <!-- Khởi tạo -->
-<script type="text/javascript">
+<script>
     jQuery(document).ready(function () {
         Metronic.init(); 
         Layout.init(); 
@@ -217,8 +221,6 @@
         Layout.initUniform(); 
         Layout.initSliderRange(); 
     });
-</script>
-<script>
     // Khi người dùng thay đổi giá trị, kiểm tra và loại bỏ ".0" nếu có
     document.addEventListener('input', function(e) {
         if (e.target.id === 'minPrice' || e.target.id === 'maxPrice') {
@@ -249,7 +251,40 @@
         minPriceInput.value = formatValue(minPriceInput.value);
         maxPriceInput.value = formatValue(maxPriceInput.value);
     };
+
+function updateQuantity(cartItemId, newQuantity) {
+    fetch('cart/updateQuantity', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            cartItemId: cartItemId,
+            quantity: newQuantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+           //alert('Quantity updated successfully!');
+            // Optionally, update the total price dynamically
+            location.reload(); // Reload to reflect new total
+        } else {
+            alert('Failed to update quantity: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Something went wrong! Please try again.');
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    console.log("DOM fully loaded and parsed");
+});
+
 </script>
+
 
 </body>
 </html>
