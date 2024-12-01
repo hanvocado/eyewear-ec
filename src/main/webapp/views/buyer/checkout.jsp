@@ -188,8 +188,9 @@
 									<button class="btn btn-primary pull-right" type="submit" > Confirm Order</button>
 
 									
-									<button type="button"
-										class="btn btn-default pull-right margin-right-20">Cancel</button>
+									<button type="button" class="btn btn-default pull-right margin-right-20" 
+        									onclick="window.history.back()">Cancel</button>
+
 								</div>
 							</div>
 						</form>
