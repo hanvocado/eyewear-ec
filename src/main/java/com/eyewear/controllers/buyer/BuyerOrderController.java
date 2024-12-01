@@ -98,10 +98,20 @@ public class BuyerOrderController {
 
     // Xem lịch sử đơn hàng (đã giao)
     @GetMapping("/history") 
-    public String getOrderHistory(Model model, Principal principal) {
+    public String getOrderHistory(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size,
+        Model model, 
+        Principal principal
+    ) {
         Long buyerId = getCurrentBuyerId(principal);
-        List<Order> completedOrders = orderService.getHistoryOrdersByBuyer(buyerId);
-        model.addAttribute("orders", completedOrders);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("orderAt").descending());
+        Page<Order> orderPage = orderService.getHistoryOrdersByBuyer(buyerId, pageable);
+        
+        model.addAttribute("orders", orderPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", orderPage.getTotalPages());
+        
         return "buyer/order-history";
     }
     

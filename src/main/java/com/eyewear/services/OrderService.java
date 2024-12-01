@@ -11,7 +11,7 @@ import com.eyewear.entities.Order;
 public interface OrderService {
     List<Order> getOrdersByBuyer(Long buyerId);
     Order getOrderDetail(Long orderId, Long buyerId);
-    List<Order> getHistoryOrdersByBuyer(Long buyerId);
+    Page<Order> getHistoryOrdersByBuyer(Long buyerId, Pageable pageable);
     Page<Order> findAll(Specification<Order> spec, Pageable pageable);
     Page<Order> getAllOrdersSortByDatePaginated(Pageable pageable);
     

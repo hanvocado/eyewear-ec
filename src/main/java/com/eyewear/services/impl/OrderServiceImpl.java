@@ -39,11 +39,8 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByBuyerIdAndStatusIn(buyerId, statuses);
     }
     
-    public List<Order> getHistoryOrdersByBuyer(Long buyerId) {
-    	return orderRepository.findByBuyerIdAndStatusIn(
-                buyerId, 
-                Arrays.asList("COMPLETED", "CANCELED")
-            );
+    public Page<Order> getHistoryOrdersByBuyer(Long buyerId, Pageable pageable) {
+        return orderRepository.findByBuyerIdAndStatusOrderByOrderAtDesc(buyerId, "Đã giao", pageable);
     }
     
     public Page<Order> findAll(Specification<Order> spec, Pageable pageable) {
