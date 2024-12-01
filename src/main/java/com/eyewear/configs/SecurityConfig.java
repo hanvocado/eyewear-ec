@@ -26,6 +26,9 @@ public class SecurityConfig {
         return new JwtFilter();
     }
 
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
     @Bean
     public UserDetailsService userDetailsServices() {
         return new UserDetailsServiceImpl();
@@ -63,8 +66,17 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/signin")
                         .successHandler(customsuccessHandler)
-                        .failureHandler(customAuthenticationFailureHandler())
+                        .failureHandler(customAuthenticationFailureHandler)
                         //.defaultSuccessUrl("/", true)
+                        .permitAll()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login/oauth2")
+                        .authorizationEndpoint(authEndpoint -> authEndpoint
+                                .baseUri("/login/oauth2/authorization")
+                        )
+                        .successHandler(customsuccessHandler)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -78,9 +90,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-    @Bean public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler();
-    }
-
 }

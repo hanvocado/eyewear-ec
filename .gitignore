@@ -13,11 +13,21 @@ target/
 .springBeans
 .sts4-cache
 
+# Ignore application properties
+application.properties
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
+/src/main/resources/
+    application.properties
+    application-local.properties
+    application-prod.properties
+
+# Ignore specific configuration files
+application-local.properties
 
 ### NetBeans ###
 /nbproject/private/
