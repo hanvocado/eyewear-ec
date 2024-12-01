@@ -160,7 +160,7 @@
 								<!-- Previous page link -->
 								<c:if test="${productPage.number > 0}">
 									<li><a
-										href="<c:url value='/common/products?size=${productPage.size}&page=${productPage.number - 1}'/>"
+										href="<c:url value='/common/products?size=${productPage.size}&page=${productPage.number}'/>"
 										class="prev-page">&laquo;</a></li>
 								</c:if>
 								<c:if test="${productPage.number == 0}">
@@ -173,7 +173,7 @@
 									<li
 										class="${pageNumber == productPage.number + 1 ? 'page-item active' : 'page-item'}">
 										<a
-										href="<c:url value='/common/products?size=${productPage.size}&page=${pageNumber - 1}'/>">
+										href="<c:url value='/common/products?size=${productPage.size}&page=${pageNumber}'/>">
 											${pageNumber} </a>
 									</li>
 								</c:forEach>
@@ -181,7 +181,7 @@
 								<!-- Next page link -->
 								<c:if test="${productPage.number < productPage.totalPages - 1}">
 									<li><a
-										href="<c:url value='/common/products?size=${productPage.size}&page=${productPage.number + 1}'/>"
+										href="<c:url value='/common/products?size=${productPage.size}&page=${productPage.number+2}'/>"
 										class="next-page">&raquo;</a></li>
 								</c:if>
 								<c:if test="${productPage.number == productPage.totalPages - 1}">

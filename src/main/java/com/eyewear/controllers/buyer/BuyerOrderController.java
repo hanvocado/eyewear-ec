@@ -234,7 +234,7 @@ public class BuyerOrderController {
 	        model.addAttribute("message","Đặt hàng thành công!");
 	      
 	    } catch (Exception e) {
-	    	model.addAttribute("message","Đặt hàng thất bại!");
+	    	model.addAttribute("message2",e.getMessage());
 	    }
 
 	    return "buyer/checkout";

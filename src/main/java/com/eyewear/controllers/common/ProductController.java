@@ -1,7 +1,6 @@
 package com.eyewear.controllers.common;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -11,7 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,21 +39,24 @@ public class ProductController {
 
     // Lấy tất cả sản phẩm với phân trang
     @RequestMapping("")
-    public String allProducts(ModelMap model, Pageable pageable) {
-        Page<Product> productPage = productService.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    public String allProducts(ModelMap model, Pageable pageable) {	
+    	int page = (pageable.getPageNumber()>0) ? pageable.getPageNumber()-1 : 0;
+        Page<Product> productPage = productService.findAll(PageRequest.of(page, pageable.getPageSize()));
         addPaginationAttributes(model, pageable, productPage);
         setProductImageUrls(productPage);
         model.addAttribute("productPage", productPage);
         return "common/product-list";  // Trang hiển thị danh sách sản phẩm
     }
-
     @GetMapping("/search")
     public String search(ModelMap model, @RequestParam(name = "name", required = false) String name, Pageable pageable) {
         
         List<Category> categories = categoryService.findAll();
         List<String> uniqueBrand = getUniqueBrands();
+        
+        Double maxPrice = productService.findMaxPrice();
+        Double minPrice = productService.findMinPrice();
 
-        Page<Product> resultPage = searchProducts(name, pageable);
+        Page <Product> resultPage = searchProducts(name, pageable);
         String message = getMessage(resultPage, name);
 
         addPaginationAttributes(model, pageable, resultPage);
@@ -65,7 +66,10 @@ public class ProductController {
         model.addAttribute("categories", categories);
         model.addAttribute("productPage", resultPage);
         model.addAttribute("message", message);
-        model.addAttribute("name", name);
+        model.addAttribute("max", maxPrice);
+        model.addAttribute("min", minPrice);
+        // Truyền tên từ thanh tìm xuống view
+        model.addAttribute("searchname", name);
 
         return "common/product-search-result";
     }
@@ -73,72 +77,86 @@ public class ProductController {
     @GetMapping("/searchpaginated")
     public String searchPaginated(ModelMap model,
                                   @RequestParam(name = "name", required = false) String name,
-                                  @RequestParam("page") Optional<Integer> page,
-                                  @RequestParam("size") Optional<Integer> size) {
+                                  Pageable pageable) {
 
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(3);
+    	int currentPage = (pageable.getPageNumber()>0) ? pageable.getPageNumber()-1 : 0;
 
-        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by("name"));
+        Pageable page = PageRequest.of(currentPage, pageable.getPageSize(), Sort.by("name"));
 
         List<Category> categories = categoryService.findAll();
         List<String> uniqueBrand = getUniqueBrands();
 
-        Page<Product> resultPage = searchProducts(name, pageable);
+        Page<Product> resultPage = searchProducts(name, page);
         String message = getMessage(resultPage, name);
 
-        addPaginationAttributes(model, pageable, resultPage);
+        addPaginationAttributes(model, page, resultPage);
         setProductImageUrls(resultPage);
 
         model.addAttribute("brands", uniqueBrand);
         model.addAttribute("categories", categories);
         model.addAttribute("productPage", resultPage);
         model.addAttribute("message", message);
+        model.addAttribute("searchname", name);
 
         return "common/product-search-result";
     }
 
     @RequestMapping("/filter")
-    public String getProducts(@RequestParam(value = "categoryName", required = false) List<String> categoryName,
-    						  @RequestParam(name = "name", required = false) String searchname,
-                              @RequestParam(value = "brand", required = false) String brand,
+    public String getProducts(@RequestParam(name = "name", required = false) String name,
+                              @RequestParam(name = "categoryName", required = false) List<String> categoryName,  
+                              @RequestParam(value = "brand", required = false) List<String> brand,
                               @RequestParam(value = "minPrice", required = false) Double minPrice,
                               @RequestParam(value = "maxPrice", required = false) Double maxPrice,
-                              @RequestParam(value = "page", defaultValue = "0") int page,
-                              @RequestParam(value = "size", defaultValue = "10") int size,
-                              Model model) {
-    	
-    	// Lấy kt, trang hiện tại
-        Pageable pageable = PageRequest.of(page, size);
-        System.out.println(searchname);
-        Page <Product> productPage;
-        
-        if (StringUtils.hasText(searchname)) {
-            productPage = productService.searchProduct(searchname, pageable);
-            if ((categoryName != null && !categoryName.isEmpty()) || brand != null || minPrice != null || maxPrice != null) {
-                productPage = productService.findByCriteria(categoryName, brand, minPrice, maxPrice, pageable);
+                              Pageable pageable,
+                              ModelMap model) {
+
+        Page<Product> productPage;
+
+        int currentPage = (pageable.getPageNumber() > 0) ? pageable.getPageNumber() - 1 : 0;
+        Pageable page = PageRequest.of(currentPage, pageable.getPageSize(), Sort.by("name"));
+
+        if (StringUtils.hasText(name)) {
+            productPage = productService.searchProduct(name, page);
+            if (!productPage.isEmpty()) {
+                if ((categoryName != null && !categoryName.isEmpty()) ||
+                    (brand != null && !brand.isEmpty()) ||
+                    minPrice != null || maxPrice != null) {
+                    productPage = productService.findByCriteria(categoryName, brand, minPrice, maxPrice, page);
+                }
+            } else {
+                productPage = Page.empty(page);
             }
         } else {
-            if ((categoryName != null && !categoryName.isEmpty()) || brand != null || minPrice != null || maxPrice != null) {
-                productPage = productService.findByCriteria(categoryName, brand, minPrice, maxPrice, pageable);
+            if ((categoryName != null && !categoryName.isEmpty()) ||
+                (brand != null && !brand.isEmpty()) ||
+                minPrice != null || maxPrice != null) {
+                productPage = productService.findByCriteria(categoryName, brand, minPrice, maxPrice, page);
             } else {
-                productPage = productService.findAll(pageable);
+                productPage = productService.findAll(page);
             }
         }
 
         List<Category> categories = categoryService.findAll();
         List<String> uniqueBrand = getUniqueBrands();
-        
-        // đưa vào đường dẫn
+        String message = getMessage(productPage, name);
+        addPaginationAttributes(model, page, productPage);
         setProductImageUrls(productPage);
 
+        model.addAttribute("action", "filter");
+        model.addAttribute("searchname", name);
+        model.addAttribute("brand", brand);
+        model.addAttribute("categoryName", categoryName);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("minPrice", minPrice);
         model.addAttribute("brands", uniqueBrand);
         model.addAttribute("categories", categories);
         model.addAttribute("productPage", productPage);
+        model.addAttribute("message", message);
 
         return "common/product-search-result";
     }
 
+    
     // Tìm sản phẩm theo tên
     private Page<Product> searchProducts(String name, Pageable pageable) {
         if (StringUtils.hasText(name)) {
@@ -160,7 +178,7 @@ public class ProductController {
     }
     // phân trang
     private void addPaginationAttributes(ModelMap model, Pageable pageable, Page<Product> productPage) {
-        int currentPage = pageable.getPageNumber();
+    	int currentPage = pageable.getPageNumber();
         int totalPages = productPage.getTotalPages();
         if (totalPages > 0) {
             int start = Math.max(1, currentPage - 2);

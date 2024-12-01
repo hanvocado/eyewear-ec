@@ -12,9 +12,10 @@ public class ProductSpecification {
             root.get("category").get("name").in(categories) : null;
     }
 
-    public static Specification<Product> hasBrand(String brand) {
+    public static Specification<Product> hasBrand(List<String> brands) {
         return (root, query, criteriaBuilder) -> 
-            brand != null ? criteriaBuilder.equal(root.get("brand"), brand) : null;
+            brands != null && !brands.isEmpty() ? 
+                root.get("brand").in(brands) : null;  // Lọc theo nhiều thương hiệu
     }
 
     public static Specification<Product> isPriceBetween(Double minPrice, Double maxPrice) {
@@ -29,7 +30,7 @@ public class ProductSpecification {
             return null;
         };
     }  
-    public static Specification<Product> filterByCriteria(List<String> categories, String brand, Double minPrice, Double maxPrice) {
+    public static Specification<Product> filterByCriteria(List<String> categories, List<String> brand, Double minPrice, Double maxPrice) {
         return Specification.where(hasCategory(categories))
                             .and(hasBrand(brand))
                             .and(isPriceBetween(minPrice, maxPrice));
