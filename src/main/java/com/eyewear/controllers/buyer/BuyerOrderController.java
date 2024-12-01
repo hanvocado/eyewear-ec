@@ -42,13 +42,22 @@ public class BuyerOrderController {
     @Autowired
     ProductReviewService reviewService;
     
-    // Hiển thị danh sách/lịch sử đơn hàng (gộp 2 phương thức getPurchaseHistory và getMyOrders)
-    @GetMapping({"/my-orders", "/history"})  // Hỗ trợ cả 2 URL pattern
+ // Xem đơn hàng đang xử lý (chờ xác nhận, đã xác nhận, đang giao, đã giao)
+    @GetMapping("/my-orders")
+    public String getMyOrders(Model model, Principal principal) {
+        Long buyerId = getCurrentBuyerId(principal);
+        List<Order> activeOrders = orderService.getOrdersByBuyer(buyerId);
+        model.addAttribute("orders", activeOrders);
+        return "buyer/order-track";
+    }
+
+    // Xem lịch sử đơn hàng (đã giao)
+    @GetMapping("/history") 
     public String getOrderHistory(Model model, Principal principal) {
         Long buyerId = getCurrentBuyerId(principal);
-        List<Order> orders = orderService.getOrdersByBuyer(buyerId);
-        model.addAttribute("orders", orders);
-        return "buyer/order-history";  // Thống nhất tên view
+        List<Order> completedOrders = orderService.getHistoryOrdersByBuyer(buyerId);
+        model.addAttribute("orders", completedOrders);
+        return "buyer/order-history";
     }
     
     // Xem chi tiết đơn hàng
@@ -170,7 +179,7 @@ public class BuyerOrderController {
 	        model.addAttribute("message","Đặt hàng thành công!");
 	      
 	    } catch (Exception e) {
-	    	model.addAttribute("message","Đặt hàng thất bại!");
+	    	model.addAttribute("message2",e.getMessage());
 	    }
 
 	    return "buyer/checkout";

@@ -20,7 +20,21 @@
     </script>
 </c:if>
 
-
+<c:if test="${not empty message2}">
+    <script>
+        Swal.fire({
+            title: 'Thông báo',
+            text: "<c:out value='${message2}' />",
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Chuyển hướng tới controller
+                window.location.href = '<c:url value="/buyer/cart" />';
+            }
+        });
+    </script>
+</c:if>
 
 
 
@@ -89,7 +103,7 @@
 										<table>
 											<tr>
 												<th class="checkout-image">Image</th>
-												<th class="checkout-description">Name</th>
+												<th class="checkout-description">Description</th>
 
 												<th class="checkout-quantity">Quantity</th>
 												<th class="checkout-price">Price</th>
@@ -103,7 +117,8 @@
 														<h3>
 															<a href="#">${i.product.name}</a>
 														</h3> <input type="hidden" name="productIds[${status.index}]"
-														value="${i.id}" />
+														value="${i.product.id}" />
+														<strong><span>${i.product.description }</span></strong>
 													</td>
 													<td class="checkout-quantity"><strong><span>${i.quantity }</span></strong> <input
 														type="hidden" name="quantities[${status.index}]" value="${i.quantity }" />
