@@ -81,7 +81,7 @@
                                         <i class="fa fa-check"></i> Reset Password
                                     </button>
                                     
-                                    <a href="<c:url value='/login'/>" class="btn btn-default btn-block">
+                                    <a href="<c:url value='/login_page'/>" class="btn btn-default btn-block">
                                         <i class="fa fa-arrow-left"></i> Back To Login
                                     </a>
                                 </div>
