@@ -2,6 +2,7 @@ package com.eyewear.services.impl;
 
 import com.eyewear.DTO.request.UserCreationRequest;
 import com.eyewear.DTO.request.UserUpdateRequest;
+import com.eyewear.entities.Buyer;
 import com.eyewear.entities.User;
 import com.eyewear.enums.Role;
 import com.eyewear.exceptions.AppException;
@@ -15,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -133,4 +135,11 @@ public class UserServiceImpl implements UserService {
 
         passwordResetTokenRepository.delete(resetToken);
     }
+
+	@Override
+	public Long getCurrentUserId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
 }

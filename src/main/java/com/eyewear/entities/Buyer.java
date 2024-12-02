@@ -1,5 +1,6 @@
 package com.eyewear.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -44,5 +45,8 @@ public class Buyer {
 
     @OneToOne(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
     private ShoppingCart shoppingCart; // Một Buyer có một ShoppingCart
-  
+    
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> address = new ArrayList<>();
+    
 }

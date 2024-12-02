@@ -37,8 +37,6 @@ public class BuyerOrderController {
     CartService cartService;
     @Autowired
     ProductReviewService reviewService;
-    @Autowired
-    BuyerService buyerService;
     
  // Xem đơn hàng đang xử lý (chờ xác nhận, đã xác nhận, đang giao, đã giao)
     @GetMapping("/my-orders")
@@ -165,11 +163,8 @@ public class BuyerOrderController {
 
 	@GetMapping("/checkout")
 	public ModelAndView placeOrder(@RequestParam(name = "listCartIemId") List<Long> listid,
-			 ModelMap model,Principal principal) {
+			 ModelMap model) {
 
-		Long buyerId = getCurrentBuyerId(principal);
-		Optional<Buyer> buyer1 = buyerService.findById(buyerId);
-		Buyer buyer=buyer1.get();
 		List<CartItem> cart = new ArrayList<>();
 		for(Long id : listid) {
 			Optional<CartItem> fcart = cartService.findById(id);
@@ -181,7 +176,7 @@ public class BuyerOrderController {
 			model.addAttribute("errorMessage", "No products found for the selected IDs.");
 			return new ModelAndView("error", model);
 		}
-		model.addAttribute("buyer",buyer);
+
 		model.addAttribute("cartList", cart);
 		return new ModelAndView("buyer/checkout", model); 
 	}
