@@ -23,6 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.eyewear.entities.*;
 import com.eyewear.services.*;
 
+import jakarta.servlet.http.HttpSession;
+
 import java.security.Principal;
 
 @Controller
@@ -49,9 +51,9 @@ public class BuyerOrderController {
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
         Model model, 
-        Principal principal
+        HttpSession session
     ) {
-        Long buyerId = getCurrentBuyerId(principal);
+        Long buyerId = getCurrentBuyerId(session);
         
         Sort sort = Sort.by(sortDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, 
                            sortBy != null ? sortBy : "orderAt");
@@ -102,9 +104,9 @@ public class BuyerOrderController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
         Model model, 
-        Principal principal
+        HttpSession session
     ) {
-        Long buyerId = getCurrentBuyerId(principal);
+        Long buyerId = getCurrentBuyerId(session);
         Pageable pageable = PageRequest.of(page, size, Sort.by("orderAt").descending());
         Page<Order> orderPage = orderService.getHistoryOrdersByBuyer(buyerId, pageable);
         
@@ -117,8 +119,8 @@ public class BuyerOrderController {
     
     // Xem chi tiết đơn hàng
     @GetMapping("/{orderId}")
-    public String getOrderDetail(@PathVariable Long orderId, Model model, Principal principal) {
-        Long buyerId = getCurrentBuyerId(principal);
+    public String getOrderDetail(@PathVariable Long orderId, Model model, HttpSession session) {
+        Long buyerId = getCurrentBuyerId(session);
         Order order = orderService.getOrderDetail(orderId, buyerId);
         List<Long> ProductReviewed = new ArrayList<>();
         for(OrderDetail detail: order.getItems()) {
@@ -133,10 +135,9 @@ public class BuyerOrderController {
         return "buyer/order-detail";
     }
 
-    private Long getCurrentBuyerId(Principal principal) {
-        // TODO: Implement logic to get current buyer id from Principal
-        return 1L; // Temporary return
-    }
+    private Long getCurrentBuyerId(HttpSession session) {
+    	   return (Long) session.getAttribute("userId");
+    	}
     
     
     //trantheanh
@@ -190,7 +191,7 @@ public class BuyerOrderController {
 	        @RequestParam List<Double> prices,
 	        @RequestParam(value = "CashOnDelivery", required = false) String CashOnDelivery,
 	        @RequestParam(value="address",required =false) String address,
-	        Principal principal,
+	        HttpSession session,
 	        Model model) {
 	    	
 		// Kiểm tra giá trị CashOnDelivery
@@ -203,7 +204,7 @@ public class BuyerOrderController {
 	       
 	        return "buyer/checkout";
 	    }
-	    Long buyerId = getCurrentBuyerId(principal);
+	    Long buyerId = getCurrentBuyerId(session);
 		    Order order = new Order();
 		    order.setOrderAt(LocalDateTime.now());
 		    order.setStatus("Pending");

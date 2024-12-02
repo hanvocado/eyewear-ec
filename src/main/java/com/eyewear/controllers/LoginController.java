@@ -2,7 +2,11 @@ package com.eyewear.controllers;
 
 import com.eyewear.DTO.request.AuthResponse;
 import com.eyewear.DTO.request.UserRequest;
+import com.eyewear.entities.User;
 import com.eyewear.services.JwtService;
+import com.eyewear.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -33,22 +37,27 @@ public class LoginController {
 
     @Autowired
     private JwtService jwtService;
+    
+    @Autowired 
+    private UserService userService;
 
     // Hiển thị trang đăng nhập
     @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserRequest authRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
-        }
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserRequest authRequest, HttpSession session) throws Exception {
+       try {
+           authenticationManager.authenticate(
+                   new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
+       } catch (BadCredentialsException e) {
+           throw new Exception("Incorrect username or password", e);
+       }
 
-        UserDetails userDetails = detailsService.loadUserByUsername(authRequest.getEmail());
+       UserDetails userDetails = detailsService.loadUserByUsername(authRequest.getEmail());
+       final String jwt = jwtService.generateToken(userDetails.getUsername());
+       
+       User user = userService.getUserByEmail(authRequest.getEmail());
+       session.setAttribute("userId", user.getId());
 
-        final String jwt = jwtService.generateToken(userDetails.getUsername());
-
-        return ResponseEntity.ok(new AuthResponse(jwt));
+       return ResponseEntity.ok(new AuthResponse(jwt));
     }
 
     @GetMapping("/login_page")
