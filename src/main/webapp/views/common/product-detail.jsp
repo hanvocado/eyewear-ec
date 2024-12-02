@@ -150,12 +150,11 @@
 										cart</button>
 								</div>
 								<div class="review">
-									<input type="range" value="4" step="0.25" id="backing4">
+									<input type="range" value="${avgReview}" step="0.25" id="backing4">
 									<div class="rateit" data-rateit-backingfld="#backing4"
 										data-rateit-resetable="false" data-rateit-ispreset="true"
 										data-rateit-min="0" data-rateit-max="5"></div>
-									<a href="#">7 reviews</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">Write
-										a review</a>
+									<a href="#">${countReview} reviews</a>
 								</div>
 								<ul class="social-icons">
 									<li><a class="facebook" data-original-title="facebook"
@@ -177,7 +176,7 @@
 									<li><a href="#Information" data-toggle="tab">Thông tin
 											sản phẩm</a></li>
 									<li class="active"><a href="#Reviews" data-toggle="tab">Đánh
-											giá (2)</a></li>
+											giá (${countReview})</a></li>
 								</ul>
 								<div id="myTabContent" class="tab-content">
 									<div class="tab-pane fade" id="Description">
@@ -227,13 +226,15 @@
 											</tr>
 										</table>
 									</div>
-
+	
 									<div class="tab-pane fade in active" id="Reviews">
 										<!--<p>There are no reviews for this product.</p>-->
-										<c:forEach var="reviews" items="${reviews}">
+									<c:forEach var="reviews" items="${reviews1}">
 										<div class="review-item clearfix">
 											<div class="review-item-submitted">
-												<strong>${reviews.buyer.name }</strong> <em>${reviews.reviewDate }</em>
+												<strong>${reviews.buyer.name }</strong> 
+												
+												<em>${reviews.reviewDate }</em>
 												<div class="rateit" data-rateit-value="${reviews.rating }"
 													data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 											</div>
@@ -241,7 +242,20 @@
 												<p>${reviews.reviewContent}</p>
 											</div>
 										</div>
-										</c:forEach>
+									</c:forEach>
+									
+									 <!-- Phân trang -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            <c:if test="${totalPages > 0}">
+            <c:forEach begin="0" end="${totalPages - 1}" var="i">
+                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                    <a class="page-link" href="?productId=${productId}&page=${i}">${i + 1}</a>
+                </li>
+            </c:forEach>
+            </c:if>
+        </ul>
+    </nav>
 									</div>
 								</div>
 							</div>

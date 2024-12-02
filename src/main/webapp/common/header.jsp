@@ -36,7 +36,8 @@
                 <!-- BEGIN TOP BAR MENU -->
                 <div class="col-md-6 col-sm-6 additional-nav">
                     <ul class="list-unstyled list-inline pull-right">
-                        <li><a href="/login_page">Log In</a></li>
+						<li><a href="/buyer/profile">Account</a></li>
+						<li><a href="/login_page">Log In</a></li>
 						<li><a href="/register">Registration</a></li>
 						<li>
 							<form action="/logout" method="post" th:csrf="true">
@@ -53,8 +54,7 @@
     <!-- END TOP BAR -->
     <!-- BEGIN HEADER -->
     <div class="header">
-		<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/logins/login-12/assets/css/login-12.css">
+		
       <div class="container">
         <a class="site-logo" href="index.html"><img src="/frontend/layout/img/logos/logo-corp-red.png" alt="Metronic FrontEnd"></a>
 

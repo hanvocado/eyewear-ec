@@ -75,6 +75,40 @@
 
 								
 
+   <!-- BEGIN SHIPPING ADDRESS -->
+              <div id="shipping-address" class="panel panel-default">
+              
+               
+                  <div class="panel-body row">
+                    <div class="col-md-6 col-sm-6">
+                      <div class="form-group">
+                        <label for="firstname-dd">First Name <span class="require"></span></label>
+                        <input type="text" id="firstname-dd" class="form-control" value="${buyer.name }">
+                      </div>
+                      <div class="form-group">
+                        <label for="lastname-dd">Last Name <span class="require"></span></label>
+                        <input type="text" id="lastname-dd" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="email-dd">E-Mail <span class="require"></span></label>
+                        <input type="text" id="email-dd" class="form-control" value="${buyer.email }">
+                      </div>
+                      <div class="form-group">
+                        <label for="telephone-dd">Telephone <span class="require"></span></label>
+                        <input type="text" id="telephone-dd" class="form-control" value="${buyer.phoneNumber }">
+                      </div>
+                     
+                     
+                    </div>
+                  
+                   
+                  </div>
+               
+              </div>
+              <!-- END SHIPPING ADDRESS -->
+
+
+
 									<div class="form-group">
 										<label for="country-dd">Address <span class="require" >*</span></label>
 										<select class="form-control input-sm" id="country-dd" placeholder="Enter Payment Method" required
@@ -120,7 +154,7 @@
 														value="${i.product.id}" />
 														<strong><span>${i.product.description }</span></strong>
 													</td>
-													<td class="checkout-quantity"><strong><span>${i.quantity }</span></strong> <input
+													<td class="checkout-quantity"><strong><span>x${i.quantity }</span></strong> <input
 														type="hidden" name="quantities[${status.index}]" value="${i.quantity }" />
 													</td>
 													<td class="checkout-price"><strong><span>₫</span>${i.product.price}</strong>

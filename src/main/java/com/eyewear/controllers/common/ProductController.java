@@ -177,7 +177,13 @@ public class ProductController {
     	String productType = product.getCategory().getName();
       	
     	List<ProductReview> reviews = productReviewService.findAll(id);
-    	
+    	Page<ProductReview> reviewPage = productReviewService.findAll(PageRequest.of(0, 1), id);
+        
+        model.addAttribute("reviews1", reviewPage.getContent());
+        model.addAttribute("currentPage", 0);
+        model.addAttribute("totalPages", reviewPage.getTotalPages());
+       
+        model.addAttribute("productId", id);
    	 // Lấy sản phẩm tương tự (theo danh mục hoặc thương hiệu)
        List<Product> similarProducts = productService.findByCategoryIdOrBrand(
        		product.getCategory().getId(), 
@@ -203,7 +209,8 @@ public class ProductController {
     	    System.out.println("Không tìm thấy sản phẩm tương tự");
     	    message = "Không tìm thấy sản phẩm tương tự";
     	}
-    	
+    	Long countReview= productReviewService.countReviewsByProductId(id);
+    	double avgReview=productReviewService.calculateAverageRating(id);
     	String imageUrl = cloudinary.url().publicId(product.getImage()).generate();
         product.setImageUrl(imageUrl);
     	model.addAttribute("product", product);
@@ -211,6 +218,8 @@ public class ProductController {
     	model.addAttribute("message", message);
     	model.addAttribute("productType", productType); 
     	model.addAttribute("reviews", reviews);
+    	model.addAttribute("countReview",countReview);
+    	model.addAttribute("avgReview",avgReview);
     	
     	return "common/product-detail";
     }

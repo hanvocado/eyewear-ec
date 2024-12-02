@@ -2,6 +2,7 @@ package com.eyewear.controllers.buyer;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,16 +46,16 @@ public class ProductReviewController {
             @RequestParam Long productId,
             @RequestParam(required = false) Integer rating,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "1") int size,
             Model model) {
         
-        Page<ProductReview> reviewPage = reviewService.findAll(PageRequest.of(page, size), productId, rating);
-        
-        model.addAttribute("reviews", reviewPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", reviewPage.getTotalPages());
-        model.addAttribute("rating", rating);
-        model.addAttribute("productId", productId);
+		 Page<ProductReview> reviewPage = reviewService.findAll(PageRequest.of(page, size), productId, rating);
+	        
+	        model.addAttribute("reviews", reviewPage.getContent());
+	        model.addAttribute("currentPage", page);
+	        model.addAttribute("totalPages", reviewPage.getTotalPages());
+	        model.addAttribute("rating", rating);
+	        model.addAttribute("productId", productId);
         
         return "test2";
     }
