@@ -16,6 +16,10 @@
   <!-- Global styles START -->          
   <link href="/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link href="/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css" rel="stylesheet">
+  <link href="/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet">
+  <link href="/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet">
   <!-- Global styles END --> 
    
   <!-- Page level plugin styles START -->
@@ -61,7 +65,10 @@
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>
 
+
 <!-- <!-- Bootstrap CSS -->
+
+
 
 <style>
 .flash-message {
@@ -153,9 +160,6 @@
 }
 
 </style>
-
-
-
 </head>
 <!-- Head END -->
 <body class="ecommerce">
