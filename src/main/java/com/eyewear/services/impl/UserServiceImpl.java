@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     public User createRequest(UserCreationRequest request) {
         User user = new User();
+        Buyer buyer = new Buyer();
 
         if(userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);

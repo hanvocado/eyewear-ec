@@ -86,4 +86,13 @@ public class GoodsTransferNote {
 	public int getNumberOfProducts() {
 		return products.size();
 	}
+
+	public void markAsCompleted() {
+		this.status = TransferNoteStatus.COMPLETED;
+		this.receivedAt = LocalDateTime.now();
+	}
+	
+	public void markAsConfirmed() {
+		this.status = TransferNoteStatus.CONFIRMED;
+	}
 }
