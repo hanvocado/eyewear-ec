@@ -1,4 +1,4 @@
-package com.eyewear.dto.request;
+package com.eyewear.DTO.request;
 
 public class AuthResponse {
 

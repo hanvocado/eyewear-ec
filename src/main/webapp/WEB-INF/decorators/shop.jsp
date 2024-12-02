@@ -59,9 +59,9 @@
 <!-- BEGIN THEME STYLES -->
 <link href="/global/css/components-rounded.css" id="style_components" rel="stylesheet" type="text/css">
 <link href="/global/css/plugins.css" rel="stylesheet" type="text/css">
-<link href="/admin/layout3/css/layout.css" rel="stylesheet" type="text/css">
-<link href="/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
-<link href="/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
+<link href="/admin1/layout3/css/layout.css" rel="stylesheet" type="text/css">
+<link href="/admin1/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
+<link href="/admin1/layout3/css/custom.css" rel="stylesheet" type="text/css">
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>
 
@@ -197,9 +197,9 @@
 <script src="/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
 <!-- Metronic và các script liên quan -->
-<script src="/admin/layout3/scripts/layout.js" type="text/javascript"></script>
-<script src="/admin/layout3/scripts/demo.js" type="text/javascript"></script>
-<script src="/admin/pages/scripts/components-pickers.js"></script>
+<script src="/admin1/layout3/scripts/layout.js" type="text/javascript"></script>
+<script src="/admin1/layout3/scripts/demo.js" type="text/javascript"></script>
+<script src="/admin1/pages/scripts/components-pickers.js"></script>
 
 <!-- Các script khác -->
 <script src="/global/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script>

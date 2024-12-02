@@ -1,7 +1,7 @@
 package com.eyewear.controllers;
 
-import com.eyewear.dto.request.AuthResponse;
-import com.eyewear.dto.request.UserRequest;
+import com.eyewear.DTO.request.AuthResponse;
+import com.eyewear.DTO.request.UserRequest;
 import com.eyewear.services.JwtService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
