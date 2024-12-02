@@ -83,11 +83,13 @@
                     <div class="col-md-6 col-sm-6">
                       <div class="form-group">
                         <label for="firstname-dd">First Name <span class="require"></span></label>
-                        <input type="text" id="firstname-dd" class="form-control" value="${buyer.name }" readonly>
+
+                        <input type="text" id="firstname-dd" class="form-control" value="${buyer.firstName }" readonly>
                       </div>
                       <div class="form-group">
                         <label for="lastname-dd">Last Name <span class="require"></span></label>
-                        <input type="text" id="lastname-dd" class="form-control" readonly>
+                        <input type="text" id="lastname-dd" class="form-control" value="${buyer.lastName }" readonly>
+
                       </div>
                       <div class="form-group">
                         <label for="email-dd">Email <span class="require"></span></label>
@@ -95,34 +97,40 @@
                       </div>
                       <div class="form-group">
                         <label for="telephone-dd">Phone <span class="require"></span></label>
-                        <input type="text" id="telephone-dd" class="form-control" value="${buyer.phoneNumber }" readonly>
+
+                        <input type="text" id="telephone-dd" class="form-control" value="${buyer.phone }" readonly>
+
                       </div>
                      
                      
                     </div>
+                  </div>
                   
                    
                   </div>
                
-              </div>
+              </div></div>
               <!-- END SHIPPING ADDRESS -->
 
 
 
-								<div class="form-group">
-    <label for="country-dd">Address <span class="require"></span></label>
-    <select class="form-control input-sm" id="country-dd" placeholder="Enter Payment Method" required name="address">
-        <c:forEach var="address" items="${buyer.address}">
-            <option value="${address.id}">${address.streetName}</option>
-        </c:forEach>
-    </select>
-</div>
+
+									<div class="form-group">
+										<label for="country-dd">Address  <span class="require" ></span></label>
+										
+										<select class="form-control input-sm" id="address-dd" name="address" placeholder="Chọn địa chỉ" required>
+    
+    <c:forEach var="address" items="${buyer.listaddress}">
+        <option value="${address.id}">
+            ${address.streetNumber} ${address.streetName}, ${address.commue}, ${address.district}, ${address.province}
+        </option>
+    </c:forEach>
+</select>
+
+									</div>
 
 
 
-								</div>
-
-							</div>
 
 
 							<!-- thong tin -->

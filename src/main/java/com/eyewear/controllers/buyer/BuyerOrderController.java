@@ -41,6 +41,8 @@ public class BuyerOrderController {
     ProductReviewService reviewService;
     @Autowired
     BuyerService buyerService;
+    @Autowired
+    UserService userService;
     
  // Xem đơn hàng đang xử lý (chờ xác nhận, đã xác nhận, đang giao, đã giao)
     @GetMapping("/my-orders")
@@ -53,9 +55,11 @@ public class BuyerOrderController {
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
         Model model, 
-        HttpSession session
+        Principal principal
     ) {
-        Long buyerId = getCurrentBuyerId(session);
+    	Long buyerId = getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
         
         Sort sort = Sort.by(sortDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, 
                            sortBy != null ? sortBy : "orderAt");
@@ -106,9 +110,11 @@ public class BuyerOrderController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
         Model model, 
-        HttpSession session
+        Principal principal
     ) {
-        Long buyerId = getCurrentBuyerId(session);
+    	Long buyerId = getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
         Pageable pageable = PageRequest.of(page, size, Sort.by("orderAt").descending());
         Page<Order> orderPage = orderService.getHistoryOrdersByBuyer(buyerId, pageable);
         
@@ -121,8 +127,10 @@ public class BuyerOrderController {
     
     // Xem chi tiết đơn hàng
     @GetMapping("/{orderId}")
-    public String getOrderDetail(@PathVariable Long orderId, Model model, HttpSession session) {
-        Long buyerId = getCurrentBuyerId(session);
+    public String getOrderDetail(@PathVariable Long orderId, Model model, Principal principal) {
+    	Long buyerId = getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
         Order order = orderService.getOrderDetail(orderId, buyerId);
         List<Long> ProductReviewed = new ArrayList<>();
         for(OrderDetail detail: order.getItems()) {
@@ -137,9 +145,15 @@ public class BuyerOrderController {
         return "buyer/order-detail";
     }
 
-    private Long getCurrentBuyerId(HttpSession session) {
-    	   return (Long) session.getAttribute("userId");
-    	}
+    
+    private Long getCurrentBuyerId(Principal principal) {
+    	String username = principal.getName();
+	    
+	    // Tìm User theo email hoặc username để lấy ID
+	    User user = userService.getUserByEmail(username);
+	    
+	    return user.getId();
+ 	}
     
     
     //trantheanh
@@ -166,11 +180,12 @@ public class BuyerOrderController {
 
 	@GetMapping("/checkout")
 	public ModelAndView placeOrder(@RequestParam(name = "listCartIemId") List<Long> listid,
-			 ModelMap model,HttpSession session) {
+			 ModelMap model,Principal principal) {
 
-		Long buyerId = getCurrentBuyerId(session);
-		if(buyerId==null)
-			buyerId=(long) 1;
+
+	    Long buyerId = getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
 		Optional<Buyer> buyer1 = buyerService.findById(buyerId);
 		
 		Buyer buyer=buyer1.get();
@@ -199,7 +214,7 @@ public class BuyerOrderController {
 	        @RequestParam List<Double> prices,
 	        @RequestParam(value = "CashOnDelivery", required = false) String CashOnDelivery,
 	        @RequestParam(value="address",required =false) String address,
-	        HttpSession session,
+	        Principal principal,
 	        Model model) {
 	    	
 		// Kiểm tra giá trị CashOnDelivery
@@ -212,7 +227,9 @@ public class BuyerOrderController {
 	       
 	        return "buyer/checkout";
 	    }
-	    Long buyerId = getCurrentBuyerId(session);
+	    Long buyerId = getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
 		    Order order = new Order();
 		    order.setOrderAt(LocalDateTime.now());
 		    order.setStatus("Đang chờ");

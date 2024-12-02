@@ -21,8 +21,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.eyewear.entities.Buyer;
 import com.eyewear.entities.Product;
 import com.eyewear.entities.ProductReview;
+import com.eyewear.entities.User;
 import com.eyewear.services.ProductReviewService;
 import com.eyewear.services.ProductService;
+import com.eyewear.services.UserService;
 
 import jakarta.validation.Valid;
 
@@ -34,6 +36,8 @@ public class ProductReviewController {
 	ProductReviewService reviewService;
 	@Autowired
 	ProductService productService;
+    @Autowired
+    UserService userService;
 	
 	@GetMapping("test")
 	public String index() {
@@ -80,8 +84,12 @@ public class ProductReviewController {
 	}
 	
 	private Long getCurrentBuyerId(Principal principal) {
-        // TODO: Implement logic to get current buyer id from Principal
-        return 1L; // Temporary return
+		String username = principal.getName();
+	    
+	    // Tìm User theo email hoặc username để lấy ID
+	    User user = userService.getUserByEmail(username);
+	    
+	    return user.getId();
     }
 
 	

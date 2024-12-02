@@ -24,5 +24,4 @@ public interface UserService {
     void updatePassword(String token, String newPassword);
 
     public User getMyInfo();
-    public Long getCurrentUserId();
 }

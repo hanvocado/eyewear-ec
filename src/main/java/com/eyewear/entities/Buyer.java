@@ -1,10 +1,12 @@
 package com.eyewear.entities;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.eyewear.enums.Role;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,25 +19,18 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "buyers")
-@Data
+@DiscriminatorValue("BUYER")
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-
-public class Buyer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-    private String name;
-    private String username;
-    private String email;
-    private String phoneNumber;
-    private String password;
+@SuperBuilder
+public class Buyer extends User {
+	private String address;
+	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    private List<Address> listaddress;
 
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders;
@@ -46,6 +41,12 @@ public class Buyer {
     @OneToOne(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
     private ShoppingCart shoppingCart; // Một Buyer có một ShoppingCart
     
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> address ;
+    public Buyer() {
+    	super();
+    }
+  
+    @Override
+    public String getRole() {
+        return Role.BUYER.name();
+    }
 }

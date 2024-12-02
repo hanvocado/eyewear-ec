@@ -31,7 +31,9 @@ public class Address {
 	private String streetName;
 	
 	private int streetNumber;
+
+	
 	@ManyToOne
-    @JoinColumn(name = "buyer_id")
-    private Buyer buyer; // Một Address thuộc về một Buyer
+    @JoinColumn(name = "buyer_id", nullable = false) // Khóa ngoại liên kết đến bảng Buyer
+    private Buyer buyer;
 }
