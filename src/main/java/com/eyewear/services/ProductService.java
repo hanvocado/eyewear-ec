@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductColor;
 
 import jakarta.validation.Valid;
 
@@ -48,4 +49,7 @@ public interface ProductService {
 	Product getProductById(long id);
 
 	List<Product> findByCategoryIdOrBrand(Long categoryId, String brand, Long productId);
+
+	List<ProductColor> findByProductId(Long id);
+	
 }
