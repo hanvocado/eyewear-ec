@@ -35,8 +35,6 @@
 	<!-- Page level plugin styles -->
   <link href="/frontend/pages/css/style-shop.css" rel="stylesheet" type="text/css">
 
-
-
   <!-- Theme styles START -->
   <link href="/global/css/components.css" rel="stylesheet">
   <link href="/frontend/layout/css/style.css" rel="stylesheet">
