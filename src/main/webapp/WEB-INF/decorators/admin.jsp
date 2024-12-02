@@ -19,7 +19,7 @@
 <link href="/global/plugins/morris/morris.css" rel="stylesheet" type="text/css">
 <!-- END PAGE LEVEL PLUGIN STYLES -->
 <!-- BEGIN PAGE STYLES -->
-<link href="/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
+<link href="/admin1/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
 <!-- END PAGE STYLES -->
 <!-- BEGIN THEME STYLES -->
 <!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
@@ -84,8 +84,8 @@
 <!-- END PAGE LEVEL SCRIPTS -->
 
 
-<script src="/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
-<script src="/admin/pages/scripts/table-managed.js"></script>
+<script src="/admin1/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<script src="/admin1/pages/scripts/table-managed.js"></script>
 <script>
 jQuery(document).ready(function() {    
    Metronic.init(); // init metronic core componets

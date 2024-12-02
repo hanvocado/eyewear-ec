@@ -1,5 +1,11 @@
 package com.eyewear.controllers;
 
+import com.eyewear.DTO.request.AuthResponse;
+import com.eyewear.DTO.request.UserRequest;
+import com.eyewear.services.JwtService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
