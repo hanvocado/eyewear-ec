@@ -170,19 +170,26 @@ public class ProductController {
     
     @RequestMapping("/detail/{id}")
     public String getProductDetail(@PathVariable long id,
-            ModelMap model) {
+            ModelMap model,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "4") int size) {
     	
     	Product product = productService.getProductById(id);
     	String message = null;
     	
     	String productType = product.getCategory().getName();
-      	
-    	List<ProductReview> reviews = productReviewService.findAll(id);
     	
-    	Long countReview = productReviewService.countByProductId(id);
+    	Page<ProductReview> reviewPage = productReviewService.findAll(PageRequest.of(page, size), id);
+        
+    	 model.addAttribute("reviews", reviewPage.getContent());
+	        model.addAttribute("currentPage", page);
+	        model.addAttribute("totalPages", reviewPage.getTotalPages());
+	        model.addAttribute("productId", id);
+
     	
-    	System.out.println(countReview);
     	
+    	
+
    	 // Lấy sản phẩm tương tự (theo danh mục hoặc thương hiệu)
        List<Product> similarProducts = productService.findByCategoryIdOrBrand(
        		product.getCategory().getId(), 
@@ -225,16 +232,21 @@ public class ProductController {
     	    System.out.println("Không tìm thấy sản phẩm tương tự");
     	    message = "Không tìm thấy sản phẩm tương tự";
     	}
-    	
+    	Long countReview= productReviewService.countReviewsByProductId(id);
+    	double avgReview=productReviewService.calculateAverageRating(id);
     	String imageUrl = cloudinary.url().publicId(product.getImage()).generate();
         product.setImageUrl(imageUrl);
     	model.addAttribute("product", product);
     	model.addAttribute("similarProducts", similarProducts);
     	model.addAttribute("message", message);
     	model.addAttribute("productType", productType); 
-    	model.addAttribute("reviews", reviews);
+
+    	
+    	model.addAttribute("avgReview",avgReview);
+
     	model.addAttribute("countReview", countReview);
     	model.addAttribute("productColors", productColors); // Thêm thông tin màu sắc
+
     	
     	return "common/product-detail";
     }
