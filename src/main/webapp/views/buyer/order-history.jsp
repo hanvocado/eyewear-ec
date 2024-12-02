@@ -29,7 +29,7 @@
                             <a href="<c:url value='/buyer/orders/${order.orderId}'/>" 
                                class="btn btn-primary btn-sm">Xem chi tiết</a>
                             
-                            <c:if test="${order.status == 'DONE' && !proreviewed.contains(order.orderId)}">
+                            <c:if test="${order.status == 'Đã giao' && !proreviewed.contains(order.orderId)}">
                                 <a href="<c:url value='/buyer/reviews/add/${order.orderId}'/>"
                                    class="btn btn-success btn-sm">Đánh giá</a>
                             </c:if>

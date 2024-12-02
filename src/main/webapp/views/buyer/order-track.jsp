@@ -45,7 +45,7 @@
                                class="btn btn-primary btn-sm">Xem chi tiết</a>
                         </td>
                         <td>
-    						<c:if test="${order.status.toLowerCase() != 'done' && order.status.toLowerCase() != 'canceled'}">
+    						<c:if test="${order.status.toLowerCase() != 'Đã giao' && order.status.toLowerCase() != 'Đã huỷ'}">
     							<button class="btn btn-primary btn-sm" onclick="confirmCancel('${order.orderId}')">Huỷ Đơn</button>
     							
 							</c:if>

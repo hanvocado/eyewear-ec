@@ -64,7 +64,7 @@
 									<input type="hidden" name="buyerId" value="${order.buyer.id}">
 									<input type="hidden" name="productId"
 										value="${item.product.id}">
-									<c:if test="${order.status.toLowerCase() == 'done'}">
+									<c:if test="${order.status.toLowerCase() == 'Đã giao'}">
 										<c:if test="${fn:contains(proreviewed, item.product.id)}">
 											<button type="submit" class="btn btn-primary btn-sm">Sửa
 												đánh giá</button>

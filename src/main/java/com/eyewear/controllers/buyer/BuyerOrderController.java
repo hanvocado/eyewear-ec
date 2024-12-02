@@ -151,7 +151,7 @@ public class BuyerOrderController {
 	    Long buyerId = getCurrentBuyerId(principal);
 		    Order order = new Order();
 		    order.setOrderAt(LocalDateTime.now());
-		    order.setStatus("Pending");
+		    order.setStatus("Đang chờ");
 		    order.setPaymentMethod(CashOnDelivery);
 		    Buyer buyer = new Buyer();
 		    buyer.setId(buyerId);

@@ -58,8 +58,8 @@
 </form>
 
 
-<form action="/buyer/reviews" method="get">
-	<input type="text" name="buyerId" ></input>
+<form action="/buyer/reviews/getReviews" method="get">
+	<input type="text" name="orderId" ></input>
 	<input type="text" name="productId" ></input>
 	<button type="submit">submit</button>
 </form> 

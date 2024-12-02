@@ -1,4 +1,4 @@
-package com.eyewear.controllers.buyer;
+package com.eyewear.controllers.buyer; 
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -38,7 +38,7 @@ public class ProductReviewController {
 	
 	@GetMapping("test")
 	public String index() {
-		return "buyer/cart";
+		return "test2";
 	}
 	
 	
@@ -118,7 +118,7 @@ public class ProductReviewController {
 	    } else {
 	        // Thêm mới review nếu chưa tồn tại
 	    	reviewService.save(review);  // Thêm mới vào cơ sở dữ liệu
-	    	redirectAttributes.addFlashAttribute("message", "Cảm ơn bạn đã dánh giá!");
+	    	redirectAttributes.addFlashAttribute("message", "Cảm ơn bạn đã đánh giá về sản phẩm của chúng tôi !");
 	    }
 
 	    return "redirect:/buyer/reviews?orderId=" + orderId 
