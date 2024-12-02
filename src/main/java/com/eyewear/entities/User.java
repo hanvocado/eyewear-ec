@@ -26,4 +26,5 @@ public class User {
     String address;
     String roles;
     String picture;
+    Long branchId;
 }
