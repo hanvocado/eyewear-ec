@@ -86,6 +86,7 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 
 
 
+
 	@Override
 	public long countReviewsByProductId(Long productId) {
 		// TODO Auto-generated method stub
@@ -108,4 +109,11 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 
 	        return totalStars / reviews.size();
 	}
+
+	
+	@Override
+	public long countByProductId(Long productId) {
+		return reviewRepo.countByProductId(productId);
+	}
+
 }

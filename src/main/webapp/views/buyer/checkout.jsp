@@ -90,11 +90,11 @@
                         <input type="text" id="lastname-dd" class="form-control">
                       </div>
                       <div class="form-group">
-                        <label for="email-dd">E-Mail <span class="require"></span></label>
+                        <label for="email-dd">Email <span class="require"></span></label>
                         <input type="text" id="email-dd" class="form-control" value="${buyer.email }">
                       </div>
                       <div class="form-group">
-                        <label for="telephone-dd">Telephone <span class="require"></span></label>
+                        <label for="telephone-dd">Phone <span class="require"></span></label>
                         <input type="text" id="telephone-dd" class="form-control" value="${buyer.phoneNumber }">
                       </div>
                      
@@ -110,7 +110,7 @@
 
 
 									<div class="form-group">
-										<label for="country-dd">Address <span class="require" >*</span></label>
+										<label for="country-dd">Address <span class="require" ></span></label>
 										<select class="form-control input-sm" id="country-dd" placeholder="Enter Payment Method" required
 											name="address">
 											<option value="">--- Please Select ---</option>

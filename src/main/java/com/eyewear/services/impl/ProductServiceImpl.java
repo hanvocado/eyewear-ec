@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductColor;
 import com.eyewear.entities.ProductSpecification;
 import com.eyewear.repositories.ProductRepository;
 import com.eyewear.services.ProductService;
@@ -110,6 +111,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> findByCategoryIdOrBrand(Long categoryId, String brand, Long productId){
 		return productRepo.findByCategoryIdOrBrand(categoryId, brand, productId);
+	}
+	@Override
+	public List<ProductColor> findByProductId(Long id){
+		return productRepo.findByProductId(id);
 	}
 	
 }

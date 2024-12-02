@@ -1,4 +1,4 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 
@@ -7,6 +7,7 @@
 <!-- HEAD START -->
 <head>
 	<meta charset="UTF-8">
+	
 	<title><sitemesh:write property="title"/></title>
 	<link rel="shortcut icon" href="favicon.ico">
 	<!-- Fonts START -->
@@ -33,8 +34,6 @@
 
 	<!-- Page level plugin styles -->
   <link href="/frontend/pages/css/style-shop.css" rel="stylesheet" type="text/css">
-
-
 
   <!-- Theme styles START -->
   <link href="/global/css/components.css" rel="stylesheet">

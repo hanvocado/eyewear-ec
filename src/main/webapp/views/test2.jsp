@@ -95,7 +95,7 @@
             <c:if test="${totalPages > 0}">
             <c:forEach begin="0" end="${totalPages - 1}" var="i">
                 <li class="page-item ${i == currentPage ? 'active' : ''}">
-                    <a class="page-link" href="?productId=${productId}&rating=${rating}&page=${i}">${i + 1}</a>
+                    <a class="page-link" href="?productId=${productId}&page=${i}">${i + 1}</a>
                 </li>
             </c:forEach>
             </c:if>
@@ -104,7 +104,7 @@
 
     <!-- Thông báo nếu không có đánh giá -->
     <c:if test="${empty reviews}">
-        <p class="text-warning">No reviews found for the selected product.</p>
+        <p class="text-warning">Chưa có đánh giá nào cho sản phẩm này</p>
     </c:if>
 </div>
 
