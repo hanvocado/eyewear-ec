@@ -51,15 +51,16 @@
 			<!-- END PAGE CONTENT INNER -->
 		</div>
 	</div>
-	<!-- END PAGE CONTENT -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</div>
 	
-<script>
+<!-- <script>
     $(document).ready(function() {
         $('#calendar').fullCalendar({
             events: '/manager/schedule/calendar', // Đường dẫn lấy các sự kiện
             editable: true, // Cho phép chỉnh sửa sự kiện
             droppable: true, // Cho phép kéo thả sự kiện
+            selectable: true,
+            selectHelper: true,
             dayClick: function(date, jsEvent, view) {
                 var title = prompt("Enter Appointment Title:");
                 var description = prompt("Enter Appointment Description:");
@@ -93,6 +94,37 @@
             }
         });
     });
-    </script>
+    </script> -->
 
-</div>
+<!-- <script>
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        editable: true, // Cho phép kéo thả chỉnh sửa
+        events: [
+            {
+                id: '1', // ID duy nhất cho mỗi sự kiện
+                title: 'All Day Event',
+                start: '2024-12-01'
+            },
+            {
+                id: '2',
+                title: 'Meeting',
+                start: '2024-12-02T10:30:00'
+            }
+        ],
+        eventClick: function (info) {
+            // Hiển thị xác nhận trước khi xóa
+            if (confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')) {
+                info.event.remove(); // Xóa sự kiện khỏi lịch
+                alert('Sự kiện đã được xóa!');
+            }
+        }
+    });
+
+    calendar.render();
+});
+
+</script> -->
