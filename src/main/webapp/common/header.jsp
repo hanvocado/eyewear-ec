@@ -341,7 +341,7 @@
 					<div class="search-box">
 						<form action="/common/products/search" method="get">
 							<div class="input-group">
-								<input type="text" placeholder="Tìm kiếm sản phẩm" class="form-control">
+								<input type="text" name = "name" placeholder="Tìm kiếm sản phẩm" class="form-control">
 								<span class="input-group-btn">
 									<button class="btn btn-primary" type="submit">Tìm kiếm</button>
 								</span>
