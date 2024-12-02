@@ -84,6 +84,6 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 	
 	@Override
 	public long countByProductId(Long productId) {
-		return reviewRepo.count();
+		return reviewRepo.countByProductId(productId);
 	}
 }

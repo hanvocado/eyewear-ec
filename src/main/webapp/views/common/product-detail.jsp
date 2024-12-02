@@ -61,14 +61,6 @@
 								</div>
 								<div class="product-page-options">
 									<div class="pull-left">
-										<label class="control-label">Size:</label> <select
-											class="form-control input-sm">
-											<option>L</option>
-											<option>M</option>
-											<option>XL</option>
-										</select>
-									</div>
-									<div class="pull-left">
 										<label class="control-label">Color:</label> <select
 											class="form-control input-sm">
 											<option>Red</option>
@@ -91,17 +83,21 @@
 									<div class="rateit" data-rateit-backingfld="#backing4"
 										data-rateit-resetable="false" data-rateit-ispreset="true"
 										data-rateit-min="0" data-rateit-max="5"></div>
-									<a href="#">7 reviews</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">Write
+									<a href="#">${countReview} Review</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">Write
 										a review</a>
 								</div>
 
 								<!-- Social sharing -->
 								<div class="social-icons">
+									<h3> Share with:</h3>
+									<div>
 									<ul>
+									
 										<!-- Social sharing -->
 										<li><a class="facebook" href="javascript:void(0);"
 											onclick="shareOnFacebook()"> <i class="fab fa-facebook-f"></i>
 										</a></li>
+										
 									</ul>
 								</div>
 
