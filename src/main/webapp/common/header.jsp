@@ -36,7 +36,8 @@
                 <!-- BEGIN TOP BAR MENU -->
                 <div class="col-md-6 col-sm-6 additional-nav">
                     <ul class="list-unstyled list-inline pull-right">
-                        <li><a href="/login_page">Log In</a></li>
+						<li><a href="/buyer/profile">Account</a></li>
+						<li><a href="/login_page">Log In</a></li>
 						<li><a href="/register">Registration</a></li>
 						<li>
 							<form action="/logout" method="post" th:csrf="true">
