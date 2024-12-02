@@ -83,19 +83,19 @@
                     <div class="col-md-6 col-sm-6">
                       <div class="form-group">
                         <label for="firstname-dd">First Name <span class="require"></span></label>
-                        <input type="text" id="firstname-dd" class="form-control" value="${buyer.name }">
+                        <input type="text" id="firstname-dd" class="form-control" value="${buyer.name }" readonly>
                       </div>
                       <div class="form-group">
                         <label for="lastname-dd">Last Name <span class="require"></span></label>
-                        <input type="text" id="lastname-dd" class="form-control">
+                        <input type="text" id="lastname-dd" class="form-control" readonly>
                       </div>
                       <div class="form-group">
                         <label for="email-dd">Email <span class="require"></span></label>
-                        <input type="text" id="email-dd" class="form-control" value="${buyer.email }">
+                        <input type="text" id="email-dd" class="form-control" value="${buyer.email }" readonly>
                       </div>
                       <div class="form-group">
                         <label for="telephone-dd">Phone <span class="require"></span></label>
-                        <input type="text" id="telephone-dd" class="form-control" value="${buyer.phoneNumber }">
+                        <input type="text" id="telephone-dd" class="form-control" value="${buyer.phoneNumber }" readonly>
                       </div>
                      
                      
@@ -109,16 +109,15 @@
 
 
 
-									<div class="form-group">
-										<label for="country-dd">Address <span class="require" ></span></label>
-										<select class="form-control input-sm" id="country-dd" placeholder="Enter Payment Method" required
-											name="address">
-											<option value="">--- Please Select ---</option>
-											<option value="244">address 1</option>
-											<option value="1">address 2</option>
-											<option value="2">address 3</option>
-										</select>
-									</div>
+								<div class="form-group">
+    <label for="country-dd">Address <span class="require"></span></label>
+    <select class="form-control input-sm" id="country-dd" placeholder="Enter Payment Method" required name="address">
+        <c:forEach var="address" items="${buyer.address}">
+            <option value="${address.id}">${address.streetName}</option>
+        </c:forEach>
+    </select>
+</div>
+
 
 
 								</div>

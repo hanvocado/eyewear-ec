@@ -47,6 +47,5 @@ public class Buyer {
     private ShoppingCart shoppingCart; // Một Buyer có một ShoppingCart
     
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> address = new ArrayList<>();
-    
+    private List<Address> address ;
 }

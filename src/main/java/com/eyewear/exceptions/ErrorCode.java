@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 public enum ErrorCode {
-    UNCATEGORIZED_EXCEPTION(9999, "Lỗi gì đó bạn không biết, tôi cũng không :Đ."),
+    //UNCATEGORIZED_EXCEPTION(9999, "Lỗi gì đó bạn không biết, tôi cũng không :Đ."),
     INVALID_KEY(1000, "Lỗi khai báo sai Message Key."),
     EMAIL_EXISTED(1001, "Email đã được đăng ký trước đó, vui lòng nhập Email khác."),
     EMAIL_INVALID(1002, "Vui lòng nhập đúng email!"),
