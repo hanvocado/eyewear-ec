@@ -7,6 +7,7 @@
 <%@ page import="com.eyewear.utils.Tested"%>
 
 
+<body>
     <div class="container py-4">
         <div class="card order-card">
             <div class="card-header order-header p-4">
@@ -65,7 +66,7 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="${item.product.image}" width="100" height="100" alt="${item.product.name}" class="product-image me-3">
+                                            <img src="${item.product.image}" alt="${item.product.name}" class="product-image me-3">
                                             <span>${item.product.name}</span>
                                         </div>
                                     </td>
@@ -81,7 +82,7 @@
                                             <input type="hidden" name="orderId" value="${order.orderId}">
                                             <input type="hidden" name="buyerId" value="${order.buyer.id}">
                                             <input type="hidden" name="productId" value="${item.product.id}">
-                                            <c:if test="${order.status == 'Đã giao'}">
+                                            <c:if test="${order.status.toLowerCase() == 'done'}">
                                                 <c:if test="${fn:contains(proreviewed, item.product.id)}">
                                                     <button type="submit" class="btn btn-outline-primary btn-sm review-btn">
                                                         <i class="bi bi-pencil"></i> Sửa đánh giá
@@ -114,3 +115,5 @@
     </div>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
