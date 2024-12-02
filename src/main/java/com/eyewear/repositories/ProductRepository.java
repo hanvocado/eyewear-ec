@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductColor;
 
 import jakarta.validation.Valid;
 
@@ -56,4 +57,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     List<Product> findByCategoryIdOrBrand(@Param("categoryId") Long categoryId, 
                                           @Param("brand") String brand, 
                                           @Param("productId") Long productId);
+    
+    @Query("SELECT pc FROM ProductColor pc WHERE pc.product.id = :productId")
+    List<ProductColor> findByProductId(@Param("productId") Long productId);
 }

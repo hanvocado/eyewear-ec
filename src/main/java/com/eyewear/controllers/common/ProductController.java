@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cloudinary.Cloudinary;
 import com.eyewear.entities.Category;
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductColor;
 import com.eyewear.entities.ProductReview;
 import com.eyewear.services.CategoryService;
 import com.eyewear.services.ProductReviewService;
@@ -187,6 +188,23 @@ public class ProductController {
        		product.getCategory().getId(), 
        		product.getBrand(), id);
        
+    // Lấy màu sắc của sản phẩm (ví dụ từ ProductColor)
+       List<ProductColor> productColors = productService.findByProductId(id);
+       productColors.forEach(productColor -> {
+           try {
+               // Lấy URL hình ảnh cho mỗi màu sắc
+               String imageUrl = cloudinary.url()
+                   .publicId(productColor.getImageUrl())
+                   .generate();
+
+               // Gán URL hình ảnh vào ProductColor
+               productColor.setImageUrl(imageUrl);
+           } catch (Exception e) {
+               System.err.println("Lỗi tạo đường dẫn hình ảnh cho màu sắc " + productColor.getId());
+               e.printStackTrace();
+           }
+       });
+       
        if (similarProducts != null && !similarProducts.isEmpty()) {
     	    similarProducts.forEach(similarProduct -> {
     	        try {
@@ -216,6 +234,7 @@ public class ProductController {
     	model.addAttribute("productType", productType); 
     	model.addAttribute("reviews", reviews);
     	model.addAttribute("countReview", countReview);
+    	model.addAttribute("productColors", productColors); // Thêm thông tin màu sắc
     	
     	return "common/product-detail";
     }

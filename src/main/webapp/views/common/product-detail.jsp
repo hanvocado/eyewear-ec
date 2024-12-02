@@ -32,17 +32,20 @@
 							<div class="col-md-6 col-sm-6">
 								<div class="product-main-image">
 									<img src="${product.imageUrl}" alt="${product.name}"
-										class="img-responsive" data-BigImgsrc="${product.imageUrl}">
+										class="img-responsive" id="mainProductImage"
+										data-BigImgsrc="${product.imageUrl}">
 								</div>
 								<div class="product-other-images">
-									<a href="/assets/frontend/pages/img/products/model3.jpg"
-										class="fancybox-button" rel="photos-lib"> <img
-										alt="Berry Lace Dress"
-										src="/assets/frontend/pages/img/products/model3.jpg">
-									</a>
-									<!-- More images -->
+									<c:forEach var="image" items="${product.colors}">
+										<a href="${image.imageUrl}" class="fancybox-button"
+											rel="photos-lib"> <img alt="Image"
+											src="${image.imageUrl}" data-color="${image.color}"
+											class="img-thumbnail">
+										</a>
+									</c:forEach>
 								</div>
 							</div>
+
 							<div class="col-md-6 col-sm-6">
 								<h1>${product.name}</h1>
 								<div class="price-availability-block clearfix">
@@ -59,13 +62,17 @@
 								<div class="description">
 									<p>${product.description}</p>
 								</div>
+
 								<div class="product-page-options">
 									<div class="pull-left">
 										<label class="control-label">Color:</label> <select
-											class="form-control input-sm">
-											<option>Red</option>
-											<option>Blue</option>
-											<option>Black</option>
+											class="form-control input-sm" id="colorSelect">
+											<!-- Hiển thị các tùy chọn màu sắc -->
+											<c:forEach var="colorOption" items="${productColors}">
+												<option value="${colorOption.color}"
+													data-image="${colorOption.imageUrl}">
+													${colorOption.color}</option>
+											</c:forEach>
 										</select>
 									</div>
 								</div>
@@ -77,27 +84,28 @@
 									<button class="btn btn-primary" type="submit">Add to
 										cart</button>
 								</div>
+							</div>
 
-								<div class="review">
-									<input type="range" value="4" step="0.25" id="backing4">
-									<div class="rateit" data-rateit-backingfld="#backing4"
-										data-rateit-resetable="false" data-rateit-ispreset="true"
-										data-rateit-min="0" data-rateit-max="5"></div>
-									<a href="#">${countReview} Review</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">Write
-										a review</a>
-								</div>
+							<div class="review">
+								<input type="range" value="4" step="0.25" id="backing4">
+								<div class="rateit" data-rateit-backingfld="#backing4"
+									data-rateit-resetable="false" data-rateit-ispreset="true"
+									data-rateit-min="0" data-rateit-max="5"></div>
+								<a href="#">${countReview} Review</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+									href="#">Write a review</a>
+							</div>
 
-								<!-- Social sharing -->
-								<div class="social-icons">
-									<h3> Share with:</h3>
-									<div>
+							<!-- Social sharing -->
+							<div class="social-icons">
+								<h3>Share with:</h3>
+								<div>
 									<ul>
-									
+
 										<!-- Social sharing -->
 										<li><a class="facebook" href="javascript:void(0);"
 											onclick="shareOnFacebook()"> <i class="fab fa-facebook-f"></i>
 										</a></li>
-										
+
 									</ul>
 								</div>
 
@@ -197,28 +205,43 @@
 	<script async defer crossorigin="anonymous"
 		src="https://connect.facebook.net/en_US/sdk.js"></script>
 	<script>
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId      : '492624269865314',
-                xfbml      : true,
-                version    : 'v21.0'
-            });
-            FB.AppEvents.logPageView();
-        };
-    </script>
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId : '492624269865314',
+				xfbml : true,
+				version : 'v21.0'
+			});
+			FB.AppEvents.logPageView();
+		};
+	</script>
 	<script>
-    function shareOnFacebook() {
-        FB.ui({
-            method: 'share',
-            href: 'https://ddaa-14-169-33-53.ngrok-free.app/common/products/detail/<c:out value="${product.id}" />',
-        }, function(response) {
-            if (response && !response.error_message) {
-                alert('Sharing succeeded.');
-            } else {
-                alert('Error while sharing.');
-            }
-        });
-    }
-</script>
+		function shareOnFacebook() {
+			FB
+					.ui(
+							{
+								method : 'share',
+								href : 'https://ddaa-14-169-33-53.ngrok-free.app/common/products/detail/<c:out value="${product.id}" />',
+							}, function(response) {
+								if (response && !response.error_message) {
+									alert('Sharing succeeded.');
+								} else {
+									alert('Error while sharing.');
+								}
+							});
+		}
+	</script>
+	<script>
+		// Khi thay đổi màu sắc trong select, cập nhật hình ảnh sản phẩm
+		document.getElementById('colorSelect').addEventListener(
+				'change',
+				function() {
+					var selectedOption = this.options[this.selectedIndex];
+					var selectedImageUrl = selectedOption
+							.getAttribute('data-image');
+					var productImage = document
+							.getElementById('mainProductImage');
+					productImage.src = selectedImageUrl; // Cập nhật hình ảnh sản phẩm
+				});
+	</script>
 
 </body>
