@@ -9,7 +9,7 @@
 			<!-- BEGIN LOGO -->
 			<div class="page-logo">
 				<a href="index.html"><img
-					src="/admin/layout3/img/logo-default.png" alt="logo"
+					src="/admin1/layout3/img/logo-default.png" alt="logo"
 					class="logo-default"></a>
 			</div>
 			<!-- END LOGO -->
@@ -206,7 +206,7 @@
 								<ul class="dropdown-menu-list scroller" style="height: 275px;"
 									data-handle-color="#637283">
 									<li><a href="inbox.html?a=view"> <span class="photo">
-												<img src="/admin/layout3/img/avatar2.jpg" class="img-circle"
+												<img src="/admin1/layout3/img/avatar2.jpg" class="img-circle"
 												alt="">
 										</span> <span class="subject"> <span class="from"> Lisa
 													Wong </span> <span class="time">Just Now </span>
@@ -214,7 +214,7 @@
 												nibh. auctor nibh auctor nibh... </span>
 									</a></li>
 									<li><a href="inbox.html?a=view"> <span class="photo">
-												<img src="/admin/layout3/img/avatar3.jpg" class="img-circle"
+												<img src="/admin1/layout3/img/avatar3.jpg" class="img-circle"
 												alt="">
 										</span> <span class="subject"> <span class="from">
 													Richard Doe </span> <span class="time">16 mins </span>
@@ -222,7 +222,7 @@
 												nibh congue nibh. auctor nibh auctor nibh... </span>
 									</a></li>
 									<li><a href="inbox.html?a=view"> <span class="photo">
-												<img src="/admin/layout3/img/avatar1.jpg" class="img-circle"
+												<img src="/admin1/layout3/img/avatar1.jpg" class="img-circle"
 												alt="">
 										</span> <span class="subject"> <span class="from"> Bob
 													Nilson </span> <span class="time">2 hrs </span>
@@ -230,7 +230,7 @@
 												congue nibh. auctor nibh auctor nibh... </span>
 									</a></li>
 									<li><a href="inbox.html?a=view"> <span class="photo">
-												<img src="/admin/layout3/img/avatar2.jpg" class="img-circle"
+												<img src="/admin1/layout3/img/avatar2.jpg" class="img-circle"
 												alt="">
 										</span> <span class="subject"> <span class="from"> Lisa
 													Wong </span> <span class="time">40 mins </span>
@@ -238,7 +238,7 @@
 												congue nibh... </span>
 									</a></li>
 									<li><a href="inbox.html?a=view"> <span class="photo">
-												<img src="/admin/layout3/img/avatar3.jpg" class="img-circle"
+												<img src="/admin1/layout3/img/avatar3.jpg" class="img-circle"
 												alt="">
 										</span> <span class="subject"> <span class="from">
 													Richard Doe </span> <span class="time">46 mins </span>
@@ -253,7 +253,7 @@
 					<li class="dropdown dropdown-user dropdown-dark"><a
 						href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
 						data-hover="dropdown" data-close-others="true"> <img alt=""
-							class="img-circle" src="/admin/layout3/img/avatar9.jpg"> <span
+							class="img-circle" src="/admin1/layout3/img/avatar9.jpg"> <span
 							class="username username-hide-mobile">Nick</span>
 					</a>
 						<ul class="dropdown-menu dropdown-menu-default">
