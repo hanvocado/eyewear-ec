@@ -91,18 +91,23 @@
 
 		<!--END CART -->
 <!-- BEGIN CART -->
+<c:set var="totalPrice" value="0" />
+<c:forEach var="cartItem" items="${sessionScope.buyer.shoppingCart.cartItems}">
+    <c:set var="itemTotal" value="${cartItem.product.price * cartItem.quantity}" />
+    <c:set var="totalPrice" value="${totalPrice + itemTotal}" />
+</c:forEach>
         <div class="top-cart-block">
           <div class="top-cart-info">
-            <a href="javascript:void(0);" class="top-cart-info-count">3 items</a>
-            <a href="javascript:void(0);" class="top-cart-info-value">$1260</a>
+            <a href="javascript:void(0);" class="top-cart-info-count">${sessionScope.buyer.shoppingCart.cartItems.size()} items</a>
+            <a href="javascript:void(0);" class="top-cart-info-value">$${totalPrice }</a>
           </div>
           <i class="fa fa-shopping-cart"></i>
                         
-          <div class="top-cart-content-wrapper">
+          <div class="top-cart-content-wrapper"> 
             <div class="top-cart-content">
               <ul class="scroller" style="height: 250px;">
-              
-                 <c:forEach var="cartItem" items="${cartItemsForCartIcon}">
+
+                 <c:forEach var="cartItem" items="${sessionScope.buyer.shoppingCart.cartItems}">
                 <li>
                     <a href="shop-item.html">
                         <img src="/frontend/pages/img/cart-img.jpg" alt="${cartItem.product.name}" width="37" height="34">
@@ -115,15 +120,15 @@
                     <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
                 </li>
             </c:forEach>
-            
+
               </ul>
-              <div class="text-right">
-              
             
+              <div class="text-right">
+              		  
+              <p>$${totalPrice }</p>
 <%--              <a href="<c:url value='/buyer/cart' />" class="btn btn-default">View Cart</a> --%>
  				<a href="${pageContext.request.contextPath}/buyer/cart?cartID=1" class="btn btn-default">View Cart</a>
-		
-  				<p>${cartItemsForCartIcon}dsfsdf</p>
+	
                 <a href="shop-checkout.html" class="btn btn-primary">Checkout</a>
               </div>
             </div>
