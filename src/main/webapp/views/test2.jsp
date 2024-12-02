@@ -1,8 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 
 <!-- tran the anh  -->
@@ -96,7 +95,7 @@
             <c:if test="${totalPages > 0}">
             <c:forEach begin="0" end="${totalPages - 1}" var="i">
                 <li class="page-item ${i == currentPage ? 'active' : ''}">
-                    <a class="page-link" href="?productId=${productId}&rating=${rating}&page=${i}">${i + 1}</a>
+                    <a class="page-link" href="?productId=${productId}&page=${i}">${i + 1}</a>
                 </li>
             </c:forEach>
             </c:if>
@@ -105,8 +104,8 @@
 
     <!-- Thông báo nếu không có đánh giá -->
     <c:if test="${empty reviews}">
-        <p class="text-warning">No reviews found for the selected product.</p>
+        <p class="text-warning">Chưa có đánh giá nào cho sản phẩm này</p>
     </c:if>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+

@@ -27,7 +27,7 @@ public class SecurityConfig {
     }
 
     @Autowired
-    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    public CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Bean
     public UserDetailsService userDetailsServices() {

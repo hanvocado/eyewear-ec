@@ -11,7 +11,7 @@ import com.eyewear.entities.ProductReview;
 
 public interface ProductReviewService {
 	
-	ProductReview addReview(int productId,int rating,String content);
+	ProductReview addReview(ProductReview review);
 
 	boolean editReview(int reviewId);
 	
@@ -27,7 +27,15 @@ public interface ProductReviewService {
 	
 	Page<ProductReview> findAll(Pageable pageable, Long productId, Integer rating);
 
+	
+	long countReviewsByProductId(Long productId);
+
+	double calculateAverageRating(Long productId);
+
+
+
 	long countByProductId(Long productId);
 	
 	
+
 }

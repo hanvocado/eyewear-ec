@@ -107,12 +107,10 @@
 							</div>
 
 							<div class="review">
-								<input type="range" value="4" step="0.25" id="backing4">
-								<div class="rateit" data-rateit-backingfld="#backing4"
-									data-rateit-resetable="false" data-rateit-ispreset="true"
-									data-rateit-min="0" data-rateit-max="5"></div>
-								<a href="#">${countReview} Review</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
-									href="#">Write a review</a>
+								
+								<div class="rateit" data-rateit-value="${avgReview}"
+													data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+								<a href="#">${countReview} Đánh giá</a>
 							</div>
 
 							<!-- Social sharing -->
@@ -188,6 +186,8 @@
 									</table>
 								</div>
 								<div class="tab-pane fade in active" id="Reviews">
+								 <c:if test="${not empty reviews}">
+        							
 									<c:forEach var="review" items="${reviews}">
 										<div class="review-item clearfix">
 											<div class="review-item-submitted">
@@ -200,7 +200,31 @@
 											</div>
 										</div>
 									</c:forEach>
+									</c:if>
+									 <!-- Phân trang -->
+									 <nav>
+        								<ul class="pagination justify-content-center">
+            								<c:if test="${totalPages > 0}">
+            									<c:forEach begin="0" end="${totalPages - 1}" var="i">
+                									<li class="page-item ${i == currentPage ? 'active' : ''}">
+                    									<a class="page-link" href="?productId=${productId}&page=${i}">${i + 1}</a>
+                									</li>
+            									</c:forEach>
+            								</c:if>
+        								</ul>
+    								</nav>
+									
+									 <c:if test="${empty reviews}">
+        								<p class="text-warning">Chưa có đánh giá nào cho sản phẩm này</p>
+    								</c:if>
+    								
+    								
+   
+    								
 								</div>
+								
+   
+								
 							</div>
 						</div>
 
@@ -245,7 +269,7 @@
 		</div>
 		<!-- END SIMILAR PRODUCTS -->
 	</div>
-	</div>
+	
 
 	<!-- Load the Facebook SDK for JavaScript -->
 	<div id="fb-root"></div>
@@ -289,6 +313,14 @@
 							.getElementById('mainProductImage');
 					productImage.src = selectedImageUrl; // Cập nhật hình ảnh sản phẩm
 				});
+		
+		
+		
+		
+
+				
 	</script>
+	
+	
 
 </body>

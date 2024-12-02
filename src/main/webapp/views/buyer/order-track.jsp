@@ -79,7 +79,7 @@
 						<td><a href="/buyer/orders/${order.orderId}"
 							class="btn btn-primary btn-sm">Xem chi tiết</a></td>
 						<td><c:if
-								test="${order.status.toLowerCase() != 'done' && order.status.toLowerCase() != 'canceled'}">
+								test="${order.status!= 'Đã giao' && order.status != 'Đã huỷ'}">
 								<button class="btn btn-danger btn-sm"
 									onclick="confirmCancel('${order.orderId}')">Huỷ Đơn</button>
 							</c:if></td>
