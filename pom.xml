@@ -101,10 +101,11 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>6.6.1.Final</version>
 		</dependency>
+
 		<!--Cloudary-->
 		<dependency>
 			<groupId>com.cloudinary</groupId>
