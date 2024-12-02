@@ -42,12 +42,25 @@ public class Product {
 	@Column(nullable=true)
 	private Float height;
 	
-	@Column(nullable=true)
+	@Column(nullable = true)
 	private Float width;
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ProductColor> colors; // Lưu màu sắc của sản phẩm
 	
 	//không cần lưu trữ vào cơ sở dữ liệu
 	@Transient
     private String imageUrl; // URL to be generated
+	
+	 // Phương thức tính toán hình ảnh của sản phẩm khi màu sắc thay đổi
+    public String getImageUrlForColor(String color) {
+        for (ProductColor productColor : colors) {
+            if (productColor.getColor().equalsIgnoreCase(color)) {
+                return productColor.getImageUrl();  // Nếu màu sắc có hình ảnh riêng biệt
+            }
+        }
+        return this.image;  // Nếu không, trả về hình ảnh chung của sản phẩm
+    }
 
 	@ManyToOne
 	@JoinColumn(name = "category_id")  //khóa ngoại "category_id"

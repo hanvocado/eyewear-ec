@@ -78,10 +78,10 @@ public class OrderServiceImpl implements OrderService {
 		Optional<Order> order = orderRepository.findById(orderId);
 		if(order.isPresent()) {
 			Order editOrder =order.get();
-			if(editOrder.getStatus().equalsIgnoreCase("Done")) {
+			if(editOrder.getStatus().equalsIgnoreCase("Đã giao")) {
 				return "Đơn hàng đã giao";
-			}else if(editOrder.getStatus().equalsIgnoreCase("Pending")){
-				editOrder.setStatus("Canceled");
+			}else if(editOrder.getStatus().equalsIgnoreCase("Đang chờ")){
+				editOrder.setStatus("Đã huỷ");
 				orderRepository.save(editOrder);
 				return "Huỷ đơn thành công";
 			}
@@ -122,6 +122,12 @@ public class OrderServiceImpl implements OrderService {
 	            }
 	        }
 	    }
+	}
+
+	@Override
+	public boolean checkout(Long orderId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
