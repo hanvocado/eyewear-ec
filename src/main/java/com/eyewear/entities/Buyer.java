@@ -35,6 +35,7 @@ public class Buyer {
     private String email;
     private String phoneNumber;
     private String password;
+    private String img;
 
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders;

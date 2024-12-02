@@ -12,4 +12,20 @@ public interface AppointmentService {
 
 	List<String> getFormattedAppointmentsScheduled();
 
+	List<Appointment> getAppointmentsByStatusAndBranch(String status, Long branchId);
+
+	void updateStatus(Long appointmentId, String status);
+
+	List<Appointment> getAllAppointments(Long branchId);
+
+	List<Appointment> getFinishedAppointments(Long branchId);
+
+	List<Appointment> getOnProgressAppointments(Long branchId);
+
+	List<Appointment> getUpcomingAppointments(Long branchId);
+
+	Appointment addAppointment(Appointment appointment);
+
+	List<Appointment> getCalendarAppointments();
+
 }
