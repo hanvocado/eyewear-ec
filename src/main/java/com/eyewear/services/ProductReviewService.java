@@ -26,4 +26,8 @@ public interface ProductReviewService {
 	Optional<ProductReview> getReviewByBuyerAndProduct(Long buyerId, Long productId);
 	
 	Page<ProductReview> findAll(Pageable pageable, Long productId, Integer rating);
+
+	long countByProductId(Long productId);
+	
+	
 }

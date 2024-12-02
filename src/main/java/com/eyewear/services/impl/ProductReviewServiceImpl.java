@@ -81,4 +81,9 @@ public class ProductReviewServiceImpl implements ProductReviewService {
             return reviewRepo.findByProductId(productId, pageable);
         }
     }
+	
+	@Override
+	public long countByProductId(Long productId) {
+		return reviewRepo.countByProductId(productId);
+	}
 }

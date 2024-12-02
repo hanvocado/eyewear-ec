@@ -21,4 +21,5 @@ public interface ProductReviewRepository extends JpaRepository<ProductReview, In
 
     List<ProductReview> findByProductIdAndRating(Long productId, int rating);
     Page<ProductReview> findByProductIdAndRating(Long productId, Integer rating, Pageable pageable);
+	long countByProductId(Long productId);
 }

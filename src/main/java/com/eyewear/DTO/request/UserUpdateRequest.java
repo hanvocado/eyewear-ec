@@ -16,4 +16,3 @@ public class UserUpdateRequest {
     String address;
     String picture;
 }
-
