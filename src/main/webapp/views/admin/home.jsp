@@ -3,11 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-	<script src="${pageContext.request.contextPath}/static/js/api.js"></script>
-<title>Trang chủ</title>
+    <meta charset="UTF-8">
+<title>Manager home</title>
 </head>
 <body>
-	Test trang chủ
+TEST HOME ADMIN
 </body>
 </html>

@@ -44,4 +44,8 @@ public interface ProductService {
 	Double findMaxPrice();
 	
 	Double findMinPrice();
+
+	Product getProductById(long id);
+
+	List<Product> findByCategoryIdOrBrand(Long categoryId, String brand, Long productId);
 }
