@@ -21,10 +21,7 @@ application.properties
 *.iws
 *.iml
 *.ipr
-/src/main/resources/
-    application.properties
-    application-local.properties
-    application-prod.properties
+/src/main/resources/application.properties
 
 # Ignore specific configuration files
 application-local.properties
