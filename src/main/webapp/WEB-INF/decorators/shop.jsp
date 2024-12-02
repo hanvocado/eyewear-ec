@@ -16,6 +16,10 @@
   <!-- Global styles START -->          
   <link href="/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link href="/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css" rel="stylesheet">
+  <link href="/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet">
+  <link href="/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet">
   <!-- Global styles END --> 
    
   <!-- Page level plugin styles START -->
@@ -61,6 +65,101 @@
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>
 
+
+<!-- <!-- Bootstrap CSS -->
+
+
+
+<style>
+.flash-message {
+    position: fixed; /* Vị trí cố định trên màn hình */
+    top: 50%; /* Căn giữa theo trục dọc */
+    left: 50%; /* Căn giữa theo trục ngang */
+    transform: translate(-50%, -50%); /* Đẩy về trung tâm */
+    z-index: 1050; /* Hiển thị trên các thành phần khác */
+    width: 60%; /* Chiều ngang của thông báo */
+    max-width: 600px; /* Giới hạn chiều ngang tối đa */
+    padding: 20px; /* Khoảng cách bên trong */
+    text-align: center; /* Căn giữa nội dung */
+    background-color: rgba(255, 255, 255, 0.9); /* Nền trắng mờ */
+    border-radius: 10px; /* Bo góc */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    font-size: 1.5rem; /* Kích thước chữ */
+    animation: fade-in-out 2s forwards; /* Hiệu ứng xuất hiện và biến mất */
+}
+
+.alert {
+    margin: 0; /* Đảm bảo không có khoảng cách thừa */
+    padding: 20px; /* Khoảng cách bên trong thông báo */
+}
+
+@keyframes fade-in-out {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, calc(-50% - 20px)); /* Xuất hiện từ trên */
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%); /* Giữ vị trí chính giữa */
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, calc(-50% - 20px)); /* Biến mất lên trên */
+    }
+}
+
+
+
+
+
+
+/* Spinner Group Styles */
+.spinner {
+    width: 120px; /* Giới hạn chiều rộng */
+    display: inline-flex;
+    align-items: center;
+}
+
+.spinner .btn {
+    width: 30px; /* Giới hạn kích thước nút */
+    height: 30px;
+    line-height: 1; /* Căn chỉnh nội dung */
+    padding: 0;
+    font-size: 14px; /* Kích thước chữ nhỏ */
+    border-radius: 0; /* Xóa bo góc nếu cần */
+}
+
+.spinner input {
+    width: 50px; /* Kích thước của input */
+    height: 30px;
+    text-align: center;
+    font-size: 14px; /* Chữ vừa phải */
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc; /* Viền mỏng */
+    border-left: none; /* Xóa viền giữa nút trái */
+    border-right: none; /* Xóa viền giữa nút phải */
+}
+
+.spinner input:focus {
+    outline: none; /* Xóa đường viền focus */
+    box-shadow: none; /* Xóa hiệu ứng shadow khi focus */
+}
+
+.spinner .btn:first-child {
+    border-top-left-radius: 4px; /* Bo góc trái */
+    border-bottom-left-radius: 4px;
+}
+
+.spinner .btn:last-child {
+    border-top-right-radius: 4px; /* Bo góc phải */
+    border-bottom-right-radius: 4px;
+}
+
+</style>
 </head>
 <!-- Head END -->
 <body class="ecommerce">

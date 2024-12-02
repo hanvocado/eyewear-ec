@@ -1,4 +1,3 @@
-<!-- order-history.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -29,7 +28,7 @@
                             <a href="<c:url value='/buyer/orders/${order.orderId}'/>" 
                                class="btn btn-primary btn-sm">Xem chi tiết</a>
                             
-                            <c:if test="${order.status == 'DONE' && !proreviewed.contains(order.orderId)}">
+                            <c:if test="${order.status == 'Đã giao' && !proreviewed.contains(order.orderId)}">
                                 <a href="<c:url value='/buyer/reviews/add/${order.orderId}'/>"
                                    class="btn btn-success btn-sm">Đánh giá</a>
                             </c:if>
@@ -39,4 +38,29 @@
             </tbody>
         </table>
     </div>
+    
+    <!-- Phân trang -->
+    <c:if test="${totalPages > 1}">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item ${currentPage == 0 ? 'disabled' : ''}">
+                    <a class="page-link" href="<c:url value='/buyer/orders/history?page=${currentPage - 1}'/>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                
+                <c:forEach begin="0" end="${totalPages - 1}" var="i">
+                    <li class="page-item ${currentPage == i ? 'active' : ''}">
+                        <a class="page-link" href="<c:url value='/buyer/orders/history?page=${i}'/>">${i + 1}</a>
+                    </li>
+                </c:forEach>
+                
+                <li class="page-item ${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="<c:url value='/buyer/orders/history?page=${currentPage + 1}'/>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </c:if>
 </div>
