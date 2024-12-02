@@ -48,4 +48,5 @@ public interface ProductService {
 	Product getProductById(long id);
 
 	List<Product> findByCategoryIdOrBrand(Long categoryId, String brand, Long productId);
+	
 }
