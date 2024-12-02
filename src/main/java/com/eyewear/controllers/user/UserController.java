@@ -7,6 +7,9 @@ import com.eyewear.entities.User;
 import com.eyewear.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +25,16 @@ public class UserController {
         ApiResponse<User> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(userService.createRequest(request));
-
         return apiResponse;
     }
 
     @GetMapping("/myInfo")
-    User getMyInfo() {
-        return userService.getMyInfo();
+    ResponseEntity<User> authenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        User currentUser = (User) authentication.getPrincipal();
+
+        return ResponseEntity.ok(currentUser);
     }
 
     @GetMapping("/getUsers")

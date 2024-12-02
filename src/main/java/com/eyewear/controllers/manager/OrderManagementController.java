@@ -1,6 +1,8 @@
 package com.eyewear.controllers.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +22,16 @@ public class OrderManagementController {
     
     // Hiển thị danh sách đơn hàng
     @GetMapping("")
-    public String getOrderList(Model model) {
-        List<Order> orders = orderService.getAllOrdersSortByDate();
-        model.addAttribute("orders", orders);
+    public String getOrderList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            Model model) {
+        Page<Order> pageResult = orderService.getAllOrdersSortByDatePaginated(PageRequest.of(page, size));
+        model.addAttribute("orders", pageResult.getContent());
+        model.addAttribute("pageNumber", pageResult.getNumber());
+        model.addAttribute("totalPages", pageResult.getTotalPages());
+        model.addAttribute("totalElements", pageResult.getTotalElements());
+        model.addAttribute("numberOfElements", pageResult.getNumberOfElements());
         return "manager/order-list";
     }
     

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <!-- BEGIN STYLE CUSTOMIZER -->
 <div class="color-panel hidden-sm">
 	<div class="color-mode-icons icon-color"></div>
@@ -34,9 +36,15 @@
                 <!-- BEGIN TOP BAR MENU -->
                 <div class="col-md-6 col-sm-6 additional-nav">
                     <ul class="list-unstyled list-inline pull-right">
-                        <li><a href="/login">Log In</a></li>
-                        <li><a href="/register">Registration</a></li>
-                    </ul>
+                        <li><a href="/login_page">Log In</a></li>
+						<li><a href="/register">Registration</a></li>
+						<li>
+							<form action="/logout" method="post" th:csrf="true">
+								<button type="submit" class="dropdown-item"><i
+										class="fas fa-sign-out-alt"></i> Logout</button>
+							</form>
+						</li>
+					</ul>
                 </div>
                 <!-- END TOP BAR MENU -->
             </div>
@@ -45,6 +53,8 @@
     <!-- END TOP BAR -->
     <!-- BEGIN HEADER -->
     <div class="header">
+		<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/logins/login-12/assets/css/login-12.css">
       <div class="container">
         <a class="site-logo" href="index.html"><img src="/frontend/layout/img/logos/logo-corp-red.png" alt="Metronic FrontEnd"></a>
 

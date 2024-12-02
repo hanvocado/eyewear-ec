@@ -101,7 +101,7 @@
                         const token = data.result.token;
                         localStorage.setItem('authToken', token); // Lưu token vào localStorage
                         alert('Đăng kí thành công!');
-                        window.location.href = "/login"; // Điều hướng đến trang hồ sơ
+                        window.location.href = "/login_page"; // Điều hướng đến trang hồ sơ
                     } else {
                         alert('Đăng kí thất bại: ' + (data.message || 'Unknown error'));
                     }
