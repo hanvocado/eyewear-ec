@@ -17,6 +17,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     
     @Query("SELECT o FROM Order o WHERE o.buyer.id = :buyerId ORDER BY o.orderAt DESC")
     List<Order> findAllByBuyerId(@Param("buyerId") Long buyerId);
+    
+    List<Order> findByBuyerIdAndStatusIn(Long buyerId, List<String> statuses);
 
     @Query("SELECT o FROM Order o " +
            "LEFT JOIN FETCH o.items i " +

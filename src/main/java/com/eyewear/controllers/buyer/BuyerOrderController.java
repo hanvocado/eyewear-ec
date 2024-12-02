@@ -10,18 +10,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eyewear.entities.Buyer;
+import com.eyewear.entities.CartItem;
 import com.eyewear.entities.Order;
 import com.eyewear.entities.OrderDetail;
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductReview;
+import com.eyewear.services.CartService;
 import com.eyewear.services.OrderService;
+import com.eyewear.services.ProductReviewService;
 import com.eyewear.services.ProductService;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/buyer/orders")  // Thêm prefix /buyer để phân biệt với admin
@@ -31,14 +37,27 @@ public class BuyerOrderController {
     private OrderService orderService;
     @Autowired
 	ProductService productService;
+    @Autowired
+    CartService cartService;
+    @Autowired
+    ProductReviewService reviewService;
     
-    // Hiển thị danh sách/lịch sử đơn hàng (gộp 2 phương thức getPurchaseHistory và getMyOrders)
-    @GetMapping({"/my-orders", "/history"})  // Hỗ trợ cả 2 URL pattern
+ // Xem đơn hàng đang xử lý (chờ xác nhận, đã xác nhận, đang giao, đã giao)
+    @GetMapping("/my-orders")
+    public String getMyOrders(Model model, Principal principal) {
+        Long buyerId = getCurrentBuyerId(principal);
+        List<Order> activeOrders = orderService.getOrdersByBuyer(buyerId);
+        model.addAttribute("orders", activeOrders);
+        return "buyer/order-track";
+    }
+
+    // Xem lịch sử đơn hàng (đã giao)
+    @GetMapping("/history") 
     public String getOrderHistory(Model model, Principal principal) {
         Long buyerId = getCurrentBuyerId(principal);
-        List<Order> orders = orderService.getOrdersByBuyer(buyerId);
-        model.addAttribute("orders", orders);
-        return "buyer/order-history";  // Thống nhất tên view
+        List<Order> completedOrders = orderService.getHistoryOrdersByBuyer(buyerId);
+        model.addAttribute("orders", completedOrders);
+        return "buyer/order-history";
     }
     
     // Xem chi tiết đơn hàng
@@ -46,6 +65,15 @@ public class BuyerOrderController {
     public String getOrderDetail(@PathVariable Long orderId, Model model, Principal principal) {
         Long buyerId = getCurrentBuyerId(principal);
         Order order = orderService.getOrderDetail(orderId, buyerId);
+        List<Long> ProductReviewed = new ArrayList<>();
+        for(OrderDetail detail: order.getItems()) {
+        	Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, detail.getProduct().getId());
+            
+            if (review.isPresent()) {
+            	ProductReviewed.add(detail.getProduct().getId());
+            }
+        }
+        model.addAttribute("proreviewed",ProductReviewed);
         model.addAttribute("order", order);
         return "buyer/order-detail";
     }
@@ -65,71 +93,69 @@ public class BuyerOrderController {
 		return "test";
 	}
 
-	@GetMapping("/getorder")
-	public String getorder(Model model) {
-		List<Order> orders = orderService.getOrdersByBuyer((long) 1);
-        model.addAttribute("orders", orders);
-        return "test";
-	}
 	
-	@GetMapping("/cancel/{orderId}")
-	public String cancelOrder(@PathVariable("orderId") Long orderId,Model model) {
-	   
+    @GetMapping("/cancel/{orderId}")
+	public String cancelOrder(@PathVariable("orderId") Long orderId, RedirectAttributes redirectAttributes) {
+	    // Gọi service để hủy đơn hàng
 	    String message = orderService.cancelOrder(orderId);
-	    
-	    model.addAttribute("message",message);
-	    return "redirect:/buyer/orders/my-orders"; 
+
+	    // Thêm thông báo vào RedirectAttributes
+	    redirectAttributes.addFlashAttribute("message", message);
+
+	    // Chuyển hướng về trang danh sách đơn hàng
+	    return "redirect:/buyer/orders/my-orders";
 	}
 
 	@GetMapping("/checkout")
-	public ModelAndView placeOrder(@RequestParam(name = "selectedProducts") List<Long> listid,
-			@RequestParam(name = "buyerId") int buyerId, ModelMap model) {
+	public ModelAndView placeOrder(@RequestParam(name = "listCartIemId") List<Long> listid,
+			 ModelMap model) {
 
-		List<Product> pro = productService.getProductsById(listid);
-		//List<String>
-
-		if (pro == null || pro.isEmpty()) {
+		List<CartItem> cart = new ArrayList<>();
+		for(Long id : listid) {
+			Optional<CartItem> fcart = cartService.findById(id);
+			cart.add(fcart.get());
+		}
+		
+		if (cart == null || cart.isEmpty()) {
 
 			model.addAttribute("errorMessage", "No products found for the selected IDs.");
 			return new ModelAndView("error", model);
 		}
 
-
-
-		model.addAttribute("buyerId", buyerId); 
-		//model.addAttribute("totalPrice", totalPrice); 
-		model.addAttribute("productList", pro);
+		model.addAttribute("cartList", cart);
 		return new ModelAndView("buyer/checkout", model); 
 	}
 	
 	
 	@PostMapping("/saveOrder")
-	public ModelAndView checkout(
+	public String checkout(
 	        @RequestParam List<Long> productIds,
 	        @RequestParam List<Integer> quantities,
+	        @RequestParam float totalPrice,
 	        @RequestParam List<Double> prices,
 	        @RequestParam(value = "CashOnDelivery", required = false) String CashOnDelivery,
 	        @RequestParam(value="address",required =false) String address,
-	        @RequestParam("buyerid") String buyerid,
-	        ModelMap model) {
+	        Principal principal,
+	        Model model) {
 	    	
 		// Kiểm tra giá trị CashOnDelivery
 	    if (CashOnDelivery == null || CashOnDelivery.trim().isEmpty()) {
-	    	return new ModelAndView("buyer/checkout",model);
+	    	return "buyer/checkout";
 	    }
 
 	    // Kiểm tra giá trị address
 	    if (address == null || address.trim().isEmpty()) {
 	       
-	        return new ModelAndView("buyer/checkout", model);
+	        return "buyer/checkout";
 	    }
+	    Long buyerId = getCurrentBuyerId(principal);
 		    Order order = new Order();
 		    order.setOrderAt(LocalDateTime.now());
 		    order.setStatus("Pending");
 		    order.setPaymentMethod(CashOnDelivery);
 		    Buyer buyer = new Buyer();
-		    buyer.setId(Long.parseLong(buyerid));
-		    //order.setTotalPrice(0);
+		    buyer.setId(buyerId);
+		    order.setTotalPrice(totalPrice);
 		    order.setBuyer(buyer);
 
 		
@@ -148,12 +174,14 @@ public class BuyerOrderController {
 	    order.setItems(orderDetails);
 
 	    // Lưu đơn hàng vào cơ sở dữ liệu
-	    orderService.placeOrder(order);
-	    model.addAttribute("message", "Order placed successfully!");
-	    return new ModelAndView("redirect:/buyer/orders/my-orders", model);
+	    try {
+	        orderService.placeOrder(order);
+	        model.addAttribute("message","Đặt hàng thành công!");
+	      
+	    } catch (Exception e) {
+	    	model.addAttribute("message2",e.getMessage());
+	    }
+
+	    return "buyer/checkout";
 	}
-
-
-
-	
 }
