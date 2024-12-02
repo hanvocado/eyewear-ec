@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)  // Sử dụng Single Table Inheritance
+@Inheritance(strategy = InheritanceType.JOINED) // Kế thừa
 @DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.STRING)  // Cột phân biệt loại sản phẩm
 @Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Product {
