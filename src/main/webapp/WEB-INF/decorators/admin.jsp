@@ -25,10 +25,10 @@
 <!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
 <link href="/global/css/components-rounded.css" id="style_components" rel="stylesheet" type="text/css">
 <link href="/global/css/plugins.css" rel="stylesheet" type="text/css">
-<link href="/admin/layout3/css/layout.css" rel="stylesheet" type="text/css">
-<link href="/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
-<link href="/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
-<link href="/admin/style.css" rel="stylesheet" type="text/css">
+<link href="/admin1/layout3/css/layout.css" rel="stylesheet" type="text/css">
+<link href="/admin1/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
+<link href="/admin1/layout3/css/custom.css" rel="stylesheet" type="text/css">
+<link href="/admin1/style.css" rel="stylesheet" type="text/css">
 <!-- END THEME STYLES -->
 
 
@@ -75,10 +75,10 @@
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="/global/scripts/metronic.js" type="text/javascript"></script>
-<script src="/admin/layout3/scripts/layout.js" type="text/javascript"></script>
-<script src="/admin/layout3/scripts/demo.js" type="text/javascript"></script>
-<script src="/admin/pages/scripts/index3.js" type="text/javascript"></script>
-<script src="/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+<script src="/admin1/layout3/scripts/layout.js" type="text/javascript"></script>
+<script src="/admin1/layout3/scripts/demo.js" type="text/javascript"></script>
+<script src="/admin1/pages/scripts/index3.js" type="text/javascript"></script>
+<script src="/admin1/pages/scripts/tasks.js" type="text/javascript"></script>
 
 
 <!-- END PAGE LEVEL SCRIPTS -->

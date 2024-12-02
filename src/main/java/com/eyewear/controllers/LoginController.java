@@ -1,11 +1,5 @@
 package com.eyewear.controllers;
 
-import com.eyewear.dto.request.AuthResponse;
-import com.eyewear.dto.request.UserRequest;
-import com.eyewear.services.JwtService;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.eyewear.DTO.request.AuthResponse;
+import com.eyewear.DTO.request.UserRequest;
+import com.eyewear.services.JwtService;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Controller
 @RequiredArgsConstructor

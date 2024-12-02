@@ -178,6 +178,10 @@ public class ProductController {
       	
     	List<ProductReview> reviews = productReviewService.findAll(id);
     	
+    	Long countReview = productReviewService.countByProductId(id);
+    	
+    	System.out.println(countReview);
+    	
    	 // Lấy sản phẩm tương tự (theo danh mục hoặc thương hiệu)
        List<Product> similarProducts = productService.findByCategoryIdOrBrand(
        		product.getCategory().getId(), 
@@ -211,6 +215,7 @@ public class ProductController {
     	model.addAttribute("message", message);
     	model.addAttribute("productType", productType); 
     	model.addAttribute("reviews", reviews);
+    	model.addAttribute("countReview", countReview);
     	
     	return "common/product-detail";
     }
