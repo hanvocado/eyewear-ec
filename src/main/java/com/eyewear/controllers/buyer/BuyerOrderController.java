@@ -166,9 +166,9 @@ public class BuyerOrderController {
 
 	@GetMapping("/checkout")
 	public ModelAndView placeOrder(@RequestParam(name = "listCartIemId") List<Long> listid,
-			 ModelMap model,Principal principal) {
+			 ModelMap model,HttpSession session) {
 
-		Long buyerId = getCurrentBuyerId(principal);
+		Long buyerId = getCurrentBuyerId(session);
 		Optional<Buyer> buyer1 = buyerService.findById(buyerId);
 		Buyer buyer=buyer1.get();
 		List<CartItem> cart = new ArrayList<>();
