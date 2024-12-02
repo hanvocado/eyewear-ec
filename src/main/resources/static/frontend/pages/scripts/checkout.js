@@ -109,42 +109,4 @@ function updateTotalPrice() {
         updateQuantity(id, input.value);
     }
     
-    document.addEventListener("DOMContentLoaded", function () {
-    const stars = document.querySelectorAll(".rating-stars1 .star1");
-    const ratingInput = document.getElementById("rating-value1");
-
-    const initialRating = parseInt(ratingInput.value, 10);
-    console.log("Giá trị ban đầu:", initialRating); 
-    if (!isNaN(initialRating) && initialRating > 0) {
-        setRating(initialRating);
-    }
-
-    stars.forEach((star, index) => {
-        star.addEventListener("mouseover", () => {
-            resetHovered();
-            for (let i = 0; i <= index; i++) {
-                stars[i].classList.add("hovered");
-            }
-        });
-
-        star.addEventListener("mouseout", resetHovered);
-
-        star.addEventListener("click", () => {
-            setRating(index + 1);
-        });
-    });
-
-    function setRating(value) {
-        console.log("Set rating:", value); 
-        ratingInput.value = value;
-        stars.forEach((star, i) => {
-            star.classList.toggle("selected", i < value);
-        });
-    }
-
-    function resetHovered() {
-        stars.forEach((star) => {
-            star.classList.remove("hovered");
-        });
-    }
-});
+    

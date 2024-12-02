@@ -1,7 +1,6 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
  
-
 	
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <c:if test="${not empty message}">
@@ -22,11 +21,11 @@
 
 <div class="container-rv1">
     <h2 class="rv-title1">Product Review</h2>
-    <form class="rv-form1" action="/buyer/reviews/save" method="POST">
+    <form  action="/buyer/reviews/save" method="POST">
         <input type="hidden" name="buyerId">
         <input type="hidden" name="orderId" value="${orderId}">
         <input type="hidden" name="productId" value="${product.id}">
-        <input type="hidden" id="rating-value1" name="rating" value="${review.rating }">
+        
 
         <div class="product-info1">
             <div class="product-image1">
@@ -39,19 +38,20 @@
             </div>
         </div>
 
+		
+								
+								
+
         <div class="review-section1">
             <label class="rv-label1">Rating:</label>
-            <div class="rating-container1">
-                <input type="hidden" id="rating-value1" name="rating" value="${review.rating}">
-                <div class="rating-stars1" id="stars-container1">
-                    <span class="star1" data-value="1">&#9733;</span>
-                    <span class="star1" data-value="2">&#9733;</span>
-                    <span class="star1" data-value="3">&#9733;</span>
-                    <span class="star1" data-value="4">&#9733;</span>
-                    <span class="star1" data-value="5">&#9733;</span>
-                </div>
+      <div class="rating-container1">
+               	<input type="range" value="${review.rating}" name="rating" step="1" id="backing4">
+									<div class="rateit" data-rateit-backingfld="#backing4"
+										data-rateit-resetable="false" data-rateit-ispreset="true"
+										data-rateit-min="0" data-rateit-max="5"></div>
+									
             </div>
-            
+            <br><br>
             <label class="rv-label1" for="review1">Your Feedback:</label>
             <textarea id="review1" name="reviewContent" class="rv-textarea1" placeholder="Write your review here...">${review.reviewContent}</textarea>
         </div>
