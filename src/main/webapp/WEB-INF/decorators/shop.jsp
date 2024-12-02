@@ -34,6 +34,8 @@
 	<!-- Page level plugin styles -->
   <link href="/frontend/pages/css/style-shop.css" rel="stylesheet" type="text/css">
 
+
+
   <!-- Theme styles START -->
   <link href="/global/css/components.css" rel="stylesheet">
   <link href="/frontend/layout/css/style.css" rel="stylesheet">
@@ -62,6 +64,7 @@
 <link href="/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>
+
 
 <!-- <!-- Bootstrap CSS -->
 
@@ -157,9 +160,6 @@
 }
 
 </style>
-
-
-
 </head>
 <!-- Head END -->
 <body class="ecommerce">
@@ -177,7 +177,7 @@
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script><!-- for slider-range -->
 <script src="/frontend/layout/scripts/layout.js" type="text/javascript"></script>
 	
-<script src="/global/plugins/jquery.min.js" type="text/javascript"></script>
+<!-- <script src="/global/plugins/jquery.min.js" type="text/javascript"></script> -->
 <script src="/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
 <script src="/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 <script src="/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -197,7 +197,6 @@
 <script src="/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
 <!-- Metronic và các script liên quan -->
-<script src="/global/scripts/metronic.js" type="text/javascript"></script>
 <script src="/admin/layout3/scripts/layout.js" type="text/javascript"></script>
 <script src="/admin/layout3/scripts/demo.js" type="text/javascript"></script>
 <script src="/admin/pages/scripts/components-pickers.js"></script>
@@ -209,12 +208,8 @@
 <script src="/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script>
 <script src="/global/plugins/rateit/src/jquery.rateit.js" type="text/javascript"></script>
 
-
-
-
-
 <!-- Khởi tạo -->
-<script>
+<script type="text/javascript">
     jQuery(document).ready(function () {
         Metronic.init(); 
         Layout.init(); 

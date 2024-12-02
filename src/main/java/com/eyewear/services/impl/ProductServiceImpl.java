@@ -60,7 +60,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Page<Product> findByCategoryId(List<Long> categoryId, Pageable pageable) {
-		// TODO Auto-generated method stub
 		return productRepo.findByCategoryIdIn(categoryId, pageable);
 	}
 	
@@ -102,6 +101,15 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Double findMinPrice() {
 		return productRepo.findMinPrice();
+	}
+
+	@Override
+	public Product getProductById(long id) {
+        return productRepo.findById(id).orElse(null); // Truy vấn sản phẩm từ Repository
+    }
+	@Override
+	public List<Product> findByCategoryIdOrBrand(Long categoryId, String brand, Long productId){
+		return productRepo.findByCategoryIdOrBrand(categoryId, brand, productId);
 	}
 	
 }

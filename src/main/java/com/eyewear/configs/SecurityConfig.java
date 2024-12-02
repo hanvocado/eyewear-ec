@@ -1,92 +1,93 @@
 package com.eyewear.configs;
 
-import lombok.Builder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsConfigurationSource;
-
-
-import javax.crypto.spec.SecretKeySpec;
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENPOINTS = {
-            "/users/register", "/auth/login", "/auth/introspect"
-    };
-
-    protected static final String SIGNED_KEY =
-            "drmCpY2RcIRQmD0LaU91BjToW+UnVnPKx1jFySEGthLEZz/lTvPXmzkJdHBwZIMn";
+    @Autowired
+    public AuthenticationSuccessHandler customsuccessHandler;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public JwtFilter jwtFilter() {
+        return new JwtFilter();
+    }
 
-        httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(request ->
-                request
-                        .requestMatchers("/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, PUBLIC_ENPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/myInfo").permitAll()
-                        .requestMatchers("/users/**").hasAuthority("SCOPE_ADMIN")
-                        .requestMatchers("/manager/**").hasAuthority("SCOPE_MANAGER")
-                        .requestMatchers("/buyer/**").hasAuthority("SCOPE_BUYER")
-                        .anyRequest().authenticated()
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
+    @Bean
+    public UserDetailsService userDetailsServices() {
+        return new UserDetailsServiceImpl();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsServices());
+        daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
+        return daoAuthenticationProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/manager/**").hasRole("MANAGER")
+                        .requestMatchers("/buyer/**").hasRole("BUYER")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/static/**", "/","/**")
+                        .permitAll())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/signin")
+                        .successHandler(customsuccessHandler)
+                        .failureHandler(customAuthenticationFailureHandler)
+                        //.defaultSuccessUrl("/", true)
+                        .permitAll()
                 )
-        ;
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login/oauth2")
+                        .authorizationEndpoint(authEndpoint -> authEndpoint
+                                .baseUri("/login/oauth2/authorization")
+                        )
+                        .successHandler(customsuccessHandler)
+                        .defaultSuccessUrl("/", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login_page")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .permitAll()
+                )
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer ->
-                        jwtConfigurer.decoder(jwtDecoder()))
-                );
-
-
-
-        return httpSecurity.build();
-    }
-
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNED_KEY.getBytes(), "HmacSHA256");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
-    }
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:8080"));
-        configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Cache-Control"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+        return http.build();
     }
 }

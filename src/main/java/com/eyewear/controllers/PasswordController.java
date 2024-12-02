@@ -12,7 +12,7 @@ public class PasswordController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/forgot-password")
+    @GetMapping("/forgot_password_page")
     public String showForgotPasswordForm() {
         return "forgot-password";
     }
