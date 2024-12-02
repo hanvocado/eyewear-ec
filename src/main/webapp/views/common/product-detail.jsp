@@ -192,7 +192,7 @@
     function shareOnFacebook() {
         FB.ui({
             method: 'share',
-            href: 'http://localhost:8080/common/products/detail/<c:out value="${product.id}" />',
+            href: 'https://9bd1-14-169-33-53.ngrok-free.app/common/products/detail/<c:out value="${product.id}" />',
         }, function(response) {
             if (response && !response.error_message) {
                 alert('Sharing succeeded.');
