@@ -1,11 +1,14 @@
 package com.eyewear.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.eyewear.entities.Category;
 import com.eyewear.entities.Product;
 import com.eyewear.entities.ProductColor;
 
@@ -41,15 +44,14 @@ public interface ProductService {
 	Page<Product> findByNameContaining(String name, Pageable pageable);
 
 	Page<Product> findByCriteria(List<String> categoryNames, List<String> brand, Double minPrice, Double maxPrice, Pageable pageable);
-	
-	Double findMaxPrice();
-	
-	Double findMinPrice();
 
 	Product getProductById(long id);
 
 	List<Product> findByCategoryIdOrBrand(Long categoryId, String brand, Long productId);
 
 	List<ProductColor> findByProductId(Long id);
+
+	List<Product> findByCategoryId(Long id);
+	
 	
 }
