@@ -19,6 +19,7 @@
 <link href="/global/plugins/morris/morris.css" rel="stylesheet" type="text/css">
 <!-- END PAGE LEVEL PLUGIN STYLES -->
 <!-- BEGIN PAGE STYLES -->
+<link href="/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
 <link href="/admin1/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
 <!-- END PAGE STYLES -->
 <!-- BEGIN THEME STYLES -->
@@ -30,8 +31,11 @@
 <link href="/admin1/layout3/css/custom.css" rel="stylesheet" type="text/css">
 <link href="/admin1/style.css" rel="stylesheet" type="text/css">
 <!-- END THEME STYLES -->
-
-
+<!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.css" rel="stylesheet">
+    <!-- Plugin CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/timegrid.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/daygrid.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -72,6 +76,8 @@
 <script src="/global/plugins/morris/morris.min.js" type="text/javascript"></script>
 <script src="/global/plugins/morris/raphael-min.js" type="text/javascript"></script>
 <script src="/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+<script src="/global/plugins/bootstrap-toastr/toastr.min.js"></script>
+<script src="/admin/pages/scripts/ui-toastr.js"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="/global/scripts/metronic.js" type="text/javascript"></script>
@@ -80,9 +86,12 @@
 <script src="/admin1/pages/scripts/index3.js" type="text/javascript"></script>
 <script src="/admin1/pages/scripts/tasks.js" type="text/javascript"></script>
 
-
 <!-- END PAGE LEVEL SCRIPTS -->
-
+<!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.js"></script>
+    <!-- Plugin JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/timegrid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/daygrid.min.js"></script>
 
 <script src="/admin1/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 <script src="/admin1/pages/scripts/table-managed.js"></script>
@@ -91,6 +100,7 @@ jQuery(document).ready(function() {
    Metronic.init(); // init metronic core componets
    Layout.init(); // init layout
    Demo.init(); // init demo(theme settings page)
+   UIToastr.init();
    Index.init(); // init index page
    Tasks.initDashboardWidget(); // init tash dashboard widget
    TableManaged.init();
