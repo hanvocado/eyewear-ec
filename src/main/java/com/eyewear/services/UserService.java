@@ -3,8 +3,8 @@ package com.eyewear.services;
 import com.eyewear.DTO.request.UserCreationRequest;
 import com.eyewear.DTO.request.UserUpdateRequest;
 import com.eyewear.entities.User;
-
 import java.security.Principal;
+
 import java.util.List;
 
 public interface UserService {
@@ -25,6 +25,6 @@ public interface UserService {
     void updatePassword(String token, String newPassword);
 
     public User getMyInfo();
-    
+
     Long getCurrentBuyerId(Principal principal);
 }

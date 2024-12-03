@@ -21,18 +21,19 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	private String province;
-
+	
 	private String district;
-
+	
 	private String commue;
-
+	
 	private String streetName;
-
+	
 	private int streetNumber;
 
+	
 	@ManyToOne
-	@JoinColumn(name = "buyer_id", nullable = false) // Khóa ngoại liên kết đến bảng Buyer
-	private Buyer buyer;
+    @JoinColumn(name = "buyer_id", nullable = false) // Khóa ngoại liên kết đến bảng Buyer
+    private Buyer buyer;
 }

@@ -71,7 +71,7 @@
                                                             display: block;">
                                             </c:when>
                                             <c:otherwise>
-                                                <div class="default-avatar"
+                                                <div class="default-avatar" 
                                                      style="width: 100%;
                                                             height: 100%;
                                                             background-color: #f8f9fa;
@@ -89,12 +89,12 @@
                                                                left: 50%;
                                                                transform: translate(-50%, -50%);
                                                                line-height: 1;">
-                                                            ${fn:toUpperCase(fn:substring(buyer.firstName, 0, 1))}
+                                                        ${fn:toUpperCase(fn:substring(buyer.firstName, 0, 1))}
                                                     </span>
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>
-                                        <label for="pictureInput"
+                                        <label for="pictureInput" 
                                                style="position: absolute; 
                                                       bottom: 5px; 
                                                       right: 5px; 
@@ -227,17 +227,17 @@
             method: 'POST',
             body: formData
         })
-            .then(response => {
-                if (response.status === 200) {
-                    showAlert('Profile updated successfully!', 'success', true);
-                } else {
-                    throw new Error('Update failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert('Unable to update profile. Please try again later.', 'danger');
-            });
+        .then(response => {
+            if (response.status === 200) {
+                showAlert('Profile updated successfully!', 'success', true);
+            } else {
+                throw new Error('Update failed');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Unable to update profile. Please try again later.', 'danger');
+        });
     });
 
     function showAlert(message, type, reload = false) {
@@ -281,7 +281,7 @@
     function fadeOutAlert(callback) {
         const alertDiv = document.getElementById('alertMessage');
         alertDiv.style.opacity = '0';
-
+        
         setTimeout(() => {
             alertDiv.style.display = 'none';
             if (callback) callback();
@@ -342,18 +342,18 @@
                 method: 'POST',
                 body: formData
             })
-                .then(response => {
-                    if (response.status === 200) {
-                        showAlert('Avatar updated successfully!', 'success', true);
-                    } else {
-                        throw new Error('Upload failed');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showAlert('Unable to upload avatar. Please try again later.', 'danger');
-                    // Khôi phục avatar mặc định
-                    const defaultAvatar = `
+            .then(response => {
+                if (response.status === 200) {
+                    showAlert('Avatar updated successfully!', 'success', true);
+                } else {
+                    throw new Error('Upload failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('Unable to upload avatar. Please try again later.', 'danger');
+                // Khôi phục avatar mặc định
+                const defaultAvatar = `
                     <div class="default-avatar" 
                          style="width: 100%;
                                 height: 100%;
@@ -375,9 +375,9 @@
                             ${fn:toUpperCase(fn:substring(buyer.firstName, 0, 1))}
                         </span>
                     </div>`;
-                    const container = document.querySelector('.img-circle').parentElement;
-                    container.innerHTML = defaultAvatar + container.innerHTML.substring(container.innerHTML.indexOf('<label'));
-                });
+                const container = document.querySelector('.img-circle').parentElement;
+                container.innerHTML = defaultAvatar + container.innerHTML.substring(container.innerHTML.indexOf('<label'));
+            });
         }
     }
 
