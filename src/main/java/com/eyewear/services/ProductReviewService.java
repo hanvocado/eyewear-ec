@@ -13,7 +13,7 @@ public interface ProductReviewService {
 	
 	ProductReview addReview(ProductReview review);
 
-	boolean editReview(int reviewId);
+	
 	
 	Page<ProductReview> findAll(Pageable pageable,Long productId);
 

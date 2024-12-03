@@ -89,11 +89,11 @@ public class BookingController {
                 startDateTime, endDateTime, message, services, buyerId, branchId);
 	    
 	    if (success) {
-	    	redirectAttributes.addFlashAttribute("message", "Đặt lịch thành công!");
-	    	redirectAttributes.addFlashAttribute("messageType", "success");
+	    	model.addAttribute("toastMessage", "Lịch hẹn được đặt thành công!");
+            model.addAttribute("toastType", "success");
 		} else {
-			redirectAttributes.addFlashAttribute("message", "Đặt lịch thất bại!");
-			redirectAttributes.addFlashAttribute("messageType", "danger");
+			model.addAttribute("toastMessage", "Đặt lịch hẹn thất bại. Vui lòng thử lại.");
+            model.addAttribute("toastType", "error");
 		}
 
 		return "buyer/booking";

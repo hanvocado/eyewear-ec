@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 
@@ -66,9 +67,9 @@
                         </button>
                     </form>
                     
-                    <button class="btn btn-default" type="submit">
-                        Continue shopping <i class="fa fa-shopping-cart"></i>
-                    </button>
+                 <a href="${pageContext.request.contextPath}/common/products" class="btn btn-default">
+    Continue shopping <i class="fa fa-shopping-cart"></i>
+</a>
                 </div>
             </div>
             <!-- END CONTENT -->
@@ -76,4 +77,3 @@
         <!-- END SIDEBAR & CONTENT -->
     </div>
 </div>
-

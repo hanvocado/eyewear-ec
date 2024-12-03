@@ -26,10 +26,14 @@ public class TransferGoodsController {
 
 	@Autowired
 	private TransferProductService transferService;
+	
+	private Long getCurrentBranchId(HttpSession session) {
+ 	   return (Long) session.getAttribute("branchId");
+ 	}
 
 	@GetMapping("/in")
-	public String transferIn(Model model) {
-		Long managerBranchId = (long) 3;
+	public String transferIn(Model model, HttpSession session) {
+		Long managerBranchId = getCurrentBranchId(session);
 		List<GoodsTransferNote> importedNotes = transferService.findNotesByImportBranchId(managerBranchId);
 		List<GoodsTransferNote> pendingNotes = importedNotes.stream()
 								.filter(n -> n.getStatus().equals(TransferNoteStatus.PENDING))
@@ -49,10 +53,9 @@ public class TransferGoodsController {
 
 	@GetMapping("/new")
 	public String newNote(Model model, Long productId, HttpSession session) {
-		/*
-		 * Long importBranchId = (Long) session.getAttribute("currentLoginBranchId");
-		 */		
-		Long importBranchId = (long) 3;
+		
+		Long importBranchId = getCurrentBranchId(session);
+		 		
 		int step = 1;
 		if (productId == null) {
 			List<Product> products = productService.findAll();
@@ -75,7 +78,7 @@ public class TransferGoodsController {
 	@PostMapping("/request")
 	public String request(@RequestParam Long productId, @RequestParam Long branchId, @RequestParam int quantity,
 			Boolean moreProduct, Model model, HttpSession session, RedirectAttributes attributes) {
-		Long importBranchId = (long) 3;
+		Long importBranchId = getCurrentBranchId(session);
 		GoodsTransferNote newNote = transferService.createNote(importBranchId, productId, branchId, quantity);
 		if (newNote == null) {
 			attributes.addFlashAttribute("message", "Thất bại. Vui lòng đọc kỹ hướng dẫn và thử lại.");
@@ -147,8 +150,8 @@ public class TransferGoodsController {
 	}
 	
 	@GetMapping("/out")
-	public String transferOut(Model model) {
-		Long managerBranchId = (long) 1;
+	public String transferOut(Model model, HttpSession session) {
+		Long managerBranchId = getCurrentBranchId(session);
 		List<GoodsTransferNote> exportedNotes = transferService.findNotesByExportBranchId(managerBranchId);
 		List<GoodsTransferNote> pendingNotes = exportedNotes.stream()
 								.filter(n -> n.getStatus().equals(TransferNoteStatus.PENDING))

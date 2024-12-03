@@ -35,11 +35,11 @@
                             <h5 class="text-muted mb-3">Thông tin khách hàng</h5>
                             <p class="mb-2">
                                 <i class="bi bi-person"></i>
-                                <strong>Người đặt:</strong> <span>${order.buyer.username}</span>
+                                <strong>Người đặt:</strong> <span>${order.buyer.lastName}</span>
                             </p>
                             <p class="mb-2">
                                 <i class="bi bi-telephone"></i>
-                                <strong>SĐT:</strong> <span>${order.buyer.phoneNumber}</span>
+                                <strong>SĐT:</strong> <span>${order.buyer.phone}</span>
                             </p>
                             <p class="mb-2">
                                 <i class="bi bi-envelope"></i>
