@@ -1,4 +1,4 @@
-package com.eyewear.controllers.manager;
+package com.eyewear.controllers.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/manager")
-public class ManagerHomeController {
-	@GetMapping("/")
-	public String home() {
-		return "manager/home";
-	}
+@RequestMapping("/admin")
+public class AdminHomeController {
+    @RequestMapping("/")
+    public String home() {
+        return "admin/home";
+    }
+
 }

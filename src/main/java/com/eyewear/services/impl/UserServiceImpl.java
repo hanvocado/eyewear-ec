@@ -2,6 +2,7 @@ package com.eyewear.services.impl;
 
 import com.eyewear.DTO.request.UserCreationRequest;
 import com.eyewear.DTO.request.UserUpdateRequest;
+import com.eyewear.entities.Buyer;
 import com.eyewear.entities.User;
 import com.eyewear.enums.Role;
 import com.eyewear.exceptions.AppException;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     public User createRequest(UserCreationRequest request) {
         User user = new User();
+        Buyer buyer = new Buyer();
 
         if(userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
@@ -52,6 +55,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setAddress(request.getAddress());
+        user.setPicture(request.getPicture());
         user.setRoles(Role.BUYER.name());
 
         return userRepository.save(user);
@@ -92,7 +96,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setAddress(request.getAddress());
-        user.setRoles(Role.MANAGER.name());
+        user.setPicture(request.getPicture());
         return userRepository.save(user);
     }
 

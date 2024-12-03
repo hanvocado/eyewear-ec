@@ -63,6 +63,17 @@
                                 <button type="reset" class="btn btn-default">Cancel</button>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-10 padding-right-30">
+                                <hr>
+                                <div class="login-socio">
+                                    <p class="text-muted">or login using:</p>
+                                    <ul class="social-icons">
+                                        <li><a href="/login/oauth2/authorization/google" data-original-title="Google Plus" class="googleplus" title="Google Plus"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -101,7 +112,7 @@
                         const token = data.result.token;
                         localStorage.setItem('authToken', token); // Lưu token vào localStorage
                         alert('Đăng kí thành công!');
-                        window.location.href = "/login"; // Điều hướng đến trang hồ sơ
+                        window.location.href = "/login_page"; // Điều hướng đến trang hồ sơ
                     } else {
                         alert('Đăng kí thất bại: ' + (data.message || 'Unknown error'));
                     }

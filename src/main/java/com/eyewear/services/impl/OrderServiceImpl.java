@@ -10,9 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+
 
 @Service
 @Transactional
@@ -32,12 +39,22 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByBuyerIdAndStatusIn(buyerId, statuses);
     }
     
-    public List<Order> getHistoryOrdersByBuyer(Long buyerId) {
-    	return orderRepository.findByBuyerIdAndStatusIn(
-                buyerId, 
-                Arrays.asList("COMPLETED", "CANCELED")
-            );
+    public Page<Order> getHistoryOrdersByBuyer(Long buyerId, Pageable pageable) {
+        return orderRepository.findByBuyerIdAndStatusOrderByOrderAtDesc(buyerId, "Đã giao", pageable);
     }
+    
+    public Page<Order> findAll(Specification<Order> spec, Pageable pageable) {
+        return orderRepository.findAll(spec, pageable);
+    }
+    
+    public Page<Order> getAllOrdersSortByDatePaginated(Pageable pageable) {
+    	   PageRequest pageRequest = PageRequest.of(
+    	       pageable.getPageNumber(), 
+    	       pageable.getPageSize(),
+    	       Sort.by(Sort.Direction.DESC, "orderAt")
+    	   );
+    	   return orderRepository.findAll(pageRequest); 
+    	}
 
     @Override
     public Order getOrderDetail(Long orderId, Long buyerId) {
@@ -61,10 +78,10 @@ public class OrderServiceImpl implements OrderService {
 		Optional<Order> order = orderRepository.findById(orderId);
 		if(order.isPresent()) {
 			Order editOrder =order.get();
-			if(editOrder.getStatus().equalsIgnoreCase("Done")) {
+			if(editOrder.getStatus().equalsIgnoreCase("Đã giao")) {
 				return "Đơn hàng đã giao";
-			}else if(editOrder.getStatus().equalsIgnoreCase("Pending")){
-				editOrder.setStatus("Canceled");
+			}else if(editOrder.getStatus().equalsIgnoreCase("Đang chờ")){
+				editOrder.setStatus("Đã huỷ");
 				orderRepository.save(editOrder);
 				return "Huỷ đơn thành công";
 			}
@@ -105,6 +122,12 @@ public class OrderServiceImpl implements OrderService {
 	            }
 	        }
 	    }
+	}
+
+	@Override
+	public boolean checkout(Long orderId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

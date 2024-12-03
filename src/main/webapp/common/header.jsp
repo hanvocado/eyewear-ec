@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <!-- BEGIN STYLE CUSTOMIZER -->
 <div class="color-panel hidden-sm">
 	<div class="color-mode-icons icon-color"></div>
@@ -34,9 +36,16 @@
                 <!-- BEGIN TOP BAR MENU -->
                 <div class="col-md-6 col-sm-6 additional-nav">
                     <ul class="list-unstyled list-inline pull-right">
-                        <li><a href="/login">Log In</a></li>
-                        <li><a href="/register">Registration</a></li>
-                    </ul>
+						<li><a href="/buyer/profile">Account</a></li>
+						<li><a href="/login_page">Log In</a></li>
+						<li><a href="/register">Registration</a></li>
+						<li>
+							<form action="/logout" method="post" th:csrf="true">
+								<button type="submit" class="dropdown-item"><i
+										class="fas fa-sign-out-alt"></i> Logout</button>
+							</form>
+						</li>
+					</ul>
                 </div>
                 <!-- END TOP BAR MENU -->
             </div>
@@ -45,6 +54,7 @@
     <!-- END TOP BAR -->
     <!-- BEGIN HEADER -->
     <div class="header">
+
       <div class="container">
         <a class="site-logo" href="index.html"><img src="/frontend/layout/img/logos/logo-corp-red.png" alt="Metronic FrontEnd"></a>
 
@@ -301,7 +311,7 @@
 								Fixed</a></li>
 						<li><a href="shop-index-light-footer.html">Home Light
 								Footer</a></li>
-						<li><a href="shop-product-list.html">Product List</a></li>
+						<li><a href="/common/products">Product List</a></li>
 						<li><a href="shop-search-result.html">Search Result</a></li>
 						<li><a href="shop-item.html">Product Page</a></li>
 						<li><a href="shop-shopping-cart-null.html">Shopping Cart
@@ -329,11 +339,11 @@
 				<li class="menu-search"><span class="sep"></span> <i
 					class="fa fa-search search-btn"></i>
 					<div class="search-box">
-						<form action="#">
+						<form action="/common/products/search" method="get">
 							<div class="input-group">
-								<input type="text" placeholder="Search" class="form-control">
+								<input type="text" placeholder="Tìm kiếm sản phẩm" class="form-control">
 								<span class="input-group-btn">
-									<button class="btn btn-primary" type="submit">Search</button>
+									<button class="btn btn-primary" type="submit">Tìm kiếm</button>
 								</span>
 							</div>
 						</form>

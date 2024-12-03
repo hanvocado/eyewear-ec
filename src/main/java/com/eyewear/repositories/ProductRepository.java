@@ -1,6 +1,7 @@
 package com.eyewear.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductColor;
 
 import jakarta.validation.Valid;
 
@@ -49,4 +51,13 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     @Query("SELECT MAX(p.price) FROM Product p")
     Double findMaxPrice();
+    
+    // Sản phẩm tương tự theo danh mục hay theo thương hiệu
+    @Query("SELECT p FROM Product p WHERE (p.category.id = :categoryId OR p.brand = :brand) AND p.id <> :productId")
+    List<Product> findByCategoryIdOrBrand(@Param("categoryId") Long categoryId, 
+                                          @Param("brand") String brand, 
+                                          @Param("productId") Long productId);
+    
+    @Query("SELECT pc FROM ProductColor pc WHERE pc.product.id = :productId")
+    List<ProductColor> findByProductId(@Param("productId") Long productId);
 }

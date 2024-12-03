@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductColor;
 import com.eyewear.entities.ProductSpecification;
 import com.eyewear.repositories.ProductRepository;
 import com.eyewear.services.ProductService;
@@ -60,7 +61,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Page<Product> findByCategoryId(List<Long> categoryId, Pageable pageable) {
-		// TODO Auto-generated method stub
 		return productRepo.findByCategoryIdIn(categoryId, pageable);
 	}
 	
@@ -102,6 +102,19 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Double findMinPrice() {
 		return productRepo.findMinPrice();
+	}
+
+	@Override
+	public Product getProductById(long id) {
+        return productRepo.findById(id).orElse(null); // Truy vấn sản phẩm từ Repository
+    }
+	@Override
+	public List<Product> findByCategoryIdOrBrand(Long categoryId, String brand, Long productId){
+		return productRepo.findByCategoryIdOrBrand(categoryId, brand, productId);
+	}
+	@Override
+	public List<ProductColor> findByProductId(Long id){
+		return productRepo.findByProductId(id);
 	}
 	
 }

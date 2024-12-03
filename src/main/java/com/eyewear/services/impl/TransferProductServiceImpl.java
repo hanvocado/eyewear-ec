@@ -73,8 +73,7 @@ public class TransferProductServiceImpl implements TransferProductService {
 	public boolean completeTransfer(Long noteId) {
 		GoodsTransferNote existingNote = noteRepo.findById(noteId).orElse(null);
 		if (existingNote != null) {
-			existingNote.setStatus(TransferNoteStatus.COMPLETED);
-			existingNote.setReceivedAt(LocalDateTime.now());
+			existingNote.markAsCompleted();
 			noteRepo.save(existingNote);
 			return true;
 		}
@@ -100,7 +99,7 @@ public class TransferProductServiceImpl implements TransferProductService {
 	public boolean confirmShipping(Long noteId) {
 		GoodsTransferNote existingNote = noteRepo.findById(noteId).orElse(null);
 		if (existingNote != null && existingNote.getStatus() == TransferNoteStatus.PENDING) {
-			existingNote.setStatus(TransferNoteStatus.CONFIRMED);
+			existingNote.markAsConfirmed();
 			noteRepo.save(existingNote);
 			return true;
 		}

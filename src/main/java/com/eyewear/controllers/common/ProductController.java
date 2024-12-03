@@ -13,13 +13,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cloudinary.Cloudinary;
 import com.eyewear.entities.Category;
 import com.eyewear.entities.Product;
+import com.eyewear.entities.ProductColor;
+import com.eyewear.entities.ProductReview;
 import com.eyewear.services.CategoryService;
+import com.eyewear.services.ProductReviewService;
 import com.eyewear.services.ProductService;
 
 @Controller
@@ -31,11 +35,15 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+    
+    @Autowired
+    private ProductReviewService productReviewService;
 
     @Autowired
     private Cloudinary cloudinary;
 
     private String message;
+    
 
     // Lấy tất cả sản phẩm với phân trang
     @RequestMapping("")
@@ -111,7 +119,8 @@ public class ProductController {
                               ModelMap model) {
 
         Page<Product> productPage;
-
+        String message = null;
+        
         int currentPage = (pageable.getPageNumber() > 0) ? pageable.getPageNumber() - 1 : 0;
         Pageable page = PageRequest.of(currentPage, pageable.getPageSize(), Sort.by("name"));
 
@@ -122,9 +131,11 @@ public class ProductController {
                     (brand != null && !brand.isEmpty()) ||
                     minPrice != null || maxPrice != null) {
                     productPage = productService.findByCriteria(categoryName, brand, minPrice, maxPrice, page);
+                    message = "Tìm thấy" + productPage.getTotalElements() + " sản phẩm";
                 }
             } else {
                 productPage = Page.empty(page);
+                message = "Không tìm thấy sản phẩm phù hợp, vui lòng chọn loại sản phẩm khác";
             }
         } else {
             if ((categoryName != null && !categoryName.isEmpty()) ||
@@ -133,12 +144,13 @@ public class ProductController {
                 productPage = productService.findByCriteria(categoryName, brand, minPrice, maxPrice, page);
             } else {
                 productPage = productService.findAll(page);
+                
             }
         }
 
         List<Category> categories = categoryService.findAll();
         List<String> uniqueBrand = getUniqueBrands();
-        String message = getMessage(productPage, name);
+        
         addPaginationAttributes(model, page, productPage);
         setProductImageUrls(productPage);
 
@@ -154,6 +166,89 @@ public class ProductController {
         model.addAttribute("message", message);
 
         return "common/product-search-result";
+    }
+    
+    @RequestMapping("/detail/{id}")
+    public String getProductDetail(@PathVariable long id,
+            ModelMap model,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "4") int size) {
+    	
+    	Product product = productService.getProductById(id);
+    	String message = null;
+    	
+    	String productType = product.getCategory().getName();
+    	
+    	Page<ProductReview> reviewPage = productReviewService.findAll(PageRequest.of(page, size), id);
+        
+    	 model.addAttribute("reviews", reviewPage.getContent());
+	        model.addAttribute("currentPage", page);
+	        model.addAttribute("totalPages", reviewPage.getTotalPages());
+	        model.addAttribute("productId", id);
+
+    	
+    	
+    	
+
+   	 // Lấy sản phẩm tương tự (theo danh mục hoặc thương hiệu)
+       List<Product> similarProducts = productService.findByCategoryIdOrBrand(
+       		product.getCategory().getId(), 
+       		product.getBrand(), id);
+       
+    // Lấy màu sắc của sản phẩm (ví dụ từ ProductColor)
+       List<ProductColor> productColors = productService.findByProductId(id);
+       productColors.forEach(productColor -> {
+           try {
+               // Lấy URL hình ảnh cho mỗi màu sắc
+               String imageUrl = cloudinary.url()
+                   .publicId(productColor.getImageUrl())
+                   .generate();
+
+               // Gán URL hình ảnh vào ProductColor
+               productColor.setImageUrl(imageUrl);
+           } catch (Exception e) {
+               System.err.println("Lỗi tạo đường dẫn hình ảnh cho màu sắc " + productColor.getId());
+               e.printStackTrace();
+           }
+       });
+       
+       if (similarProducts != null && !similarProducts.isEmpty()) {
+    	    similarProducts.forEach(similarProduct -> {
+    	        try {
+    	            // Tạo URL hình ảnh từ Cloudinary
+    	            String imageUrl = cloudinary.url()
+    	                    .publicId(similarProduct.getImage())
+    	                    .generate();
+
+    	            // Gán URL hình ảnh vào sản phẩm tương tự
+    	            similarProduct.setImageUrl(imageUrl);
+    	        } catch (Exception e) {
+    	            // Xử lý lỗi nếu việc tạo URL thất bại
+    	            System.err.println("Lỗi tạo đường dẫn: " + similarProduct.getId());
+    	            e.printStackTrace();
+    	        }
+    	    });
+    	} else {
+    	    System.out.println("Không tìm thấy sản phẩm tương tự");
+    	    message = "Không tìm thấy sản phẩm tương tự";
+    	}
+    	Long countReview= productReviewService.countReviewsByProductId(id);
+    	double avgReview=productReviewService.calculateAverageRating(id);
+    	String imageUrl = cloudinary.url().publicId(product.getImage()).generate();
+        product.setImageUrl(imageUrl);
+    	model.addAttribute("product", product);
+    	model.addAttribute("similarProducts", similarProducts);
+    	model.addAttribute("message", message);
+    	model.addAttribute("productType", productType); 
+
+    	
+    	model.addAttribute("avgReview",avgReview);
+
+    	model.addAttribute("countReview", countReview);
+    	model.addAttribute("productColors", productColors); // Thêm thông tin màu sắc
+
+    	
+    	return "common/product-detail";
     }
 
     
@@ -171,7 +266,7 @@ public class ProductController {
             if (resultPage.hasContent()) {
                 return "Tìm thấy " + resultPage.getTotalElements() + " sản phẩm";
             } else {
-                return "Không tìm thấy sản phẩm";
+                return "Không tìm thấy sản phẩm phù hợp. Vui lòng nhập từ khóa tìm kiếm khác";
             }
         }
         return null;
