@@ -1,5 +1,7 @@
 package com.eyewear.configs;
 
+import com.eyewear.entities.Admin;
+import com.eyewear.entities.Manager;
 import com.eyewear.entities.User;
 import com.eyewear.enums.Role;
 import com.eyewear.repositories.UserRepository;
@@ -19,35 +21,34 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Slf4j
 public class ApplicationInitConfig {
 
-    PasswordEncoder passwordEncoder;
+	PasswordEncoder passwordEncoder;
 
-    @Bean
-    ApplicationRunner applicationRunner(UserRepository userRepository) {
-        return args -> {
-            if (userRepository.findByEmail("admin@eyewear.com").isEmpty()){
+	@Bean
+	ApplicationRunner applicationRunner(UserRepository userRepository) {
+		return args -> {
+			if (userRepository.findByEmail("admin@eyewear.com").isEmpty()) {
 
-                User user = User.builder()
-                        .email("admin@eyewear.com")
-                        .password(passwordEncoder.encode("admin"))
-                        .roles(Role.ADMIN.name())
-                        .build();
+				Admin ad = Admin.builder()
+						.email("admin@eyewear.com")
+						.password(passwordEncoder.encode("admin"))
+						.build();
 
-                userRepository.save(user);
-                log.warn("Người dùng Admin đã được tạo với mật khẩu mặc định, vui lòng đổi mật khẩu!");
-            }
-            
-            if (userRepository.findByEmail("manager1@eyewear.com").isEmpty()){
+				userRepository.save(ad);
+				log.warn("Người dùng Admin đã được tạo với mật khẩu mặc định, vui lòng đổi mật khẩu!");
+			}
 
-                User user = User.builder()
-                        .email("manager1@eyewear.com")
-                        .password(passwordEncoder.encode("12345"))
-                        .branchId((long) 1)
-                        .roles(Role.MANAGER.name())
-                        .build();
+			if (userRepository.findByEmail("manager1@eyewear.com").isEmpty()) {
 
-                userRepository.save(user);
-                log.warn("Người dùng manager đã được tạo với mật khẩu mặc định, vui lòng đổi mật khẩu!");
-            }
-        };
-    }
+				Manager ma1 = Manager.builder()
+						.email("manager1@eyewear.com")
+						.password(passwordEncoder.encode("12345"))
+						//.branchId((long) 1)
+						.build();
+
+				userRepository.save(ma1);
+				log.warn("Người dùng manager đã được tạo với mật khẩu mặc định, vui lòng đổi mật khẩu!");
+			}
+
+		};
+	}
 }

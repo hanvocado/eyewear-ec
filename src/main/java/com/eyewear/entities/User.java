@@ -4,27 +4,27 @@ package com.eyewear.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
-
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
-@NoArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "role")@NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PROTECTED)
 @Entity
-public class User {
+@SuperBuilder
+public abstract class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String email;
     String password;
     String phone;
     String firstName;
     String lastName;
-    String address;
-    String roles;
     String picture;
-    Long branchId;
+    
+    public String getRole() {
+        return this.getClass().getSimpleName();
+    }
 }

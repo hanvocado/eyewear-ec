@@ -40,8 +40,7 @@ public class UserServiceImpl implements UserService {
     private final EmailService emailService;
 
     public User createRequest(UserCreationRequest request) {
-        User user = new User();
-        Buyer buyer = new Buyer();
+        Buyer user = new Buyer();
 
         if(userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
@@ -56,7 +55,6 @@ public class UserServiceImpl implements UserService {
         user.setLastName(request.getLastName());
         user.setAddress(request.getAddress());
         user.setPicture(request.getPicture());
-        user.setRoles(Role.BUYER.name());
 
         return userRepository.save(user);
     }
@@ -89,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(String id, UserUpdateRequest request) {
-        User user = getUser(id);
+        Buyer user = (Buyer) getUser(id);
 
         user.setPassword(request.getPassword());
         user.setPhone(request.getPhone());
