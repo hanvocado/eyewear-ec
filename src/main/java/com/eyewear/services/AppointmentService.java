@@ -24,8 +24,12 @@ public interface AppointmentService {
 
 	List<Appointment> getUpcomingAppointments(Long branchId);
 
-	Appointment addAppointment(Appointment appointment);
+	Appointment getAppointment(Long id);
 
-	List<Appointment> getCalendarAppointments();
+	Appointment save(Appointment appointment);
+
+	List<Appointment> getAppointmentsByStatus(List<String> statuses, Long branchId);
+
+	void deleteAppointment(Long id);
 
 }

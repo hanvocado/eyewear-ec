@@ -22,5 +22,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 	
 	List<Appointment> findByBranch(Branch branch);
 	
-	List<Appointment> findByStatusIn(List<String> statuses);
+	List<Appointment> findByStatusInAndBranch(List<String> statuses, Branch branch);
 }

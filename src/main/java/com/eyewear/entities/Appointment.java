@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.eyewear.utils.ServiceType;
 import com.eyewear.utils.StringListConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,11 +41,12 @@ public class Appointment {
 	private List<String> services;
 
 	@ManyToOne
-	@JoinColumn(name = "buyer_id", nullable = false)
+	@JoinColumn(name = "buyer_id")
 	private Buyer buyer;
 
 	@ManyToOne
 	@JoinColumn(name = "branch_id", nullable = false)
+	@JsonIgnore
 	private Branch branch;
 
 	@Transient

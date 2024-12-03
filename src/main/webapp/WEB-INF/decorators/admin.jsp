@@ -20,10 +20,8 @@
 <!-- END PAGE LEVEL PLUGIN STYLES -->
 <!-- BEGIN PAGE STYLES -->
 <link href="/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
+<link href="/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
 <!-- END PAGE STYLES -->
-<!-- CALENDAR -->
-<link href="/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet"/>
-<!-- END CALENDAR -->
 <!-- BEGIN THEME STYLES -->
 <!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
 <link href="/global/css/components-rounded.css" id="style_components" rel="stylesheet" type="text/css">
@@ -33,7 +31,11 @@
 <link href="/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
 <link href="/admin/style.css" rel="stylesheet" type="text/css">
 <!-- END THEME STYLES -->
-
+<!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.css" rel="stylesheet">
+    <!-- Plugin CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/timegrid.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/daygrid.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -71,11 +73,11 @@
 <script src="/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
 <script src="/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
 <!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
-<script src="/global/plugins/moment.min.js"></script>
-<script src="/global/plugins/fullcalendar/fullcalendar.min.js"></script>
 <script src="/global/plugins/morris/morris.min.js" type="text/javascript"></script>
 <script src="/global/plugins/morris/raphael-min.js" type="text/javascript"></script>
 <script src="/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+<script src="/global/plugins/bootstrap-toastr/toastr.min.js"></script>
+<script src="/admin/pages/scripts/ui-toastr.js"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="/global/scripts/metronic.js" type="text/javascript"></script>
@@ -83,17 +85,21 @@
 <script src="/admin/layout3/scripts/demo.js" type="text/javascript"></script>
 <script src="/admin/pages/scripts/index3.js" type="text/javascript"></script>
 <script src="/admin/pages/scripts/tasks.js" type="text/javascript"></script>
-<script src="/admin/pages/scripts/calendar.js"></script>
-<!-- END PAGE LEVEL SCRIPTS -->
 
-<script src="/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.js"></script>
+    <!-- Plugin JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/timegrid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/daygrid.min.js"></script>
+
 <script src="/admin/pages/scripts/table-managed.js"></script>
 <script>
 jQuery(document).ready(function() {    
    Metronic.init(); // init metronic core componets
    Layout.init(); // init layout
-   Calendar.init();
    Demo.init(); // init demo(theme settings page)
+   UIToastr.init();
    Index.init(); // init index page
    Tasks.initDashboardWidget(); // init tash dashboard widget
    TableManaged.init();

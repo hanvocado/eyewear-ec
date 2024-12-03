@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.management.RuntimeErrorException;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,10 @@ import com.eyewear.repositories.BuyerRepository;
 import com.eyewear.services.AppointmentService;
 import com.eyewear.utils.AppointmentStatus;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
@@ -107,15 +111,20 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<Appointment> getFinishedAppointments(Long branchId) {
-
 		Branch branch = branchRepository.findById(branchId)
 				.orElseThrow(() -> new RuntimeException("Không tìm thấy cửa hàng chi nhánh"));
-		List<Appointment> appointments = appointmentRepo.findByStatusAndBranch("APPROVED", branch);
 
+		List<Appointment> appointments = appointmentRepo.findByStatusAndBranch("APPROVED", branch);
 		LocalDateTime now = LocalDateTime.now();
 
-		return appointments.stream().filter(appointment -> appointment.getEnd().isBefore(now))
-				.collect(Collectors.toList());
+		List<Appointment> finishedAppointments = appointments.stream()
+				.filter(appointment -> appointment.getEnd().isBefore(now)).collect(Collectors.toList());
+
+		finishedAppointments.forEach(appointment -> appointment.setStatus("FINISHED"));
+
+		appointmentRepo.saveAll(finishedAppointments);
+
+		return finishedAppointments;
 	}
 
 	@Override
@@ -126,14 +135,41 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public List<Appointment> getCalendarAppointments() {
-		List<Appointment> appts = appointmentRepo.findByStatusIn(Arrays.asList("APPROVED", "SCHEDULED"));
+	public List<Appointment> getAppointmentsByStatus(List<String> statuses, Long branchId) {
+		Branch branch = branchRepository.findById(branchId)
+				.orElseThrow(() -> new RuntimeException("Không tìm thấy cửa hàng chi nhánh"));
+		List<Appointment> appts = appointmentRepo.findByStatusInAndBranch(statuses, branch);
+//        if (log.isInfoEnabled()) {
+//            log.info("Fetched {} appointments with statuses {} for branchId {}: {}", 
+//                    appts.size(), statuses, branchId, appts);
+//        }
 		return appts;
 	}
 
 	@Override
-	public Appointment addAppointment(Appointment appointment) {
-		return appointmentRepo.save(appointment);
+	public Appointment save(Appointment appointment) {
+		if (appointment.getId() == null || !appointmentRepo.existsById(appointment.getId())) {
+			appointment.setStatus("SCHEDULED");
+			appointment.setCreatedAt(LocalDateTime.now());
+			return appointmentRepo.save(appointment);
+		}
+		Appointment apt = appointmentRepo.findById(appointment.getId())
+				.orElseThrow(() -> new RuntimeException("Không tìm thấy lịch hẹn"));
+		apt.setId(appointment.getId());
+		apt.setStart(appointment.getStart());
+		apt.setEnd(appointment.getEnd());
+		apt.setMessage(appointment.getMessage());
+		return appointmentRepo.save(apt);
+	}
+
+	@Override
+	public Appointment getAppointment(Long id) {
+		return appointmentRepo.findById(id).orElse(null);
+	}
+
+	@Override
+	public void deleteAppointment(Long id) {
+		appointmentRepo.deleteById(id);
 	}
 
 }
