@@ -1,5 +1,6 @@
 package com.eyewear.configs;
 
+import com.eyewear.entities.Buyer;
 import com.eyewear.entities.User;
 import com.eyewear.enums.Role;
 import com.eyewear.repositories.UserRepository;
@@ -37,14 +38,13 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 			email = oAuth2User.getAttribute("email");
 			// Lấy user từ database hoặc tạo mới nếu chưa tồn tại
 			User user = userRepo.findByEmail(email).orElseGet(() -> {
-				User newUser = new User();
+				Buyer newUser = new Buyer();
 				newUser.setEmail(email);
 				newUser.setFirstName(oAuth2User.getAttribute("given_name"));
 				newUser.setLastName(oAuth2User.getAttribute("family_name"));
 				newUser.setPicture(oAuth2User.getAttribute("picture"));
 				newUser.setPhone(oAuth2User.getAttribute("phone"));
 				newUser.setAddress(oAuth2User.getAttribute("address"));
-				newUser.setRoles(Role.BUYER.name());
 				userRepo.save(newUser);
 				return newUser;
 			});
