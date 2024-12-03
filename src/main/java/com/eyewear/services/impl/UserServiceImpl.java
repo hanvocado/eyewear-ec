@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 import java.util.Optional;
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 
@@ -133,4 +134,16 @@ public class UserServiceImpl implements UserService {
 
         passwordResetTokenRepository.delete(resetToken);
     }
+
+	@Override
+	public Long getCurrentBuyerId(Principal principal) {
+    	String username = principal.getName();
+	    
+	    // Tìm User theo email hoặc username để lấy ID
+	    User user = getUserByEmail(username);
+	    
+	    return user.getId();
+ 	}
+
+	
 }

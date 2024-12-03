@@ -124,10 +124,6 @@ public class OrderServiceImpl implements OrderService {
 	    }
 	}
 
-	@Override
-	public boolean checkout(Long orderId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 }
