@@ -2,6 +2,8 @@ package com.eyewear.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,5 +31,4 @@ public class Branch {
 
 	@OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
-
 }

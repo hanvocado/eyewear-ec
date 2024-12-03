@@ -20,5 +20,14 @@ public enum ServiceType {
     public String getDisplayName() {
         return displayName;
     }
+    
+    public static ServiceType fromString(String text) {
+        for (ServiceType service : ServiceType.values()) {
+            if (service.name().equalsIgnoreCase(text)) {
+                return service;
+            }
+        }
+        return null;
+    }
 }
 

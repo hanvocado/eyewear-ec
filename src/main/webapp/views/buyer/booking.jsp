@@ -2,15 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 
-<body>
-<c:if test="${not empty message }">
-		<div class="alert alert-${messageType } alert-dismissable"
-			id="alertBox">
-			<button type="button" class="close" data-dismiss="alert"
-				aria-hidden="true"></button>
-			${message }
-		</div>
-	</c:if>
+<c:if test="${not empty toastMessage}">
+    <script>
+        toastr["${toastType}"]("${toastMessage}");
+    </script>
+</c:if>
+
 <section>
 	<div class="main">
 		<div class="container">
@@ -182,7 +179,6 @@
         });
     });
 </script>
-</body>
 
 
 
