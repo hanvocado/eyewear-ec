@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cloudinary.Cloudinary;
 import com.eyewear.entities.Category;
+import com.eyewear.entities.Frame;
+import com.eyewear.entities.Lense;
 import com.eyewear.entities.Product;
 import com.eyewear.entities.ProductColor;
 import com.eyewear.entities.ProductReview;
@@ -50,9 +52,14 @@ public class ProductController {
     public String allProducts(ModelMap model, Pageable pageable) {	
     	int page = (pageable.getPageNumber()>0) ? pageable.getPageNumber()-1 : 0;
         Page<Product> productPage = productService.findAll(PageRequest.of(page, pageable.getPageSize()));
+     
+        // Lấy tất cả các danh mục để hiển thị ở sidebar
+        List<Category> categories = categoryService.findAll();
+	
         addPaginationAttributes(model, pageable, productPage);
         setProductImageUrls(productPage);
         model.addAttribute("productPage", productPage);
+        model.addAttribute("categories", categories);
         return "common/product-list";  // Trang hiển thị danh sách sản phẩm
     }
     @GetMapping("/search")
@@ -60,9 +67,6 @@ public class ProductController {
         
         List<Category> categories = categoryService.findAll();
         List<String> uniqueBrand = getUniqueBrands();
-        
-        Double maxPrice = productService.findMaxPrice();
-        Double minPrice = productService.findMinPrice();
 
         Page <Product> resultPage = searchProducts(name, pageable);
         String message = getMessage(resultPage, name);
@@ -74,8 +78,7 @@ public class ProductController {
         model.addAttribute("categories", categories);
         model.addAttribute("productPage", resultPage);
         model.addAttribute("message", message);
-        model.addAttribute("max", maxPrice);
-        model.addAttribute("min", minPrice);
+        
         // Truyền tên từ thanh tìm xuống view
         model.addAttribute("searchname", name);
 
@@ -187,7 +190,8 @@ public class ProductController {
 	        model.addAttribute("productId", id);
 
     	
-    	
+    	// Lấy tất cả các danh mục để hiển thị ở sidebar
+        List<Category> categories = categoryService.findAll();
     	
 
    	 // Lấy sản phẩm tương tự (theo danh mục hoặc thương hiệu)
@@ -245,12 +249,20 @@ public class ProductController {
     	model.addAttribute("avgReview",avgReview);
 
     	model.addAttribute("countReview", countReview);
+    	model.addAttribute("categories", categories);
     	model.addAttribute("productColors", productColors); // Thêm thông tin màu sắc
-
-    	
+    	// Kiểm tra loại sản phẩm và thêm thuộc tính riêng cho Lense hoặc Frame
+        if (product instanceof Lense) {
+            Lense lense = (Lense) product; // Ép kiểu từ Product sang Lense
+            model.addAttribute("lenseType", lense.getType()); // Thêm thông tin đặc biệt của Lense vào model
+        } else if (product instanceof Frame) {
+            Frame frame = (Frame) product; // Ép kiểu từ Product sang Frame
+            model.addAttribute("frameMaterial", frame.getMaterial()); // Thêm thông tin đặc biệt của Frame vào model
+            model.addAttribute("frameHeight", frame.getHeight()); // Thêm kích thước của Frame vào model
+            model.addAttribute("frameWidth", frame.getWidth()); 
+        }
     	return "common/product-detail";
     }
-
     
     // Tìm sản phẩm theo tên
     private Page<Product> searchProducts(String name, Pageable pageable) {

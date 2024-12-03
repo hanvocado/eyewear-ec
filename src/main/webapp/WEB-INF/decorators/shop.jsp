@@ -207,6 +207,22 @@
 <script src="/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script>
 <script src="/global/plugins/rateit/src/jquery.rateit.js" type="text/javascript"></script>
 
+<script>
+    $(document).ready(function () {
+        // Toggle dropdown menus
+        $('.sidebar-menu .collapsed').on('click', function (e) {
+            var $this = $(this);
+            var $menu = $this.next('.dropdown-menu');
+            
+            // Toggle the dropdown visibility
+            $menu.slideToggle();
+            
+            // Optional: Toggle the "active" class on the link
+            $this.toggleClass('active');
+        });
+    });
+</script>
+
 <!-- Khởi tạo -->
 <script type="text/javascript">
     jQuery(document).ready(function () {
