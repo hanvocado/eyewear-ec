@@ -4,7 +4,6 @@ import com.eyewear.entities.Buyer;
 import com.eyewear.entities.Manager;
 import com.eyewear.entities.User;
 import com.eyewear.enums.Role;
-import com.eyewear.repositories.BuyerRepository;
 import com.eyewear.repositories.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,8 +27,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	@Autowired
     private UserRepository userRepo;
 
-	@Autowired
-    private BuyerRepository buyerRepo;
 	@Transactional
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

@@ -21,8 +21,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.eyewear.entities.Buyer;
 import com.eyewear.entities.Product;
 import com.eyewear.entities.ProductReview;
+import com.eyewear.entities.User;
 import com.eyewear.services.ProductReviewService;
 import com.eyewear.services.ProductService;
+import com.eyewear.services.UserService;
 
 import jakarta.validation.Valid;
 
@@ -34,6 +36,8 @@ public class ProductReviewController {
 	ProductReviewService reviewService;
 	@Autowired
 	ProductService productService;
+    @Autowired
+    UserService userService;
 	
 	@GetMapping("test")
 	public String index() {
@@ -64,7 +68,7 @@ public class ProductReviewController {
 	
 	@GetMapping("")
 	public String review(@RequestParam("productId") Long productId, @RequestParam("orderId") Long orderId, Model model,Principal principal) {
-		Long buyerId = getCurrentBuyerId(principal);
+		Long buyerId = userService.getCurrentBuyerId(principal);
 	    Product product = productService.findById(productId);
 	    
 	   Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
@@ -79,11 +83,7 @@ public class ProductReviewController {
 	    return "buyer/product-review";
 	}
 	
-	private Long getCurrentBuyerId(Principal principal) {
-        // TODO: Implement logic to get current buyer id from Principal
-        return 1L; // Temporary return
-    }
-
+	
 	
 	@PostMapping("/save")
 	public String saveOrUpdateReview(RedirectAttributes redirectAttributes, @Valid @ModelAttribute("review") ProductReview review,
@@ -95,7 +95,7 @@ public class ProductReviewController {
 	    	redirectAttributes.addAttribute("message", "Validation errors occurred.");
 	        return "review"; 
 	    }
-	    Long buyerId = getCurrentBuyerId(principal);
+	    Long buyerId = userService.getCurrentBuyerId(principal);
 	    // Tạo đối tượng Buyer và Product từ buyerId và productId
 	    Buyer buyer = new Buyer();
 	    buyer.setId(buyerId);

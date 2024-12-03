@@ -191,7 +191,7 @@
 									<c:forEach var="review" items="${reviews}">
 										<div class="review-item clearfix">
 											<div class="review-item-submitted">
-												<strong>${review.buyer.name}</strong> <em>${review.reviewDate}</em>
+												<strong>${review.buyer.lastName}</strong> <em>${review.reviewDate}</em>
 												<div class="rateit" data-rateit-value="${review.rating}"
 													data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 											</div>

@@ -21,5 +21,4 @@ public interface OrderService {
     
     String cancelOrder(Long orderId);
     void placeOrder(Order order);
-    boolean checkout(Long orderId);
 }
