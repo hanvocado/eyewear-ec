@@ -33,6 +33,6 @@ public class Address {
 	private int streetNumber;
 
 	@ManyToOne
-	@JoinColumn(name = "buyer_id", nullable = false) // Khóa ngoại liên kết đến bảng Buyer
+	@JoinColumn(name = "buyer_id", nullable = true) // Khóa ngoại liên kết đến bảng Buyer
 	private Buyer buyer;
 }
