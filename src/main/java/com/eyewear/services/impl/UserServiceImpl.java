@@ -4,7 +4,6 @@ import com.eyewear.DTO.request.UserCreationRequest;
 import com.eyewear.DTO.request.UserUpdateRequest;
 import com.eyewear.entities.Buyer;
 import com.eyewear.entities.User;
-import com.eyewear.enums.Role;
 import com.eyewear.exceptions.AppException;
 import com.eyewear.exceptions.ErrorCode;
 import com.eyewear.model.ResetPasswordToken;
@@ -16,18 +15,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.Optional;
+import java.util.UUID;
 import java.time.LocalDateTime;
-
 
 @Service
 @RequiredArgsConstructor
@@ -39,34 +34,28 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
+    @Override
     public User createRequest(UserCreationRequest request) {
         Buyer user = new Buyer();
 
-        if(userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
 
         user.setEmail(request.getEmail());
-
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-
         user.setPhone(request.getPhone());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setAddress(request.getAddress());
-        user.setPicture(request.getPicture());
 
         return userRepository.save(user);
     }
 
-    public User getMyInfo(){
-        var context = SecurityContextHolder.getContext();
-        String email = context.getAuthentication().getName();
-
-        User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
-        return user;
+    @Override
+    public User getMyInfo() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
     }
 
     @Override
@@ -76,7 +65,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng!"));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng!"));
     }
 
     @Override
@@ -93,8 +83,7 @@ public class UserServiceImpl implements UserService {
         user.setPhone(request.getPhone());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setAddress(request.getAddress());
-        user.setPicture(request.getPicture());
+
         return userRepository.save(user);
     }
 
@@ -102,7 +91,6 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
-
 
     @Override
     public void resetPassword(String email) {

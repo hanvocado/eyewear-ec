@@ -13,6 +13,10 @@ public class UserUpdateRequest {
     String phone;
     String firstName;
     String lastName;
-    String address;
+    String province;
+    String district;
+    String commue;
+    String streetName;
+    String streetNumber;
     String picture;
 }

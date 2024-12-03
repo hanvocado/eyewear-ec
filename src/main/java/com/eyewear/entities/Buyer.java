@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -28,21 +29,23 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class Buyer extends User {
-	private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
 
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders;
-    
+
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
     @OneToOne(mappedBy = "buyer", cascade = CascadeType.ALL, orphanRemoval = true)
     private ShoppingCart shoppingCart; // Một Buyer có một ShoppingCart
-    
+
     public Buyer() {
-    	super();
+        super();
     }
-  
+
     @Override
     public String getRole() {
         return Role.BUYER.name();

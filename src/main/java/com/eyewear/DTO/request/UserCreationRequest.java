@@ -19,6 +19,4 @@ public class UserCreationRequest {
     String phone;
     String firstName;
     String lastName;
-    String address;
-    String picture;
 }
