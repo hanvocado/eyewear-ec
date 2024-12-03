@@ -57,7 +57,7 @@ public class BuyerOrderController {
         Model model, 
         Principal principal
     ) {
-    	Long buyerId = getCurrentBuyerId(principal);
+    	Long buyerId = userService.getCurrentBuyerId(principal);
 	    if(buyerId==null)
 	    	buyerId=(long) 1;
         
@@ -112,7 +112,7 @@ public class BuyerOrderController {
         Model model, 
         Principal principal
     ) {
-    	Long buyerId = getCurrentBuyerId(principal);
+    	Long buyerId = userService.getCurrentBuyerId(principal);
 	    if(buyerId==null)
 	    	buyerId=(long) 1;
         Pageable pageable = PageRequest.of(page, size, Sort.by("orderAt").descending());
@@ -128,7 +128,7 @@ public class BuyerOrderController {
     // Xem chi tiết đơn hàng
     @GetMapping("/{orderId}")
     public String getOrderDetail(@PathVariable Long orderId, Model model, Principal principal) {
-    	Long buyerId = getCurrentBuyerId(principal);
+    	Long buyerId = userService.getCurrentBuyerId(principal);
 	    if(buyerId==null)
 	    	buyerId=(long) 1;
         Order order = orderService.getOrderDetail(orderId, buyerId);
@@ -146,14 +146,6 @@ public class BuyerOrderController {
     }
 
     
-    private Long getCurrentBuyerId(Principal principal) {
-    	String username = principal.getName();
-	    
-	    // Tìm User theo email hoặc username để lấy ID
-	    User user = userService.getUserByEmail(username);
-	    
-	    return user.getId();
- 	}
     
     
     //trantheanh
@@ -183,9 +175,10 @@ public class BuyerOrderController {
 			 ModelMap model,Principal principal) {
 
 
-	    Long buyerId = getCurrentBuyerId(principal);
+	    Long buyerId = userService.getCurrentBuyerId(principal);
 	    if(buyerId==null)
 	    	buyerId=(long) 1;
+
 		Optional<Buyer> buyer1 = buyerService.findById(buyerId);
 		
 		Buyer buyer=buyer1.get();
@@ -227,7 +220,7 @@ public class BuyerOrderController {
 	       
 	        return "buyer/checkout";
 	    }
-	    Long buyerId = getCurrentBuyerId(principal);
+	    Long buyerId = userService.getCurrentBuyerId(principal);
 	    if(buyerId==null)
 	    	buyerId=(long) 1;
 		    Order order = new Order();

@@ -68,7 +68,7 @@ public class ProductReviewController {
 	
 	@GetMapping("")
 	public String review(@RequestParam("productId") Long productId, @RequestParam("orderId") Long orderId, Model model,Principal principal) {
-		Long buyerId = getCurrentBuyerId(principal);
+		Long buyerId = userService.getCurrentBuyerId(principal);
 	    Product product = productService.findById(productId);
 	    
 	   Optional<ProductReview> review = reviewService.getReviewByBuyerAndProduct(buyerId, productId);
@@ -83,15 +83,7 @@ public class ProductReviewController {
 	    return "buyer/product-review";
 	}
 	
-	private Long getCurrentBuyerId(Principal principal) {
-		String username = principal.getName();
-	    
-	    // Tìm User theo email hoặc username để lấy ID
-	    User user = userService.getUserByEmail(username);
-	    
-	    return user.getId();
-    }
-
+	
 	
 	@PostMapping("/save")
 	public String saveOrUpdateReview(RedirectAttributes redirectAttributes, @Valid @ModelAttribute("review") ProductReview review,
@@ -103,7 +95,7 @@ public class ProductReviewController {
 	    	redirectAttributes.addAttribute("message", "Validation errors occurred.");
 	        return "review"; 
 	    }
-	    Long buyerId = getCurrentBuyerId(principal);
+	    Long buyerId = userService.getCurrentBuyerId(principal);
 	    // Tạo đối tượng Buyer và Product từ buyerId và productId
 	    Buyer buyer = new Buyer();
 	    buyer.setId(buyerId);

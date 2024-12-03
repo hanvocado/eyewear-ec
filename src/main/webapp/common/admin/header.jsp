@@ -380,13 +380,13 @@
 									<div class="row">
 										<ul class="mega-menu-submenu">
 											<li><a href="<c:url value="/manager/schedule/calendar"/>"
-												class="iconify"> <i class="fa-regular fa-calendar-days"></i> Lịch trình
+												class="iconify"> <i class="fa fa-calendar"></i> Lịch trình
 											</a></li>
 											<li><a href="<c:url value="/manager/schedule/request"/>"
-												class="iconify"> <i class="icon-paper-plane"></i> Lịch hẹn đang chờ
+												class="iconify"> <i class="fa fa-bell"></i> Lịch hẹn đang chờ
 											</a></li>
 											<li><a href="<c:url value="/manager/schedule/list"/>"
-												class="iconify"> <i class="icon-paper-plane"></i> Danh sách lịch hẹn
+												class="iconify"> <i class="fa fa-list-alt"></i> Danh sách lịch hẹn
 											</a></li>
 										</ul>
 									</div>

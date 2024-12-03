@@ -1,6 +1,7 @@
 
 package com.eyewear.controllers.buyer;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import com.eyewear.entities.ShoppingCart;
 import com.eyewear.services.BuyerService;
 import com.eyewear.services.CartService;
 import com.eyewear.services.ProductService;
+import com.eyewear.services.UserService;
 
 @RequestMapping("/buyer/cart")
 @Controller
@@ -35,6 +37,8 @@ public class CartController {
 	private ProductService productService;
 	@Autowired
 	private BuyerService buyerService;
+	@Autowired
+	UserService userService;
 	@GetMapping("")
 	public String viewCart(Model model, @RequestParam(name = "cartID", required = false) Long cartid) {
 		if (cartid == null) {
@@ -85,10 +89,11 @@ public class CartController {
 	}
 
 	@GetMapping("/addCartItem")
-	public String addCartItem(@RequestParam("productID") Long productId, Model model,RedirectAttributes redirectAttributes) {
+	public String addCartItem(@RequestParam("productID") Long productId, Model model,RedirectAttributes redirectAttributes,Principal principal) {
 		// Tìm sản phẩm dựa trên ID
 		Product product = productService.findById(productId);
-		Buyer buyer = buyerService.findById(1L).orElseThrow(() -> new RuntimeException("Buyer not found"));
+		Long buyerId = userService.getCurrentBuyerId(principal);
+		Buyer buyer = buyerService.findById(buyerId).orElseThrow(() -> new RuntimeException("Buyer not found"));
 		if (product != null) {
 			
 			// Thêm sản phẩm vào giỏ hàng

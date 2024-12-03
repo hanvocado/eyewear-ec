@@ -18,13 +18,33 @@
 
 			<div class="row margin-bottom-40">
 				<!-- BEGIN SIDEBAR -->
+				<!-- BEGIN SIDEBAR -->
 				<div class="sidebar col-md-3 col-sm-5">
 					<ul class="list-group margin-bottom-25 sidebar-menu">
-						<!-- Sidebar content -->
+						<!-- Lặp qua danh sách các danh mục -->
+						<c:forEach var="category" items="${categories}">
+							<li class="list-group-item clearfix">
+								<!-- Tạo link để hiển thị sản phẩm theo danh mục --> <a
+								href="javascript:void(0)" class="collapsed"> <i
+									class="fa fa-angle-right"></i> <span>${category.name}</span>
+							</a> <!-- Nếu category có sản phẩm --> <c:if
+									test="${not empty category.products}">
+									<ul class="dropdown-menu" style="display: none;">
+										<!-- Lặp qua các sản phẩm trong danh mục -->
+										<c:forEach var="product" items="${category.products}">
+											<li class="list-group-item clearfix"><a
+												href="/common/products/detail/${product.id}"> <i
+													class="fa fa-angle-right"></i> ${product.name}
+											</a></li>
+										</c:forEach>
+									</ul>
+								</c:if>
+							</li>
+						</c:forEach>
 					</ul>
 				</div>
 				<!-- END SIDEBAR -->
-
+				
 				<!-- BEGIN CONTENT -->
 				<div class="col-md-9 col-sm-7">
 					<div class="product-page">
@@ -136,6 +156,33 @@
 											<td>Thương hiệu</td>
 											<td>${product.brand}</td>
 										</tr>
+
+										<!-- Nếu sản phẩm là Lense -->
+										<c:if test="${not empty lenseType}">
+											<tr>
+												<td>Loại kính</td>
+												<td>${lenseType}</td>
+											</tr>
+										</c:if>
+
+										<!-- Nếu sản phẩm là Frame -->
+										<c:if test="${not empty frameMaterial}">
+											<tr>
+												<td>Chất liệu</td>
+												<td>${frameMaterial}</td>
+											</tr>
+										</c:if>
+
+										<c:if test="${not empty frameHeight || not empty frameWidth}">
+											<tr>
+												<td>Chiều cao kính</td>
+												<td>${frameHeight} cm</td>
+											</tr>
+											<tr>
+												<td>Chiều rộng kính</td>
+												<td>${frameWidth} cm</td>
+											</tr>
+										</c:if>
 									</table>
 								</div>
 								<div class="tab-pane fade in active" id="Reviews">
@@ -144,7 +191,7 @@
 									<c:forEach var="review" items="${reviews}">
 										<div class="review-item clearfix">
 											<div class="review-item-submitted">
-												<strong>${review.buyer.name}</strong> <em>${review.reviewDate}</em>
+												<strong>${review.buyer.lastName}</strong> <em>${review.reviewDate}</em>
 												<div class="rateit" data-rateit-value="${review.rating}"
 													data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 											</div>

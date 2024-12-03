@@ -28,10 +28,12 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class Buyer extends User {
-	private String address;
+
 	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<Address> listaddress;
 
+
+    private String address;
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders;
     
