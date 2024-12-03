@@ -4,6 +4,7 @@ import com.eyewear.DTO.request.UserCreationRequest;
 import com.eyewear.DTO.request.UserUpdateRequest;
 import com.eyewear.entities.Buyer;
 import com.eyewear.entities.User;
+import com.eyewear.enums.Role;
 import com.eyewear.exceptions.AppException;
 import com.eyewear.exceptions.ErrorCode;
 import com.eyewear.model.ResetPasswordToken;
@@ -15,14 +16,19 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.Optional;
+import java.security.Principal;
 import java.time.LocalDateTime;
+
 
 @Service
 @RequiredArgsConstructor
@@ -121,4 +127,16 @@ public class UserServiceImpl implements UserService {
 
         passwordResetTokenRepository.delete(resetToken);
     }
+
+	@Override
+	public Long getCurrentBuyerId(Principal principal) {
+    	String username = principal.getName();
+
+	    // Tìm User theo email hoặc username để lấy ID
+	    User user = getUserByEmail(username);
+
+	    return user.getId();
+ 	}
+
+
 }

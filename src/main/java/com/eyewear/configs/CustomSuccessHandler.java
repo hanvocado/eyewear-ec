@@ -1,6 +1,7 @@
 package com.eyewear.configs;
 
 import com.eyewear.entities.Buyer;
+import com.eyewear.entities.Manager;
 import com.eyewear.entities.User;
 import com.eyewear.enums.Role;
 import com.eyewear.repositories.UserRepository;
@@ -32,12 +33,14 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 
 		String email;
+		User user;
+		HttpSession session = request.getSession();
 		if (authentication.getPrincipal() instanceof OAuth2User) {
 			// Đăng nhập bằng Google
 			OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 			email = oAuth2User.getAttribute("email");
 			// Lấy user từ database hoặc tạo mới nếu chưa tồn tại
-			User user = userRepo.findByEmail(email).orElseGet(() -> {
+			user = userRepo.findByEmail(email).orElseGet(() -> {
 				Buyer newUser = new Buyer();
 				newUser.setEmail(email);
 				newUser.setFirstName(oAuth2User.getAttribute("given_name"));
@@ -48,23 +51,27 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 				userRepo.save(newUser);
 				return newUser;
 			});
-			// Lưu user vào session
-			HttpSession session = request.getSession();
-			session.setAttribute("currentUser", user);
 		} else {
 			// Đăng nhập bằng email và mật khẩu
 			CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 			email = userDetails.getUsername();
 			// Lấy user từ database
-			Optional<User> user = userRepo.findByEmail(email);
-			// Lưu vào session
-			HttpSession session = request.getSession();
-			session.setAttribute("currentUser", user.orElseThrow(() ->
-					new RuntimeException("User not found")));
+			user = userRepo.findByEmail(email).orElseThrow(() ->
+			new RuntimeException("User not found"));
+			
 		}
-
-		request.getSession().setAttribute("email", email);
-		request.getSession().setMaxInactiveInterval(30 * 60); // 30 phút
+		//Buyer buyer = buyerRepo.findById(1L).orElseThrow(() -> new RuntimeException("Buyer not found"));
+		//request.getSession().setAttribute("buyer", buyer);
+		
+		// Lưu vào session
+		session.setAttribute("currentUser", user);
+					
+		if (user.getRole().equals(Role.MANAGER.name())) {
+	    	   Manager ma = (Manager) user;
+	    	   session.setAttribute("branchId", ma.getBranchId());
+	       }
+		session.setAttribute("email", email);
+		session.setMaxInactiveInterval(30 * 60); // 30 phút
 		
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 

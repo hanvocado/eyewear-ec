@@ -30,6 +30,7 @@
   <link href="/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
   <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
   <link href="/global/plugins/rateit/src/rateit.css" rel="stylesheet" type="text/css">
+  <link href="/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
   <!-- Page level plugin styles END -->
 
 	<!-- Page level plugin styles -->
@@ -194,7 +195,8 @@
 <script src="/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
 <script src="/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-
+<script src="/global/plugins/bootstrap-toastr/toastr.min.js"></script>
+<script src="/admin/pages/scripts/ui-toastr.js"></script>
 <!-- Metronic và các script liên quan -->
 <script src="/admin1/layout3/scripts/layout.js" type="text/javascript"></script>
 <script src="/admin1/layout3/scripts/demo.js" type="text/javascript"></script>
@@ -206,6 +208,22 @@
 <script src="/global/plugins/zoom/jquery.zoom.min.js" type="text/javascript"></script>
 <script src="/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script>
 <script src="/global/plugins/rateit/src/jquery.rateit.js" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        // Toggle dropdown menus
+        $('.sidebar-menu .collapsed').on('click', function (e) {
+            var $this = $(this);
+            var $menu = $this.next('.dropdown-menu');
+            
+            // Toggle the dropdown visibility
+            $menu.slideToggle();
+            
+            // Optional: Toggle the "active" class on the link
+            $this.toggleClass('active');
+        });
+    });
+</script>
 
 <!-- Khởi tạo -->
 <script type="text/javascript">

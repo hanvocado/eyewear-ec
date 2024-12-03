@@ -150,49 +150,49 @@ public class RevenueServiceImpl implements RevenueService {
        PdfWriter.getInstance(document, outputStream);
        document.open();
 
-       try {
-           // Lấy đường dẫn tệp font từ classpath
-           String fontPath = getClass().getResource("/fonts/Roboto/Roboto-Regular.ttf").getPath();
-           // Tạo font từ tệp .ttf
-           BaseFont baseFont = BaseFont.createFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-           Font font = new Font(baseFont, 12);  // Sử dụng font đã tạo
-
-           // Tiêu đề và thông tin chung
-           document.add(new Paragraph("BÁO CÁO DOANH THU", font));
-           document.add(new Paragraph("\n", font));
-           document.add(new Paragraph("Chi nhánh: " + data.get("branchName"), font));
-           document.add(new Paragraph("Sản phẩm: " + data.get("productName"), font));
-           document.add(new Paragraph("Tổng doanh thu: " + formatCurrency((Double) data.get("totalRevenue")), font));
-           document.add(new Paragraph("\n", font));
-
-           // Bảng dữ liệu
-           PdfPTable table = new PdfPTable(2);
-           table.setWidthPercentage(100);
-           table.setWidths(new float[]{1, 1});
-
-           // Headers
-           PdfPCell headerCell1 = new PdfPCell(new Phrase("Thời gian", font));
-           PdfPCell headerCell2 = new PdfPCell(new Phrase("Doanh thu", font));
-           table.addCell(headerCell1);
-           table.addCell(headerCell2);
-
-           // Dữ liệu
-           @SuppressWarnings("unchecked")
-           List<Map<String, Object>> chartData = (List<Map<String, Object>>) data.get("chartData");
-           for (Map<String, Object> item : chartData) {
-               table.addCell(new PdfPCell(new Phrase(item.get("date").toString(), font)));
-               table.addCell(new PdfPCell(new Phrase(formatCurrency((Double) item.get("revenue")), font)));
-           }
-
-           document.add(table);
-       } catch (Exception e) {
-           // In thông tin lỗi ra console để kiểm tra
-           System.err.println("Error creating font or adding content to PDF: " + e.getMessage());
-           e.printStackTrace();
-       } finally {
-           // Đảm bảo đóng tài liệu dù có lỗi hay không
-           document.close();
-       }
+//       try {
+//           // Lấy đường dẫn tệp font từ classpath
+//           String fontPath = getClass().getResource("/fonts/Roboto/Roboto-Regular.ttf").getPath();
+//           // Tạo font từ tệp .ttf
+//           BaseFont baseFont = BaseFont.createFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+//           Font font = new Font(baseFont, 12);  // Sử dụng font đã tạo
+//
+//           // Tiêu đề và thông tin chung
+//           document.add(new Paragraph("BÁO CÁO DOANH THU", font));
+//           document.add(new Paragraph("\n", font));
+//           document.add(new Paragraph("Chi nhánh: " + data.get("branchName"), font));
+//           document.add(new Paragraph("Sản phẩm: " + data.get("productName"), font));
+//           document.add(new Paragraph("Tổng doanh thu: " + formatCurrency((Double) data.get("totalRevenue")), font));
+//           document.add(new Paragraph("\n", font));
+//
+//           // Bảng dữ liệu
+//           PdfPTable table = new PdfPTable(2);
+//           table.setWidthPercentage(100);
+//           table.setWidths(new float[]{1, 1});
+//
+//           // Headers
+//           PdfPCell headerCell1 = new PdfPCell(new Phrase("Thời gian", font));
+//           PdfPCell headerCell2 = new PdfPCell(new Phrase("Doanh thu", font));
+//           table.addCell(headerCell1);
+//           table.addCell(headerCell2);
+//
+//           // Dữ liệu
+//           @SuppressWarnings("unchecked")
+//           List<Map<String, Object>> chartData = (List<Map<String, Object>>) data.get("chartData");
+//           for (Map<String, Object> item : chartData) {
+//               table.addCell(new PdfPCell(new Phrase(item.get("date").toString(), font)));
+//               table.addCell(new PdfPCell(new Phrase(formatCurrency((Double) item.get("revenue")), font)));
+//           }
+//
+//           document.add(table);
+//       } catch (Exception e) {
+//           // In thông tin lỗi ra console để kiểm tra
+//           System.err.println("Error creating font or adding content to PDF: " + e.getMessage());
+//           e.printStackTrace();
+//       } finally {
+//           // Đảm bảo đóng tài liệu dù có lỗi hay không
+//           document.close();
+//       }
    }
 
 

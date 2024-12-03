@@ -45,7 +45,8 @@
         <div class="review-section1">
             <label class="rv-label1">Rating:</label>
       <div class="rating-container1">
-               	<input type="range" value="${review.rating}" name="rating" step="1" id="backing4">
+               <input type="range" value="${review.rating != null ? review.rating : 0}" name="rating" step="1" id="backing4">
+
 									<div class="rateit" data-rateit-backingfld="#backing4"
 										data-rateit-resetable="false" data-rateit-ispreset="true"
 										data-rateit-min="0" data-rateit-max="5"></div>

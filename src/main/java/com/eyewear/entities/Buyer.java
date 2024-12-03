@@ -33,6 +33,10 @@ public class Buyer extends User {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
+
+	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    private List<Address> listaddress;
+
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders;
 

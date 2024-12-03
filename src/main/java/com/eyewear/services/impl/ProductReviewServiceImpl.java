@@ -30,14 +30,7 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 
 	
 
-	@Override
-	public boolean editReview(int reviewId) {
-		Optional<ProductReview> review = reviewRepo.findById(reviewId);
-		if(review.isPresent())
-			return true;
-		return false;
-	}
-
+	
 
 
 	@Override

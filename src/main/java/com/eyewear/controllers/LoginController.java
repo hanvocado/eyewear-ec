@@ -2,7 +2,9 @@ package com.eyewear.controllers;
 
 import com.eyewear.DTO.request.AuthResponse;
 import com.eyewear.DTO.request.UserRequest;
+import com.eyewear.entities.Manager;
 import com.eyewear.entities.User;
+import com.eyewear.enums.Role;
 import com.eyewear.services.JwtService;
 import com.eyewear.services.UserService;
 

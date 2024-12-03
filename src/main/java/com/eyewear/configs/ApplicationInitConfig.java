@@ -48,6 +48,18 @@ public class ApplicationInitConfig {
 				userRepository.save(ma1);
 				log.warn("Người dùng manager đã được tạo với mật khẩu mặc định, vui lòng đổi mật khẩu!");
 			}
+			
+			if (userRepository.findByEmail("manager2@eyewear.com").isEmpty()) {
+
+				Manager ma2 = Manager.builder()
+						.email("manager2@eyewear.com")
+						.password(passwordEncoder.encode("12345"))
+						//.branchId((long) 2)
+						.build();
+
+				userRepository.save(ma2);
+				log.warn("Người dùng manager đã được tạo với mật khẩu mặc định, vui lòng đổi mật khẩu!");
+			}
 
 		};
 	}

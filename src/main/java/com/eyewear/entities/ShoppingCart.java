@@ -22,7 +22,7 @@ public class ShoppingCart {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long cartId;
 
-	    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
+	    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	    private List<CartItem> cartItems = new ArrayList<>();
 
 	    @OneToOne
