@@ -319,7 +319,7 @@
 											</li>
 											<li>
 												<a href="<c:url value='/admin/accounts/buyers'/>" class="iconify">
-													<i class="icon-users"></i> Tài khoản người mua
+													<i class="icon-users"></i> Tài khoản khách hàng
 												</a>
 											</li>
 										</ul>

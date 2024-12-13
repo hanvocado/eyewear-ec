@@ -29,7 +29,7 @@
                             </c:if>
 
                             <!-- Form Content -->
-                            <form action="" method="POST" class="form-horizontal">
+                            <form action="${empty manager.email ? '/admin/accounts/managers/save' : ''}" method="POST" class="form-horizontal">
                                 <div class="form-body">
                                     <!-- Email field -->
                                     <div class="form-group">
@@ -87,7 +87,7 @@
 
                                     <!-- Branch Selection -->
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">Chi nhánh</label>
+                                        <label class="col-md-3 control-label">Chi nhánh <span class="required">*</span></label>
                                         <div class="col-md-6">
                                             <select name="branchId" class="form-control select2">
                                                 <option value="">-- Chọn chi nhánh --</option>
