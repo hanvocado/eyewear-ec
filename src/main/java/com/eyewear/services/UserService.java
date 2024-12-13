@@ -6,6 +6,7 @@ import com.eyewear.entities.User;
 import java.security.Principal;
 
 import java.util.List;
+import jakarta.mail.MessagingException;
 
 public interface UserService {
     User createRequest(UserCreationRequest request);
@@ -20,7 +21,7 @@ public interface UserService {
 
     public void deleteUser(String id);
 
-    void resetPassword(String email);
+    void resetPassword(String email) throws MessagingException;
 
     void updatePassword(String token, String newPassword);
 

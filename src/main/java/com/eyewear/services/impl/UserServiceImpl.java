@@ -12,6 +12,7 @@ import com.eyewear.repositories.PasswordResetTokenRepository;
 import com.eyewear.services.EmailService;
 import com.eyewear.services.UserService;
 import com.eyewear.repositories.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -99,18 +100,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void resetPassword(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (!userOptional.isPresent()) {
-            throw new IllegalArgumentException("Email không hợp lệ");
+    public void resetPassword(String email) throws MessagingException {
+        try {
+            Optional<User> userOptional = userRepository.findByEmail(email);
+            if (!userOptional.isPresent()) {
+                throw new IllegalArgumentException("Email không hợp lệ");
+            }
+
+            User user = userOptional.get();
+            String token = UUID.randomUUID().toString();
+            ResetPasswordToken resetToken = new ResetPasswordToken(token, user, LocalDateTime.now().plusMinutes(5));
+            passwordResetTokenRepository.save(resetToken);
+
+            emailService.sendResetPasswordEmail(user.getEmail(), token);
+
+        } catch (MessagingException e) {
+            // Log the error
+            throw new MessagingException("Error sending reset password email: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("Error processing password reset: " + e.getMessage());
         }
-
-        User user = userOptional.get();
-        String token = UUID.randomUUID().toString();
-        ResetPasswordToken resetToken = new ResetPasswordToken(token, user, LocalDateTime.now().plusMinutes(5));
-        passwordResetTokenRepository.save(resetToken);
-
-        emailService.sendResetPasswordEmail(user.getEmail(), token);
     }
 
     @Override
