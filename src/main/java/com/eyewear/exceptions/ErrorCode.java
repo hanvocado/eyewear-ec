@@ -11,7 +11,8 @@ public enum ErrorCode {
     EMAIL_INVALID(1002, "Vui lòng nhập đúng email!"),
     PASSWORD_INVALID(1003, "Mật khẩu phải chứa ít nhất 8 kí tự!"),
     USER_NOT_EXISTED(1004, "Email đăng nhập không tồn tại hoặc không đúng!"),
-    UNAUTHENTICATED(1004, "Sai email hoặc mật khẩu!"),
+    UNAUTHENTICATED(1005, "Sai email hoặc mật khẩu!"),
+    BRANCH_NOT_FOUND(1006, "Không tìm thấy chi nhánh!"),
 
     INTERNAL_SERVER_ERROR(5000, "Đã xảy ra lỗi hệ thống, vui lòng thử lại sau."),
     FILE_UPLOAD_ERROR(5001, "Không thể tải lên tệp, vui lòng thử lại.");
