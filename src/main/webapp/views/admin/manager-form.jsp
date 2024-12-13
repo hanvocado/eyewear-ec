@@ -42,7 +42,7 @@
 
                                     <!-- Password field -->
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">Mật khẩu <span class="required">*</span></label>
+                                        <label class="col-md-3 control-label">Mật khẩu<span class="required">*</span></label>
                                         <div class="col-md-6">
                                             <input type="password" name="password" class="form-control"/>
                                             <span class="help-block error-text">${errors.password}</span>
@@ -51,7 +51,7 @@
 
                                     <!-- Confirm Password field -->
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">Xác nhận mật khẩu <span class="required">*</span></label>
+                                        <label class="col-md-3 control-label">Xác nhận mật khẩu<span class="required">*</span></label>
                                         <div class="col-md-6">
                                             <input type="password" name="confirmPassword" class="form-control"/>
                                             <span class="help-block error-text">${errors.confirmPassword}</span>
@@ -60,7 +60,7 @@
 
                                     <!-- First Name field -->
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">Họ <span class="required">*</span></label>
+                                        <label class="col-md-3 control-label">Họ</label>
                                         <div class="col-md-6">
                                             <input type="text" name="firstName" class="form-control" value="${manager.firstName != null ? manager.firstName : ''}"/>
                                             <span class="help-block error-text">${errors.firstName}</span>
@@ -69,7 +69,7 @@
 
                                     <!-- Last Name field -->
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">Tên <span class="required">*</span></label>
+                                        <label class="col-md-3 control-label">Tên </label>
                                         <div class="col-md-6">
                                             <input type="text" name="lastName" class="form-control" value="${manager.lastName != null ? manager.lastName : ''}"/>
                                             <span class="help-block error-text">${errors.lastName}</span>
@@ -87,7 +87,7 @@
 
                                     <!-- Branch Selection -->
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">Chi nhánh <span class="required">*</span></label>
+                                        <label class="col-md-3 control-label">Chi nhánh</label>
                                         <div class="col-md-6">
                                             <select name="branchId" class="form-control select2">
                                                 <option value="">-- Chọn chi nhánh --</option>
@@ -140,22 +140,22 @@
                     email: true
                 },
                 password: {
-                    required: ${empty manager.email},
+                    required: ${empty manager.email}, // Only required if no email (new manager)
                     minlength: 8
                 },
                 confirmPassword: {
-                    required: ${empty manager.email},
+                    required: ${empty manager.email}, // Only required if no email (new manager)
                     equalTo: '[name="password"]'
                 },
                 firstName: {
-                    required: true
+                    required: false
                 },
                 lastName: {
-                    required: true
+                    required: false
                 },
                 phone: {
-                    required: true,
-                    minlength: 9
+                    required: false,
+                    minlength: 9,
                 },
                 branchId: {
                     required: true
@@ -177,7 +177,6 @@
                 firstName: "Vui lòng nhập họ",
                 lastName: "Vui lòng nhập tên",
                 phone: {
-                    required: "Vui lòng nhập số điện thoại",
                     minlength: "Số điện thoại phải có ít nhất 9 chữ số"
                 },
                 branchId: "Vui lòng chọn chi nhánh"

@@ -57,15 +57,16 @@ public class AccountController {
             return "admin/manager-form";
         }
 
-        if (userService.emailExists(request.getEmail())) {
+        // Phone validation - Check if phone is provided and has at least 9 digits
+        if (request.getPhone() != null && request.getPhone().length() < 9) {
             model.addAttribute("branches", branchRepository.findAll());
-            model.addAttribute("error", "Email đã tồn tại");
+            model.addAttribute("error", "Số điện thoại phải có ít nhất 9 chữ số");
             return "admin/manager-form";
         }
 
-        if (request.getPhone().length() < 9) {
+        if (userService.emailExists(request.getEmail())) {
             model.addAttribute("branches", branchRepository.findAll());
-            model.addAttribute("error", "Số điện thoại phải có ít nhất 9 chữ số");
+            model.addAttribute("error", "Email đã tồn tại");
             return "admin/manager-form";
         }
 
@@ -80,6 +81,7 @@ public class AccountController {
         }
     }
 
+
     @PostMapping("/managers/edit/{id}")
     public String updateManager(@PathVariable String id,
                                 @Valid @ModelAttribute("manager") UserUpdateRequest request,
@@ -91,7 +93,16 @@ public class AccountController {
             model.addAttribute("error", "Mật khẩu và xác nhận mật khẩu không khớp");
             return "admin/manager-form";
         }
-        // Check if the email exists for other users, excluding the current manager
+
+        // Phone validation - Check if phone is provided and has at least 9 digits
+        if (request.getPhone() != null && !request.getPhone().isEmpty() && request.getPhone().length() < 9) {
+            model.addAttribute("branches", branchRepository.findAll());
+            model.addAttribute("error", "Số điện thoại phải có ít nhất 9 chữ số");
+            return "admin/manager-form";
+        }
+
+
+        // Email validation for existing manager
         Manager existingManager = (Manager) userService.getUser(id);
         if (!existingManager.getEmail().equals(request.getEmail()) && userService.emailExists(request.getEmail())) {
             model.addAttribute("branches", branchRepository.findAll());
@@ -99,11 +110,6 @@ public class AccountController {
             return "admin/manager-form";
         }
 
-        if (request.getPhone().length() < 10) {
-            model.addAttribute("branches", branchRepository.findAll());
-            model.addAttribute("error", "Số điện thoại phải có ít nhất 10 chữ số");
-            return "admin/manager-form";
-        }
         try {
             userService.updateManager(id, request);
             redirectAttributes.addFlashAttribute("success", "Cập nhật manager thành công");
@@ -114,6 +120,7 @@ public class AccountController {
             return "admin/manager-form";
         }
     }
+
 
     @GetMapping("/managers/edit/{id}")
     public String showEditManagerForm(@PathVariable String id, Model model) {
