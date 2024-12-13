@@ -14,7 +14,7 @@
                     <div class="col-md-12">
                         <div class="portlet">
                             <div class="portlet-title">
-                                <div class="caption">Danh sách tài khoản Khách hàng</div>
+                                <div class="caption">DANH SÁCH TÀI KHOẢN KHÁCH HÀNG</div>
                                 <div class="actions">
                                     <a href="/admin/accounts/buyers/add" class="btn btn-circle btn-primary">
                                         <i class="fa fa-plus"></i> Thêm mới
