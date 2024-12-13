@@ -303,7 +303,31 @@
 			<!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
 			<div class="hor-menu ">
 				<ul class="nav navbar-nav">
-					<li><a href="index.html">Dashboard</a></li>
+					<li class="menu-dropdown mega-menu-dropdown">
+						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+							Quản lý tài khoản <i class="fa fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu" style="min-width: 190px">
+							<li>
+								<div class="mega-menu-content">
+									<div class="row">
+										<ul class="mega-menu-submenu">
+											<li>
+												<a href="<c:url value='/admin/accounts/managers'/>" class="iconify">
+													<i class="icon-user"></i> Tài khoản quản lý
+												</a>
+											</li>
+											<li>
+												<a href="<c:url value='/admin/accounts/buyers'/>" class="iconify">
+													<i class="icon-users"></i> Tài khoản khách hàng
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</li>
 					<li class="menu-dropdown mega-menu-dropdown"><a
 						data-hover="megamenu-dropdown" data-close-others="true"
 						data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">

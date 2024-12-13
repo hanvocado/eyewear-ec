@@ -9,10 +9,21 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-    String password;
-    String phone;
-    String firstName;
-    String lastName;
-    String address;
-    String picture;
+    private String email;
+    private String password;
+    private String confirmPassword;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String picture;
+    
+    // Address fields for Buyer
+    private String streetNumber;
+    private String streetName;
+    private String commue;
+    private String district;
+    private String province;
+    
+    // Branch field for Manager
+    private Long branchId;
 }
