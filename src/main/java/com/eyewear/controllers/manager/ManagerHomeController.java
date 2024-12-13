@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ManagerHomeController {
 	@GetMapping("/")
 	public String home() {
-		return "manager/home";
+		return "redirect:/manager/revenue";
 	}
 }
