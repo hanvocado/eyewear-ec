@@ -8,6 +8,7 @@ COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 FROM tomcat:10.1-jdk17
+RUN rm -rf /usr/local/tomcat/webapps/*
 COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 COPY --from=build /app/src/main/webapp/views /usr/local/tomcat/webapps/ROOT/views
 EXPOSE 8080
