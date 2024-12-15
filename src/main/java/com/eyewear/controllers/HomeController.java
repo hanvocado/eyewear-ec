@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 	@GetMapping("/")
 	public String index() {
-		return "redirect:/common/products";
+		return "redirect:/login_page";
 	}
 }
