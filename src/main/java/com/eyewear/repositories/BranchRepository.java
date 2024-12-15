@@ -4,6 +4,7 @@ import com.eyewear.entities.Branch;
 import com.eyewear.model.BranchModel;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
     // Hoặc nếu muốn sử dụng Native Query
     @Query(value = "SELECT id, name FROM branches", nativeQuery = true)
     List<Object[]> findAllBranchData();
+
+    Optional<Branch> findByName(String name);
 }

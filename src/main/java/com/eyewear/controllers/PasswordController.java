@@ -21,9 +21,11 @@ public class PasswordController {
     public String processForgotPasswordForm(@RequestParam("email") String email, Model model) {
         try {
             userService.resetPassword(email);
-            model.addAttribute("message", "Email đã được gửi để đặt lại mật khẩu.");
+            model.addAttribute("message", "Vui lòng kiểm tra email của bạn để đặt lại mật khẩu");
         } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("error", "Không thể gửi email reset mật khẩu. Vui lòng thử lại sau.");
+            // Log the error
+            e.printStackTrace();
         }
         return "forgot-password";
     }

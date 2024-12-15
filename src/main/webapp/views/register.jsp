@@ -35,12 +35,6 @@
                                     <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="address" class="col-lg-4 control-label">Address <span class="require">*</span></label>
-                                <div class="col-lg-8">
-                                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address" required>
-                                </div>
-                            </div>
                         </fieldset>
                         <fieldset>
                             <legend>Your password</legend>
@@ -63,6 +57,17 @@
                                 <button type="reset" class="btn btn-default">Cancel</button>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-10 padding-right-30">
+                                <hr>
+                                <div class="login-socio">
+                                    <p class="text-muted">or login using:</p>
+                                    <ul class="social-icons">
+                                        <li><a href="/login/oauth2/authorization/google" data-original-title="Google Plus" class="googleplus" title="Google Plus"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -79,7 +84,6 @@
         const firstName = document.getElementById('firstname').value;
         const lastName = document.getElementById('lastname').value;
         const phone = document.getElementById('phone').value;
-        const address = document.getElementById('address').value;
 
         // Kiểm tra mật khẩu trùng khớp
         if (password !== confirmPassword) {
@@ -87,13 +91,12 @@
             return;
         }
         else {
-
             fetch('/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({email, password, phone, firstName, lastName, address}),
+                body: JSON.stringify({email, password, phone, firstName, lastName}),
             })
                 .then(response => response.json())
                 .then(data => {
@@ -114,5 +117,4 @@
     });
 </script>
 </body>
-
 </html>

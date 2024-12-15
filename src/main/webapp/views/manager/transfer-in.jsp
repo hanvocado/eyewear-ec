@@ -55,7 +55,7 @@
 											<tbody>
 												<c:forEach var="note" items="${pendingNotes }">
 													<tr class="odd gradeX">
-														<td>${note.importBranch.name}</td>
+														<td>${note.exportBranch.name}</td>
 														<td>${note.numberOfProducts}</td>
 														<td>${note.totalQuantity}</td>
 														<td><a class="btn btn-danger"
@@ -85,7 +85,7 @@
 											<tbody>
 												<c:forEach var="note" items="${shippingNotes }">
 													<tr class="odd gradeX">
-														<td>${note.importBranch.name}</td>
+														<td>${note.exportBranch.name}</td>
 														<td>${note.numberOfProducts}</td>
 														<td>${note.totalQuantity}</td>
 														<td><a class="btn btn-success"
@@ -114,7 +114,7 @@
 											<tbody>
 												<c:forEach var="note" items="${completedNotes }">
 													<tr class="odd gradeX">
-														<td>${note.importBranch.name}</td>
+														<td>${note.exportBranch.name}</td>
 														<td>${note.numberOfProducts}</td>
 														<td>${note.totalQuantity}</td>
 														<td><a class="btn default"

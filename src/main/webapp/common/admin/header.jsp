@@ -303,7 +303,31 @@
 			<!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
 			<div class="hor-menu ">
 				<ul class="nav navbar-nav">
-					<li><a href="index.html">Dashboard</a></li>
+					<li class="menu-dropdown mega-menu-dropdown">
+						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+							Quản lý tài khoản <i class="fa fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu" style="min-width: 190px">
+							<li>
+								<div class="mega-menu-content">
+									<div class="row">
+										<ul class="mega-menu-submenu">
+											<li>
+												<a href="<c:url value='/admin/accounts/managers'/>" class="iconify">
+													<i class="icon-user"></i> Tài khoản quản lý
+												</a>
+											</li>
+											<li>
+												<a href="<c:url value='/admin/accounts/buyers'/>" class="iconify">
+													<i class="icon-users"></i> Tài khoản khách hàng
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</li>
 					<li class="menu-dropdown mega-menu-dropdown"><a
 						data-hover="megamenu-dropdown" data-close-others="true"
 						data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
@@ -380,13 +404,13 @@
 									<div class="row">
 										<ul class="mega-menu-submenu">
 											<li><a href="<c:url value="/manager/schedule/calendar"/>"
-												class="iconify"> <i class="fa-regular fa-calendar-days"></i> Lịch trình
+												class="iconify"> <i class="fa fa-calendar"></i> Lịch trình
 											</a></li>
 											<li><a href="<c:url value="/manager/schedule/request"/>"
-												class="iconify"> <i class="icon-paper-plane"></i> Lịch hẹn đang chờ
+												class="iconify"> <i class="fa fa-bell"></i> Lịch hẹn đang chờ
 											</a></li>
 											<li><a href="<c:url value="/manager/schedule/list"/>"
-												class="iconify"> <i class="icon-paper-plane"></i> Danh sách lịch hẹn
+												class="iconify"> <i class="fa fa-list-alt"></i> Danh sách lịch hẹn
 											</a></li>
 										</ul>
 									</div>

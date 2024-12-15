@@ -54,8 +54,7 @@
     <!-- END TOP BAR -->
     <!-- BEGIN HEADER -->
     <div class="header">
-		<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/logins/login-12/assets/css/login-12.css">
+
       <div class="container">
         <a class="site-logo" href="index.html"><img src="/frontend/layout/img/logos/logo-corp-red.png" alt="Metronic FrontEnd"></a>
 
@@ -93,18 +92,23 @@
 
 		<!--END CART -->
 <!-- BEGIN CART -->
+<c:set var="totalPrice" value="0" />
+<c:forEach var="cartItem" items="${sessionScope.buyer.shoppingCart.cartItems}">
+    <c:set var="itemTotal" value="${cartItem.product.price * cartItem.quantity}" />
+    <c:set var="totalPrice" value="${totalPrice + itemTotal}" />
+</c:forEach>
         <div class="top-cart-block">
           <div class="top-cart-info">
-            <a href="javascript:void(0);" class="top-cart-info-count">3 items</a>
-            <a href="javascript:void(0);" class="top-cart-info-value">$1260</a>
+            <a href="javascript:void(0);" class="top-cart-info-count">${sessionScope.buyer.shoppingCart.cartItems.size()} items</a>
+            <a href="javascript:void(0);" class="top-cart-info-value">$${totalPrice }</a>
           </div>
           <i class="fa fa-shopping-cart"></i>
                         
-          <div class="top-cart-content-wrapper">
+          <div class="top-cart-content-wrapper"> 
             <div class="top-cart-content">
               <ul class="scroller" style="height: 250px;">
-              
-                 <c:forEach var="cartItem" items="${cartItemsForCartIcon}">
+
+                 <c:forEach var="cartItem" items="${sessionScope.buyer.shoppingCart.cartItems}">
                 <li>
                     <a href="shop-item.html">
                         <img src="/frontend/pages/img/cart-img.jpg" alt="${cartItem.product.name}" width="37" height="34">
@@ -117,15 +121,15 @@
                     <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
                 </li>
             </c:forEach>
-            
+
               </ul>
-              <div class="text-right">
-              
             
+              <div class="text-right">
+              		  
+              <p>$${totalPrice }</p>
 <%--              <a href="<c:url value='/buyer/cart' />" class="btn btn-default">View Cart</a> --%>
  				<a href="${pageContext.request.contextPath}/buyer/cart?cartID=1" class="btn btn-default">View Cart</a>
-		
-  				<p>${cartItemsForCartIcon}dsfsdf</p>
+	
                 <a href="shop-checkout.html" class="btn btn-primary">Checkout</a>
               </div>
             </div>
@@ -342,7 +346,7 @@
 					<div class="search-box">
 						<form action="/common/products/search" method="get">
 							<div class="input-group">
-								<input type="text" placeholder="Tìm kiếm sản phẩm" class="form-control">
+								<input type="text" name = "name" placeholder="Tìm kiếm sản phẩm" class="form-control">
 								<span class="input-group-btn">
 									<button class="btn btn-primary" type="submit">Tìm kiếm</button>
 								</span>

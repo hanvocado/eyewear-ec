@@ -23,6 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.eyewear.entities.*;
 import com.eyewear.services.*;
 
+import jakarta.servlet.http.HttpSession;
+
 import java.security.Principal;
 
 @Controller
@@ -37,6 +39,10 @@ public class BuyerOrderController {
     CartService cartService;
     @Autowired
     ProductReviewService reviewService;
+    @Autowired
+    BuyerService buyerService;
+    @Autowired
+    UserService userService;
     
  // Xem đơn hàng đang xử lý (chờ xác nhận, đã xác nhận, đang giao, đã giao)
     @GetMapping("/my-orders")
@@ -51,7 +57,9 @@ public class BuyerOrderController {
         Model model, 
         Principal principal
     ) {
-        Long buyerId = getCurrentBuyerId(principal);
+    	Long buyerId = userService.getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
         
         Sort sort = Sort.by(sortDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, 
                            sortBy != null ? sortBy : "orderAt");
@@ -104,7 +112,9 @@ public class BuyerOrderController {
         Model model, 
         Principal principal
     ) {
-        Long buyerId = getCurrentBuyerId(principal);
+    	Long buyerId = userService.getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
         Pageable pageable = PageRequest.of(page, size, Sort.by("orderAt").descending());
         Page<Order> orderPage = orderService.getHistoryOrdersByBuyer(buyerId, pageable);
         
@@ -118,7 +128,9 @@ public class BuyerOrderController {
     // Xem chi tiết đơn hàng
     @GetMapping("/{orderId}")
     public String getOrderDetail(@PathVariable Long orderId, Model model, Principal principal) {
-        Long buyerId = getCurrentBuyerId(principal);
+    	Long buyerId = userService.getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
         Order order = orderService.getOrderDetail(orderId, buyerId);
         List<Long> ProductReviewed = new ArrayList<>();
         for(OrderDetail detail: order.getItems()) {
@@ -133,10 +145,7 @@ public class BuyerOrderController {
         return "buyer/order-detail";
     }
 
-    private Long getCurrentBuyerId(Principal principal) {
-        // TODO: Implement logic to get current buyer id from Principal
-        return 1L; // Temporary return
-    }
+    
     
     
     //trantheanh
@@ -163,8 +172,16 @@ public class BuyerOrderController {
 
 	@GetMapping("/checkout")
 	public ModelAndView placeOrder(@RequestParam(name = "listCartIemId") List<Long> listid,
-			 ModelMap model) {
+			 ModelMap model,Principal principal) {
 
+
+	    Long buyerId = userService.getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
+
+		Optional<Buyer> buyer1 = buyerService.findById(buyerId);
+		
+		Buyer buyer=buyer1.get();
 		List<CartItem> cart = new ArrayList<>();
 		for(Long id : listid) {
 			Optional<CartItem> fcart = cartService.findById(id);
@@ -176,7 +193,7 @@ public class BuyerOrderController {
 			model.addAttribute("errorMessage", "No products found for the selected IDs.");
 			return new ModelAndView("error", model);
 		}
-
+		model.addAttribute("buyer",buyer);
 		model.addAttribute("cartList", cart);
 		return new ModelAndView("buyer/checkout", model); 
 	}
@@ -203,10 +220,12 @@ public class BuyerOrderController {
 	       
 	        return "buyer/checkout";
 	    }
-	    Long buyerId = getCurrentBuyerId(principal);
+	    Long buyerId = userService.getCurrentBuyerId(principal);
+	    if(buyerId==null)
+	    	buyerId=(long) 1;
 		    Order order = new Order();
 		    order.setOrderAt(LocalDateTime.now());
-		    order.setStatus("Pending");
+		    order.setStatus("Đang chờ");
 		    order.setPaymentMethod(CashOnDelivery);
 		    Buyer buyer = new Buyer();
 		    buyer.setId(buyerId);

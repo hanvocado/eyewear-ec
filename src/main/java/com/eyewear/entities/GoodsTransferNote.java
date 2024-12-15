@@ -73,7 +73,6 @@ public class GoodsTransferNote {
 		this.importBranch = importBranch;
 	}
 	
-	@Transient
 	public int getTotalQuantity() {
 		int total = 0;
 		for (TransferProduct transferProduct : products) {
@@ -82,8 +81,16 @@ public class GoodsTransferNote {
 		return total;
 	}
 	
-	@Transient
 	public int getNumberOfProducts() {
 		return products.size();
+	}
+
+	public void markAsCompleted() {
+		this.status = TransferNoteStatus.COMPLETED;
+		this.receivedAt = LocalDateTime.now();
+	}
+	
+	public void markAsConfirmed() {
+		this.status = TransferNoteStatus.CONFIRMED;
 	}
 }

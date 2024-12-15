@@ -23,19 +23,14 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 
 
 	@Override
-	public ProductReview addReview(int productId, int rating, String content) {
+	public ProductReview addReview(ProductReview review) {
 		
-		return null;
+		return reviewRepo.save(review);
 	}
 
 	
 
-	@Override
-	public boolean editReview(int reviewId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 
 
 	@Override
@@ -81,4 +76,37 @@ public class ProductReviewServiceImpl implements ProductReviewService {
             return reviewRepo.findByProductId(productId, pageable);
         }
     }
+
+
+
+
+	@Override
+	public long countReviewsByProductId(Long productId) {
+		// TODO Auto-generated method stub
+		return reviewRepo.countByProductId(productId);
+	}
+
+
+
+	@Override
+	public double calculateAverageRating(Long productId) {
+		 List<ProductReview> reviews = reviewRepo.findByProductId(productId);
+
+	        if (reviews.isEmpty()) {
+	            return 0.0; // Không có đánh giá, trả về 0
+	        }
+
+	        double totalStars = reviews.stream()
+	                                   .mapToInt(ProductReview::getRating)
+	                                   .sum();
+
+	        return totalStars / reviews.size();
+	}
+
+	
+	@Override
+	public long countByProductId(Long productId) {
+		return reviewRepo.countByProductId(productId);
+	}
+
 }

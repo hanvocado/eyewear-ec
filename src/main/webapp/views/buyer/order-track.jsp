@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+
+<%@include file="/common/taglibs.jsp" %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="container">
 	<h2>Đơn hàng của tôi</h2>
@@ -78,11 +79,11 @@
 						<td>${order.status}</td>
 						<td><a href="/buyer/orders/${order.orderId}"
 							class="btn btn-primary btn-sm">Xem chi tiết</a></td>
-						<td><c:if
-								test="${order.status.toLowerCase() != 'done' && order.status.toLowerCase() != 'canceled'}">
-								<button class="btn btn-danger btn-sm"
-									onclick="confirmCancel('${order.orderId}')">Huỷ Đơn</button>
-							</c:if></td>
+						<td>
+						<c:if test="${fn:toLowerCase(order.status) != 'đã giao' && fn:toLowerCase(order.status) != 'đã huỷ'}">
+    						<button class="btn btn-danger btn-sm" onclick="confirmCancel('${order.orderId}')">Huỷ Đơn</button>
+						</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>

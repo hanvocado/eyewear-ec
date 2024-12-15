@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-
-
-
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <body>
 	<div class="main">
@@ -13,73 +12,30 @@
 				<!-- BEGIN SIDEBAR -->
 				<div class="sidebar col-md-3 col-sm-5">
 					<ul class="list-group margin-bottom-25 sidebar-menu">
-						<li class="list-group-item clearfix"><a
-							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-								Ladies</a></li>
-						<li class="list-group-item clearfix dropdown active"><a
-							href="javascript:void(0);" class="collapsed"> <i
-								class="fa fa-angle-right"></i> Mens
-
-						</a>
-							<ul class="dropdown-menu" style="display: block;">
-								<li class="list-group-item dropdown clearfix active"><a
-									href="javascript:void(0);" class="collapsed"><i
-										class="fa fa-angle-right"></i> Shoes </a>
-									<ul class="dropdown-menu" style="display: block;">
-										<li class="list-group-item dropdown clearfix"><a
-											href="javascript:void(0);"><i class="fa fa-angle-right"></i>
-												Classic </a>
-											<ul class="dropdown-menu">
-												<li><a href="shop-product-list.html"><i
-														class="fa fa-angle-right"></i> Classic 1</a></li>
-												<li><a href="shop-product-list.html"><i
-														class="fa fa-angle-right"></i> Classic 2</a></li>
-											</ul></li>
-										<li class="list-group-item dropdown clearfix active"><a
-											href="javascript:void(0);" class="collapsed"><i
-												class="fa fa-angle-right"></i> Sport </a>
-											<ul class="dropdown-menu" style="display: block;">
-												<li class="active"><a href="shop-product-list.html"><i
-														class="fa fa-angle-right"></i> Sport 1</a></li>
-												<li><a href="shop-product-list.html"><i
-														class="fa fa-angle-right"></i> Sport 2</a></li>
-											</ul></li>
-									</ul></li>
-								<li><a href="shop-product-list.html"><i
-										class="fa fa-angle-right"></i> Trainers</a></li>
-								<li><a href="shop-product-list.html"><i
-										class="fa fa-angle-right"></i> Jeans</a></li>
-								<li><a href="shop-product-list.html"><i
-										class="fa fa-angle-right"></i> Chinos</a></li>
-								<li><a href="shop-product-list.html"><i
-										class="fa fa-angle-right"></i> T-Shirts</a></li>
-							</ul></li>
-						<li class="list-group-item clearfix"><a
-							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-								Kids</a></li>
-						<li class="list-group-item clearfix"><a
-							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-								Accessories</a></li>
-						<li class="list-group-item clearfix"><a
-							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-								Sports</a></li>
-						<li class="list-group-item clearfix"><a
-							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-								Brands</a></li>
-						<li class="list-group-item clearfix"><a
-							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-								Electronics</a></li>
-						<li class="list-group-item clearfix"><a
-							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-								Home & Garden</a></li>
-						<li class="list-group-item clearfix"><a
-							href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-								Custom Link</a></li>
+						<!-- Lặp qua danh sách các danh mục -->
+						<c:forEach var="category" items="${categories}">
+							<li class="list-group-item clearfix">
+								<!-- Tạo link để hiển thị sản phẩm theo danh mục --> <a
+								href="javascript:void(0)" class="collapsed"> <i
+									class="fa fa-angle-right"></i> <span>${category.name}</span>
+							</a> <!-- Nếu category có sản phẩm --> <c:if
+									test="${not empty category.products}">
+									<ul class="dropdown-menu" style="display: none;">
+										<!-- Lặp qua các sản phẩm trong danh mục -->
+										<c:forEach var="product" items="${category.products}">
+											<li class="list-group-item clearfix"><a
+												href="/common/products/detail/${product.id}"> <i
+													class="fa fa-angle-right"></i> ${product.name}
+											</a></li>
+										</c:forEach>
+									</ul>
+								</c:if>
+							</li>
+						</c:forEach>
 					</ul>
-
-          </div>
-          <!-- END SIDEBAR -->
-                <!-- BEGIN CONTENT -->
+				</div>
+				<!-- END SIDEBAR -->
+				<!-- BEGIN CONTENT -->
                 <div class="col-md-9 col-sm-7">
                     <div class="row list-view-sorting clearfix">
                         <div class="col-md-10 col-sm-10">
@@ -199,5 +155,3 @@
 		</div>
 	</div>
 </body>
-
-
