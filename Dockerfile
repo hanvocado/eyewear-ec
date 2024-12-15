@@ -6,8 +6,8 @@ COPY mvnw pom.xml ./
 RUN chmod +x mvnw
 RUN ./mvnw dependency:go-offline
 COPY src ./src
-# Copy thư mục views vào classpath
-COPY src/main/resources/views ./target/classes/views
+# Đường dẫn copy views
+COPY src/main/webapp/views ./target/classes/views
 RUN ./mvnw clean package -DskipTests
 
 FROM openjdk:17.0.1-jdk-slim
